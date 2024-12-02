@@ -39,17 +39,18 @@ export const ScheduleClient = () => {
     >
   >();
 
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(4);
   const [hourSchedule, sethourSchedule] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<string[]>([]);
-  const [selectedDate, setSelectedDate] = useState<string>();
+  const [selectedDate, setSelectedDate] = useState<string>(moment(new Date()).format('YYYY-MM-DD'));
   const [services, setServices] = useState<ServiceDTO[]>([]);
   const [barbers, setBarbers] = useState<BarberDTO[]>([]);
 
+  console.log(selectedDate);
   const { createScheduling, loading } = useScheduling();
-  const { getServices, } = useServiceList();
-  const { getBarbers, } = useBarberList();
+  const { getServices } = useServiceList();
+  const { getBarbers } = useBarberList();
   const navigate = useNavigate();
   const { token } = useParams();
 
@@ -107,7 +108,6 @@ export const ScheduleClient = () => {
     '16:00',
     '17:00',
     '18:00',
-    '19:00',
   ];
 
   const onSubmit = async (
@@ -160,8 +160,8 @@ export const ScheduleClient = () => {
       data.barbeiro_id = selectedBarber[0];
       data.servico_id = selectedItems[0];
       // console.log(selectedItems);
-      console.log(data);
-      return;
+      // console.log(data);
+      // return;
 
       const result = await createScheduling(data);
       console.log(result);
@@ -282,8 +282,8 @@ export const ScheduleClient = () => {
       padding="32px 16px 16px 16px"
       backgroundColor={barberTheme.colors.primary.black}
       display="flex"
-      height="90vh"
       justifyContent="center"
+      alignItems="center"
     >
       <Box>
         <Text color={barberTheme.colors.primary.orange}>
@@ -361,8 +361,8 @@ export const ScheduleClient = () => {
                     />
                   </Box>
                   <Text
+                    maxWidth="300px"
                     fontSize="14px"
-                    position="absolute"
                     textAlign="left"
                     m="16px 0"
                     color={barberTheme.colors.primary.orange}
@@ -459,9 +459,16 @@ export const ScheduleClient = () => {
                       src={barber.foto}
                       loading="lazy"
                     />
-                    <Text fontSize="16px" fontWeight="bold" my="8px">
-                      {barber.nome_completo}
-                    </Text>
+                    <Box>
+                      <Text
+                        fontSize="16px"
+                        textAlign="left"
+                        fontWeight="bold"
+                        mt="4px"
+                      >
+                        {barber.nome_completo}
+                      </Text>
+                    </Box>
                   </Box>
                 ))}
               </Box>
@@ -469,8 +476,8 @@ export const ScheduleClient = () => {
           )}
 
           {currentStep === 4 && (
-            <InputGroup display="block">
-              <Text my="8px" mb="16px" color="orange.500">
+            <InputGroup display="flex" flexDirection="column">
+              <Text mb="16px" color="orange.500">
                 Selecione a data e o horário desejados para o agendamento.
               </Text>
               <Box display="flex" flexDirection="column" alignItems="center">
@@ -483,6 +490,7 @@ export const ScheduleClient = () => {
                   overflow="hidden"
                 >
                   <Calendar
+                    className="custom-calendar"
                     tileContent=""
                     onChange={handleDateChange} // Atualiza o estado ao selecionar uma data
                     locale="pt-BR"
@@ -493,7 +501,6 @@ export const ScheduleClient = () => {
                   display="flex"
                   justifyContent="flex-start"
                   maxWidth="400px"
-                  width="100%"
                   flexWrap="wrap"
                 >
                   {hours.map((hour, index) => (
@@ -503,7 +510,7 @@ export const ScheduleClient = () => {
                       m="4px"
                       cursor="pointer"
                       p="8px"
-                      width="60px"
+                      width="54px"
                       height="44px"
                       display="flex"
                       alignItems="center"
@@ -524,14 +531,7 @@ export const ScheduleClient = () => {
             </InputGroup>
           )}
 
-          <Stack
-            direction="row"
-            position="absolute"
-            bottom="32px"
-            left="16px"
-            spacing={4}
-            mt={4}
-          >
+          <Stack direction="row" left="16px" spacing={4} mt={4}>
             {(currentStep === 2 || currentStep === 3 || currentStep === 4) && (
               <Button
                 onClick={handlePreviousStep}
