@@ -43,7 +43,9 @@ export const ScheduleClient = () => {
   const [hourSchedule, sethourSchedule] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<string[]>([]);
-  const [selectedDate, setSelectedDate] = useState<string>(moment(new Date()).format('YYYY-MM-DD'));
+  const [selectedDate, setSelectedDate] = useState<string>(
+    moment(new Date()).format('YYYY-MM-DD')
+  );
   const [services, setServices] = useState<ServiceDTO[]>([]);
   const [barbers, setBarbers] = useState<BarberDTO[]>([]);
 
@@ -326,7 +328,7 @@ export const ScheduleClient = () => {
                           : barberTheme.colors.primary.gray
                       }
                       color={barberTheme.colors.primary.gray03}
-                      width="300px"
+                      width="312px"
                       height="44px"
                     />
                   </Box>
@@ -356,12 +358,12 @@ export const ScheduleClient = () => {
                           : barberTheme.colors.primary.gray
                       }
                       color={barberTheme.colors.primary.gray03}
-                      width="300px"
+                      width="312px"
                       height="44px"
                     />
                   </Box>
                   <Text
-                    maxWidth="300px"
+                    maxWidth="312px"
                     fontSize="14px"
                     textAlign="left"
                     m="16px 0"
@@ -384,7 +386,7 @@ export const ScheduleClient = () => {
                 display="grid"
                 gridTemplateColumns="repeat(2, 1fr)"
                 gap="8px"
-                maxWidth="400px"
+                maxWidth="312px"
               >
                 {services.map((service, index) => (
                   <Box
@@ -426,7 +428,7 @@ export const ScheduleClient = () => {
                 display="grid"
                 gridTemplateColumns="repeat(2, 1fr)"
                 gap="8px"
-                maxWidth="400px"
+                maxWidth="312px"
               >
                 {barbers.map((barber, index) => (
                   <Box
@@ -477,21 +479,19 @@ export const ScheduleClient = () => {
 
           {currentStep === 4 && (
             <InputGroup display="flex" flexDirection="column">
-              <Text mb="16px" color="orange.500">
+              <Text mb="16px" maxWidth="312px" color="orange.500">
                 Selecione a data e o horário desejados para o agendamento.
               </Text>
               <Box display="flex" flexDirection="column" alignItems="center">
                 <Box
                   width="100%"
-                  maxWidth="400px"
+                  maxWidth="312px"
                   height="300px"
                   border="1px solid #ccc"
                   borderRadius="8px"
                   overflow="hidden"
                 >
                   <Calendar
-                    className="custom-calendar"
-                    tileContent=""
                     onChange={handleDateChange} // Atualiza o estado ao selecionar uma data
                     locale="pt-BR"
                   />
@@ -500,7 +500,7 @@ export const ScheduleClient = () => {
                   mt="16px"
                   display="flex"
                   justifyContent="flex-start"
-                  maxWidth="400px"
+                  maxWidth="312px"
                   flexWrap="wrap"
                 >
                   {hours.map((hour, index) => (

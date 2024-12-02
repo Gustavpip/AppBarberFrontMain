@@ -63,7 +63,7 @@ export const Init = () => {
         >
           Copiar
         </Button>
-        <Text mt="32px" color="gray.500">
+        <Text mt="32px" maxWidth="312px" color="gray.500">
           OBS: Envie este link para que seus clientes agendem um horário com
           você de forma prática...
         </Text>

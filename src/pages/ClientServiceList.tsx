@@ -88,8 +88,8 @@ export const ClientServiceList = () => {
 
   if (loading) {
     return (
-      <Center height="100vh">
-        <Spinner size="xl" color={barberTheme.colors.primary.orange} />
+      <Center height="0vh">
+        <Spinner size="lg" color={barberTheme.colors.primary.orange} />
       </Center>
     );
   }
@@ -97,7 +97,7 @@ export const ClientServiceList = () => {
   return (
     <Box
       as="section"
-      maxWidth="450px"
+      maxWidth="312px"
       display="flex"
       flexDirection="column"
       margin="0 auto"
@@ -180,7 +180,7 @@ export const ClientServiceList = () => {
               height="44px"
               mt="16px"
               mb="16px"
-              width="310px"
+              width="312px"
               borderRadius="12px"
               color="white"
               padding="0 16px"
@@ -201,7 +201,7 @@ export const ClientServiceList = () => {
               height="44px"
               mt="16px"
               mb="16px"
-              width="310px"
+              width="312px"
               borderRadius="12px"
               color="white"
               padding="0 16px"

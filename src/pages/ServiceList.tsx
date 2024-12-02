@@ -83,7 +83,7 @@ export const ServiceList = () => {
 
   if (loading) {
     return (
-      <Center height="100vh">
+      <Center height="calc(92vh - 73px)">
         <Spinner size="xl" color={barberTheme.colors.primary.orange} />
       </Center>
     );
@@ -93,7 +93,8 @@ export const ServiceList = () => {
     <Box
       p="16px"
       as="section"
-      maxWidth="450px"
+      maxWidth="402px"
+      width="100%"
       display="flex"
       flexDirection="column"
       margin="0 auto"

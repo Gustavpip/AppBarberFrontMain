@@ -109,7 +109,7 @@ export const ServiceRegister = () => {
                 errors.nome ? 'red.500' : barberTheme.colors.primary.gray
               }
               color={barberTheme.colors.primary.gray03}
-              width="300px"
+              width="312px"
               height="44px"
             />
             <CustomInput
@@ -125,10 +125,10 @@ export const ServiceRegister = () => {
                 errors.descricao ? 'red.500' : barberTheme.colors.primary.gray
               }
               color={barberTheme.colors.primary.gray03}
-              width="300px"
+              width="312px"
               height="44px"
             />
-            <InputGroup width="300px">
+            <InputGroup width="312px">
               <InputLeftElement pointerEvents="none">
                 <img
                   src="/Vector (10).svg"

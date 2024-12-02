@@ -79,7 +79,7 @@ export const BarbersList = () => {
 
   if (loading) {
     return (
-      <Center height="100vh">
+      <Center height="calc(92vh - 73px)">
         <Spinner size="xl" color={barberTheme.colors.primary.orange} />
       </Center>
     );
@@ -89,7 +89,7 @@ export const BarbersList = () => {
     <Box
       p="16px"
       as="section"
-      maxWidth="450px"
+      maxWidth="402px"
       display="flex"
       flexDirection="column"
       margin="0 auto"
@@ -190,7 +190,7 @@ export const BarbersList = () => {
                 <Box display="flex" alignItems="end" justifyContent="end">
                   <Button
                     mx="4px"
-                    mt="26px"
+                    mt="30px"
                     height="30px"
                     backgroundColor={barberTheme.colors.primary.gray}
                     color="white"
@@ -203,7 +203,7 @@ export const BarbersList = () => {
                       setBarberId(String(barber.id));
                     }}
                     mt="30px"
-                    height="26px"
+                    height="30px"
                     backgroundColor="red.400"
                     color="white"
                   >

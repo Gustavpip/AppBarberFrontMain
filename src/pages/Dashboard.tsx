@@ -93,7 +93,11 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
           </Box>
         </Box>
       </Box>
-      <Slide direction="right" in={isOpen} style={{ zIndex: 1 }}>
+      <Slide
+        direction="right"
+        in={isOpen}
+        style={{ zIndex: 2, pointerEvents: 'auto' }}
+      >
         <Box
           position="fixed"
           top="0"

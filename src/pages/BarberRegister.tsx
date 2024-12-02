@@ -258,7 +258,7 @@ export const BarberRegister = () => {
                     : barberTheme.colors.primary.gray
                 }
                 color={barberTheme.colors.primary.gray03}
-                width="300px"
+                width="312px"
                 height="44px"
               />
               <CustomInput
@@ -275,7 +275,7 @@ export const BarberRegister = () => {
                   errors.telefone ? 'red.500' : barberTheme.colors.primary.gray
                 }
                 color={barberTheme.colors.primary.gray03}
-                width="300px"
+                width="312px"
                 height="44px"
               />
               <Input
@@ -289,7 +289,7 @@ export const BarberRegister = () => {
                   errors.foto ? 'red.500' : barberTheme.colors.primary.gray
                 }
                 color={barberTheme.colors.primary.gray03}
-                width="300px"
+                width="312px"
                 height="44px"
                 padding="8px 0 0 0"
                 style={{
@@ -306,7 +306,7 @@ export const BarberRegister = () => {
               <Text mb="16px" color={barberTheme.colors.primary.orange}>
                 Selecione os dias de trabalho do barbeiro
               </Text>
-              <Box display="flex" maxWidth="400px" flexWrap="wrap">
+              <Box display="flex" maxWidth="312px" flexWrap="wrap">
                 {days.map((day, index) => (
                   <Box
                     onClick={() => handleSelect(day.value)}
@@ -336,11 +336,15 @@ export const BarberRegister = () => {
 
           {currentStep === 3 && (
             <InputGroup display="block">
-              <Text my="16px" color={barberTheme.colors.primary.orange}>
+              <Text
+                maxWidth="312px"
+                my="16px"
+                color={barberTheme.colors.primary.orange}
+              >
                 Selecione o horário de início e término do expediente do
                 barbeiro
               </Text>
-              <Box display="flex" maxWidth="400px" flexWrap="wrap">
+              <Box display="flex" maxWidth="312px" flexWrap="wrap">
                 {hours.map((hour, index) => (
                   <Box
                     onClick={() => handleworkSchedule(hour)}
@@ -370,11 +374,15 @@ export const BarberRegister = () => {
 
           {currentStep === 4 && (
             <InputGroup display="block">
-              <Text mb="16px" color={barberTheme.colors.primary.orange}>
+              <Text
+                maxWidth="312px"
+                mb="16px"
+                color={barberTheme.colors.primary.orange}
+              >
                 Selecione o horário de início e término do intervalo de almoço
                 do barbeiro
               </Text>
-              <Box display="flex" maxWidth="400px" flexWrap="wrap">
+              <Box display="flex" maxWidth="312px" flexWrap="wrap">
                 {intervalHour.map((hour, index) => (
                   <Box
                     onClick={() => handleLunchSchedule(hour)}
