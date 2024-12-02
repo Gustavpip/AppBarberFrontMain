@@ -24,7 +24,7 @@ export const BarberRegister = () => {
     resetField,
     formState: { errors },
     watch,
-  } = useForm<Pick<BarberDTO, 'nomeCompleto' | 'telefone' | 'foto'>>();
+  } = useForm<Pick<BarberDTO, 'nome_completo' | 'telefone' | 'foto'>>();
 
   const [currentStep, setCurrentStep] = useState(1);
   const [workSchedule, setworkSchedule] = useState<string[]>([]);
@@ -89,10 +89,10 @@ export const BarberRegister = () => {
   const intervalHour = ['11:00', '12:00', '13:00', '14:00'];
 
   const onSubmit = async (
-    data: Pick<BarberDTO, 'nomeCompleto' | 'telefone' | 'foto'>
+    data: Pick<BarberDTO, 'nome_completo' | 'telefone' | 'foto'>
   ) => {
     if (
-      data.nomeCompleto &&
+      data.nome_completo &&
       data.telefone &&
       data.foto.length > 0 &&
       workSchedule.length >= 2 &&
@@ -100,7 +100,7 @@ export const BarberRegister = () => {
       selectedItems.length > 1
     ) {
       const formData = new FormData();
-      formData.append('nomeCompleto', data.nomeCompleto);
+      formData.append('nome_completo', data.nome_completo);
       formData.append('telefone', data.telefone);
       formData.append('foto', data.foto[0]);
 
@@ -165,11 +165,11 @@ export const BarberRegister = () => {
   };
 
   const handleNextStep = () => {
-    const nomeCompleto = watch('nomeCompleto');
+    const nome_completo = watch('nome_completo');
     const telefone = watch('telefone');
     const foto = watch('foto');
 
-    if (nomeCompleto && telefone && foto.length > 0) {
+    if (nome_completo && telefone && foto.length > 0) {
       if (currentStep === 2) {
         if (selectedItems.length > 0) {
           setCurrentStep(3);
@@ -245,7 +245,7 @@ export const BarberRegister = () => {
             <>
               <CustomInput
                 leftIcon={<img src="/User.svg" alt="User Icon" />}
-                register={register('nomeCompleto', {
+                register={register('nome_completo', {
                   required: 'Nome completo é obrigatório',
                 })}
                 id="nome-completo"
@@ -253,7 +253,7 @@ export const BarberRegister = () => {
                 type="text"
                 isRequired
                 borderColor={
-                  errors.nomeCompleto
+                  errors.nome_completo
                     ? 'red.500'
                     : barberTheme.colors.primary.gray
                 }

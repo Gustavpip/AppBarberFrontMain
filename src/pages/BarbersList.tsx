@@ -23,7 +23,7 @@ import useBarberDelete from '../hooks/useBarberDelete';
 
 type Barber = {
   id: number;
-  nomeCompleto: string;
+  nome_completo: string;
   telefone: string;
   foto: string;
 };
@@ -177,7 +177,7 @@ export const BarbersList = () => {
                   fontSize="16px"
                   color="white"
                 >
-                  {barber.nomeCompleto}
+                  {barber.nome_completo}
                 </Text>
                 <Text
                   my="4px"
@@ -185,7 +185,7 @@ export const BarbersList = () => {
                   color={barberTheme.colors.primary.gray03}
                   as="h4"
                 >
-                  {barber.nomeCompleto} - Barbeiro
+                  {barber.nome_completo} - Barbeiro
                 </Text>
                 <Box display="flex" alignItems="end" justifyContent="end">
                   <Button

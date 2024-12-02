@@ -22,7 +22,7 @@ export interface WorkSchedule {
 
 export interface BarberDTO {
   id: string;
-  nomeCompleto: string;
+  nome_completo: string;
   telefone: string;
   foto: string;
   barbearia: UserDTO;

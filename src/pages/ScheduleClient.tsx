@@ -201,7 +201,7 @@ export const ScheduleClient = () => {
   };
 
   const handleNextStep = () => {
-    const nomeCompleto = watch('nome');
+    const nome_completo = watch('nome');
     const telefone = watch('telefone');
     console.log(telefone);
     console.log(telefone.length);
@@ -217,7 +217,7 @@ export const ScheduleClient = () => {
       return;
     }
 
-    if (nomeCompleto?.trim()?.length < 3) {
+    if (nome_completo?.trim()?.length < 3) {
       toast({
         title: 'Por favor, informe um nome válido',
         status: 'error',
@@ -228,7 +228,7 @@ export const ScheduleClient = () => {
       return;
     }
 
-    if (nomeCompleto && telefone) {
+    if (nome_completo && telefone) {
       if (currentStep === 1) setCurrentStep(2);
 
       if (currentStep === 2) {
@@ -460,7 +460,7 @@ export const ScheduleClient = () => {
                       loading="lazy"
                     />
                     <Text fontSize="16px" fontWeight="bold" my="8px">
-                      {barber.nomeCompleto}
+                      {barber.nome_completo}
                     </Text>
                   </Box>
                 ))}
