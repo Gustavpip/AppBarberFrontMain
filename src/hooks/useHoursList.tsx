@@ -14,7 +14,7 @@ const useHoursList = () => {
 
     try {
       const response = await api.post(url, { barberShopId, barbeiroId, data });
-        console.log(response.data);
+
       if (response.request.status === 200 || response.data.success === true) {
         return { success: true, data: response };
       } else {

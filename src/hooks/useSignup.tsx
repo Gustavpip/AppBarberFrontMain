@@ -15,7 +15,6 @@ const useSignup = () => {
       if (response.request.status === 201 || response.data.success === true) {
         return { success: true, data: response.data };
       } else {
-        console.log('salve');
         return { success: false, data: response };
       }
     } catch (err: any) {

@@ -42,7 +42,7 @@ export const ScheduleClient = () => {
     >
   >();
 
-  const [currentStep, setCurrentStep] = useState(4);
+  const [currentStep, setCurrentStep] = useState(1);
   const [hourSchedule, sethourSchedule] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<string[]>([]);
@@ -53,7 +53,6 @@ export const ScheduleClient = () => {
   const [services, setServices] = useState<ServiceDTO[]>([]);
   const [barbers, setBarbers] = useState<BarberDTO[]>([]);
 
-  console.log(selectedDate);
   const { createScheduling, loading } = useScheduling();
   const { getServices } = useServiceList();
   const { getBarbers } = useBarberList();
@@ -64,33 +63,29 @@ export const ScheduleClient = () => {
   const handleDateChange = async (date: any) => {
     const formattedDate = moment(date).format('YYYY-MM-DD');
     setSelectedDate(formattedDate);
-    console.log('Data selecionada:', formattedDate);
 
     const response = await getHours(
       token ? token : '',
       selectedBarber[0],
-      selectedDate
+      formattedDate
     );
 
     setHours(response.data.data);
   };
 
   const handleSelect = (service: string) => {
-    console.log(selectedItems);
     setSelectedItems((prevSelected) =>
       prevSelected.includes(service) ? [] : [service]
     );
   };
 
   const handleSelectBarber = (service: string) => {
-    console.log(selectedBarber);
     setSelectedBarber((prevSelected) =>
       prevSelected.includes(service) ? [] : [service]
     );
   };
 
   const handlehourSchedule = (hour: string) => {
-    console.log(hour);
     sethourSchedule((prevSchedule) =>
       prevSchedule.includes(hour) ? [] : [hour]
     );
@@ -110,6 +105,21 @@ export const ScheduleClient = () => {
     fetchBarbers();
   }, []);
 
+  useEffect(() => {
+    if (selectedBarber.length > 0) {
+      const fetchHours = async () => {
+        const response = await getHours(
+          token ? token : '',
+          selectedBarber[0],
+          selectedDate
+        );
+
+        setHours(response.data.data);
+      };
+      fetchHours();
+    }
+  }, [selectedBarber]);
+
   const toast = useToast();
 
   const onSubmit = async (
@@ -125,7 +135,8 @@ export const ScheduleClient = () => {
       | 'barbearia_id'
     >
   ) => {
-    if (!hourSchedule) {
+    
+    if (hourSchedule.length < 1) {
       toast({
         title: 'Por favor, selecione um horário',
         status: 'error',
@@ -136,7 +147,6 @@ export const ScheduleClient = () => {
       return;
     }
     if (!selectedDate) {
-      console.log(selectedDate);
       toast({
         title: 'Por favor, selecione uma data',
         status: 'error',
@@ -161,12 +171,8 @@ export const ScheduleClient = () => {
       data.barbearia_id = token ? token : '';
       data.barbeiro_id = selectedBarber[0];
       data.servico_id = selectedItems[0];
-      // console.log(selectedItems);
-      // console.log(data);
-      // return;
-      console.log(selectedBarber[0]);
+
       const result = await createScheduling(data);
-      console.log(result);
 
       if (!result.success) {
         toast({
@@ -205,9 +211,8 @@ export const ScheduleClient = () => {
   const handleNextStep = () => {
     const nome_completo = watch('nome');
     const telefone = watch('telefone');
-    console.log(telefone);
-    console.log(telefone.length);
-    if (telefone.length < 11) {
+
+    if (telefone?.trim().length < 11 || telefone?.trim().length > 11) {
       toast({
         title:
           'Por favor, informe um telefone válido no formato correto (DDD + 9 + número)',
@@ -340,6 +345,8 @@ export const ScheduleClient = () => {
                       }
                       register={register('telefone', {
                         required: 'Telefone é obrigatório',
+                        minLength: 10,
+                        maxLength: 11,
                         validate: {
                           validPhone: (value) =>
                             /^\(?\d{2}\)?\s?9\d{4}-?\d{4}$/.test(

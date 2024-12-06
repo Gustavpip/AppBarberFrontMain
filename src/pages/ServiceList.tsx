@@ -75,7 +75,7 @@ export const ServiceList = () => {
   useEffect(() => {
     const fetchServices = async () => {
       const data = await getServices();
-      console.log(data);
+
       setServices(data.data.data || []);
     };
     fetchServices();

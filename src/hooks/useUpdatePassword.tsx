@@ -13,7 +13,6 @@ const useUpdatePassword = () => {
       const response = await api.patch('/api/update/password', data);
 
       if (response.request.status === 200 || response.data.success === true) {
-        console.log('response', response);
         return { success: true, data: response };
       } else {
         return { success: false, data: response };

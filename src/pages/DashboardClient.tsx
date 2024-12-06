@@ -60,16 +60,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
             justifyContent="space-between"
           >
             <Box className="logo">
-              <Image
-                display={{
-                  base: isOpen ? 'none' : 'block',
-                  sm: isOpen ? 'none' : 'block',
-                  md: 'block',
-                }}
-                height="40px"
-                src="/logo.png"
-                alt="Logo"
-              />
+
             </Box>
             <Box>
               <IconButton

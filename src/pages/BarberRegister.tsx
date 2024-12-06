@@ -91,6 +91,18 @@ export const BarberRegister = () => {
   const onSubmit = async (
     data: Pick<BarberDTO, 'nome_completo' | 'telefone' | 'foto'>
   ) => {
+    if (lunchSchedule.length < 2 || lunchSchedule.length > 2) {
+      toast({
+        title: 'Erro ao cadastrar',
+        description:
+          'Por favor, selecione o horário de início e término do intervalo de almoço do barbeiro.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      return;
+    }
     if (
       data.nome_completo &&
       data.telefone &&
@@ -129,7 +141,6 @@ export const BarberRegister = () => {
       formData.append('dias_trabalho', stringWorkDays);
 
       const result = await createBarber(formData);
-      console.log(result);
 
       if (!result.success) {
         toast({
@@ -165,9 +176,33 @@ export const BarberRegister = () => {
   };
 
   const handleNextStep = () => {
-    const nome_completo = watch('nome_completo');
-    const telefone = watch('telefone');
+    const nome_completo = watch('nome_completo')?.trim();
+    const telefone = watch('telefone')?.trim();
     const foto = watch('foto');
+
+    const nome = nome_completo.split(' ');
+    if (nome.length > 2 || nome.length < 2) {
+      toast({
+        title: 'Por favor, informe apenas o nome e último nome.',
+        status: 'error',
+        duration: 3000,
+        position: 'top-right',
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (telefone?.trim().length > 11 || telefone?.trim().length < 11) {
+      toast({
+        title:
+          'Por favor, informe um telefone válido no formato correto (DDD + 9 + número)',
+        status: 'error',
+        duration: 3000,
+        position: 'top-right',
+        isClosable: true,
+      });
+      return;
+    }
 
     if (nome_completo && telefone && foto.length > 0) {
       if (currentStep === 2) {
@@ -175,7 +210,7 @@ export const BarberRegister = () => {
           setCurrentStep(3);
         } else {
           toast({
-            title: 'Preencha todos os campos corretamente antes de continuar.',
+            title: 'Por favor, selecione os dias de trabalho do barbeiro.',
             status: 'error',
             duration: 3000,
             position: 'top-right',
@@ -189,7 +224,8 @@ export const BarberRegister = () => {
           setCurrentStep(4);
         } else {
           toast({
-            title: 'Preencha todos os campos corretamente antes de continuar.',
+            title:
+              'Por favor, selecione o horário de início e término do expediente do barbeiro.',
             status: 'error',
             duration: 3000,
             position: 'top-right',
@@ -201,7 +237,8 @@ export const BarberRegister = () => {
       if (currentStep === 1) setCurrentStep(2);
     } else {
       toast({
-        title: 'Preencha todos os campos corretamente antes de continuar.',
+        title:
+          'Por favor, informe corretamente o seu nome e último nome, número de telefone e foto.',
         status: 'error',
         duration: 3000,
         position: 'top-right',
@@ -249,7 +286,7 @@ export const BarberRegister = () => {
                   required: 'Nome completo é obrigatório',
                 })}
                 id="nome-completo"
-                placeholder="Nome completo"
+                placeholder="Nome e último nome"
                 type="text"
                 isRequired
                 borderColor={
@@ -266,6 +303,7 @@ export const BarberRegister = () => {
                 register={register('telefone', {
                   required: 'Telefone é obrigatório',
                   minLength: 10,
+                  maxLength: 11,
                 })}
                 id="telefone"
                 placeholder="Telefone"

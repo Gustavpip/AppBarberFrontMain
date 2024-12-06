@@ -35,7 +35,6 @@ export const ServiceRegister = () => {
   const onSubmit = async (
     data: Pick<ServiceDTO, 'nome' | 'descricao' | 'preco'>
   ) => {
-    console.log(data.nome.length);
     if (
       data.nome.length > 2 &&
       data.descricao.length > 5 &&
