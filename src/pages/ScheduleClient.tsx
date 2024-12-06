@@ -5,6 +5,8 @@ import {
   Text,
   useToast,
   InputGroup,
+  Center,
+  Spinner,
 } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { CustomInput } from '../components/forms/CustomInput';
@@ -23,6 +25,7 @@ import moment from 'moment';
 import Calendar from 'react-calendar';
 import { useState } from 'react';
 import useBarberList from '../hooks/useBarberList';
+import useHoursList from '../hooks/useHoursList';
 
 export const ScheduleClient = () => {
   const {
@@ -43,6 +46,7 @@ export const ScheduleClient = () => {
   const [hourSchedule, sethourSchedule] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<string[]>([]);
+  const [hours, setHours] = useState<string[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>(
     moment(new Date()).format('YYYY-MM-DD')
   );
@@ -53,13 +57,22 @@ export const ScheduleClient = () => {
   const { createScheduling, loading } = useScheduling();
   const { getServices } = useServiceList();
   const { getBarbers } = useBarberList();
+  const { getHours, loading: loadingHours } = useHoursList();
   const navigate = useNavigate();
   const { token } = useParams();
 
-  const handleDateChange = (date: any) => {
+  const handleDateChange = async (date: any) => {
     const formattedDate = moment(date).format('YYYY-MM-DD');
     setSelectedDate(formattedDate);
     console.log('Data selecionada:', formattedDate);
+
+    const response = await getHours(
+      token ? token : '',
+      selectedBarber[0],
+      selectedDate
+    );
+
+    setHours(response.data.data);
   };
 
   const handleSelect = (service: string) => {
@@ -98,19 +111,6 @@ export const ScheduleClient = () => {
   }, []);
 
   const toast = useToast();
-
-  const hours = [
-    '08:00',
-    '09:00',
-    '10:00',
-    '11:00',
-    '13:00',
-    '14:00',
-    '15:00',
-    '16:00',
-    '17:00',
-    '18:00',
-  ];
 
   const onSubmit = async (
     data: Pick<
@@ -164,7 +164,7 @@ export const ScheduleClient = () => {
       // console.log(selectedItems);
       // console.log(data);
       // return;
-
+      console.log(selectedBarber[0]);
       const result = await createScheduling(data);
       console.log(result);
 
@@ -187,8 +187,8 @@ export const ScheduleClient = () => {
           position: 'top-right',
         });
 
-        reset();
-        navigate('/barbeiros');
+        // reset();
+        // navigate('/barbeiros');
       }
     } else {
       toast({
@@ -503,29 +503,47 @@ export const ScheduleClient = () => {
                   maxWidth="312px"
                   flexWrap="wrap"
                 >
-                  {hours.map((hour, index) => (
-                    <Box
-                      onClick={() => handlehourSchedule(hour)}
-                      key={index}
-                      m="4px"
-                      cursor="pointer"
-                      p="8px"
-                      width="54px"
-                      height="44px"
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                      borderRadius="8px"
-                      backgroundColor={
-                        hourSchedule.includes(hour)
-                          ? barberTheme.colors.primary.orange
-                          : barberTheme.colors.primary.gray
-                      }
-                      color="white"
+                  {loadingHours ? (
+                    <Center
+                      width="100%"
+                      height="10vh"
+                      backgroundColor={barberTheme.colors.primary.black}
                     >
-                      {hour}
-                    </Box>
-                  ))}
+                      <Spinner
+                        textAlign="center"
+                        size="xl"
+                        color={barberTheme.colors.primary.orange}
+                      />
+                    </Center>
+                  ) : hours && hours.length > 0 ? (
+                    hours.map((hour, index) => (
+                      <Box
+                        onClick={() => handlehourSchedule(hour)}
+                        key={index}
+                        m="4px"
+                        cursor="pointer"
+                        p="8px"
+                        width="54px"
+                        height="44px"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        borderRadius="8px"
+                        backgroundColor={
+                          hourSchedule.includes(hour)
+                            ? barberTheme.colors.primary.orange
+                            : barberTheme.colors.primary.gray
+                        }
+                        color="white"
+                      >
+                        {hour.slice(0, 5)}
+                      </Box>
+                    ))
+                  ) : (
+                    <Text color={barberTheme.colors.primary.orange}>
+                      Não há horários para esta data...
+                    </Text>
+                  )}
                 </Box>
               </Box>
             </InputGroup>
