@@ -7,6 +7,7 @@ import {
   useToast,
   InputLeftElement,
   InputGroup,
+  Select,
 } from '@chakra-ui/react';
 import { CustomInput } from '../components/forms/CustomInput';
 import { ServiceDTO } from '../types/allTypes';
@@ -24,9 +25,10 @@ export const ServiceRegister = () => {
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<Pick<ServiceDTO, 'nome' | 'descricao' | 'preco'>>();
+  } = useForm<Pick<ServiceDTO, 'nome' | 'descricao' | 'preco' | 'tempo'>>();
 
   const [formattedValue, setFormattedValue] = useState('');
+  const [selectedTime, setSelectedTime] = useState(null);
   const { createService, loading } = useServiceRegister();
   const navigate = useNavigate();
 
@@ -96,7 +98,14 @@ export const ServiceRegister = () => {
         <Stack spacing={4} as="form" onSubmit={handleSubmit(onSubmit)}>
           <>
             <CustomInput
-              leftIcon={<img src="/barbeiros.svg" alt="User Icon" />}
+              leftIcon={
+                <img
+                  src="/barbeiros.svg"
+                  height="16px"
+                  width="20px"
+                  alt="User Icon"
+                />
+              }
               register={register('nome', {
                 required: 'Título é obrigatório',
               })}
@@ -112,7 +121,14 @@ export const ServiceRegister = () => {
               height="44px"
             />
             <CustomInput
-              leftIcon={<img src="/clients.svg" alt="Smartphone Icon" />}
+              leftIcon={
+                <img
+                  src="/clients.svg"
+                  height=""
+                  width="16px"
+                  alt="Smartphone Icon"
+                />
+              }
               register={register('descricao', {
                 required: 'Descrição é obrigatório',
               })}
@@ -127,11 +143,45 @@ export const ServiceRegister = () => {
               width="312px"
               height="44px"
             />
+            <InputGroup
+              border={`1px solid ${barberTheme.colors.primary.gray}`}
+              borderRadius="4px"
+              width="312px"
+            >
+              <InputLeftElement pointerEvents="none">
+                <img
+                  src="/clocks.svg"
+                  height="12px"
+                  width="16px"
+                  alt="Clocks Icon"
+                />
+              </InputLeftElement>
+              <Select
+                textAlign="start"
+                id="tempo"
+                {...register('tempo', {
+                  required: 'Tempo é obrigatório',
+                })}
+                border="1px solid transparent"
+                onChange={(e) => setValue('tempo', e.target.value)}
+                isInvalid={!!errors.tempo}
+                focusBorderColor={
+                  errors.tempo ? 'red.500' : barberTheme.colors.primary.gray
+                }
+                color={barberTheme.colors.primary.gray03}
+                height="44px"
+                pl="32px" // Adiciona o padding à esquerda de 32px para afastar o valor
+              > <option value="" defaultChecked>Tempo</option>
+                <option value="02:00:00">02:00:00</option>
+                <option value="01:00:00">01:00:00</option>
+                <option value="00:30:00">00:30:00</option>
+              </Select>
+            </InputGroup>
             <InputGroup width="312px">
               <InputLeftElement pointerEvents="none">
                 <img
                   src="/Vector (10).svg"
-                  height="16px"
+                  height="12px"
                   width="10px"
                   alt="Cifrão Icon"
                 />

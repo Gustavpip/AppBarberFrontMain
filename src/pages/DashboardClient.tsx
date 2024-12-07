@@ -2,7 +2,6 @@ import {
   Box,
   Image,
   IconButton,
-
   Slide,
   Text,
   Button,
@@ -18,12 +17,15 @@ import {
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { ReactNode, useState } from 'react';
 import barberTheme from '../theme';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 export const DashboardClient = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string>('');
   const { isOpen: isOpenModal, onClose } = useDisclosure();
+
+  const { token } = useParams();
+
   const navigate = useNavigate();
 
   const toggleMenuSchedule = () => setIsOpen(!isOpen);
@@ -41,12 +43,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
 
   return (
     <>
-      <Box
-        width="100%"
-        minHeight="100vh" 
-        display="flex"
-        flexDirection="column"
-      >
+      <Box width="100%" minHeight="100vh" display="flex" flexDirection="column">
         <Box
           as="header"
           padding="16px"
@@ -60,7 +57,19 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
             justifyContent="space-between"
           >
             <Box className="logo">
-
+              <Link to={`/agendar/${token}`}>
+                <Image
+                  display={{
+                    base: isOpen ? 'none' : 'block',
+                    sm: isOpen ? 'none' : 'block',
+                    md: 'block',
+                  }}
+                  height="40px"
+                  width="22"
+                  src="/logo.png"
+                  alt="Logo"
+                />
+              </Link>
             </Box>
             <Box>
               <IconButton

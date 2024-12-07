@@ -36,6 +36,7 @@ export interface ServiceDTO {
   preco: number | string;
   barber_foto: string;
   foto: string;
+  tempo?: string;
 }
 
 export interface ClientDTO {

@@ -61,17 +61,20 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
           justifyContent="space-between"
         >
           <Box className="logo">
-            <Image
-              display={{
-                base: isOpen ? 'none' : 'block',
-                sm: isOpen ? 'none' : 'block',
-                md: 'block',
-              }}
-              height="40px"
-              width="22"
-              src="/logo.png"
-              alt="Logo"
-            />
+            <Link to="/">
+              {' '}
+              <Image
+                display={{
+                  base: isOpen ? 'none' : 'block',
+                  sm: isOpen ? 'none' : 'block',
+                  md: 'block',
+                }}
+                height="40px"
+                width="22"
+                src="/logo.png"
+                alt="Logo"
+              />
+            </Link>
           </Box>
           <Box>
             <IconButton
