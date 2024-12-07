@@ -209,7 +209,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
             >
               <Image src="/appointments.svg" boxSize="20px" marginRight="8px" />{' '}
               <Link
-                to="/"
+                to="/agendamentos"
                 style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
               >
                 Agendamentos

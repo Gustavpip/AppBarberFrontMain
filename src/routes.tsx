@@ -17,6 +17,7 @@ import { ServiceRegister } from './pages/ServiceRegister';
 import { DashboardClient } from './pages/DashboardClient';
 import { ScheduleClient } from './pages/ScheduleClient';
 import { ClientServiceList } from './pages/ClientServiceList';
+import { AppointmentsList } from './pages/listAppointments';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -94,6 +95,19 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
+
+      <Route
+        path="/agendamentos"
+        element={
+          <ProtectedRoute>
+            <Dashboard>
+              <AppointmentsList />
+            </Dashboard>
+          </ProtectedRoute>
+        }
+      />
+
+
       <Route
         path="/barbeiros/cadastro"
         element={
