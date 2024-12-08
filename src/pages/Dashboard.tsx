@@ -80,7 +80,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
             <IconButton
               icon={
                 isOpen ? (
-                  <CloseIcon color="white" boxSize="12px" />
+                  <CloseIcon color="white" boxSize="12px" zIndex={100} />
                 ) : (
                   <HamburgerIcon />
                 )
@@ -99,7 +99,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
       <Slide
         direction="right"
         in={isOpen}
-        style={{ zIndex: 2, pointerEvents: 'auto' }}
+        style={{ zIndex: 100, pointerEvents: 'auto' }}
       >
         <Box
           position="fixed"

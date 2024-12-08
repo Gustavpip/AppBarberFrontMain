@@ -218,7 +218,13 @@ export const AppointmentsList = () => {
         </Box>
       </Box>
       <Box
-        minHeight={`${appointments.length < 1 ? '32px' : '300px'}`}
+        minHeight={`${
+          appointments.length < 1
+            ? '50px'
+            : appointments.length === 1
+              ? '150px'
+              : '300px'
+        }`}
         padding="8px"
         borderTop={`2px solid ${barberTheme.colors.primary.gray}`}
         borderBottom={`2px solid ${barberTheme.colors.primary.gray}`}
@@ -320,9 +326,11 @@ export const AppointmentsList = () => {
           </Text>
         )}
       </Box>
-      <Text textAlign="center" color={barberTheme.colors.primary.gray}>
-        <ChevronDownIcon className="scroll-animation" fontSize="24px" />
-      </Text>
+      {appointments.length >= 2 && (
+        <Text textAlign="center" color={barberTheme.colors.primary.gray}>
+          <ChevronDownIcon className="scroll-animation" fontSize="24px" />
+        </Text>
+      )}
       <Box flexShrink={0}>
         <Text
           m="8px 0"
@@ -340,7 +348,13 @@ export const AppointmentsList = () => {
         </Text>
       </Box>
       <Box
-        minHeight={`${appointments.length < 1 ? '32px' : '220px'}`}
+         minHeight={`${
+          inactiveAppointments.length < 1
+            ? '50px'
+            : inactiveAppointments.length === 1
+              ? '110px'
+              : '220px'
+        }`}
         padding="8px"
         borderTop={`2px solid ${barberTheme.colors.primary.gray}`}
         borderBottom={`2px solid ${barberTheme.colors.primary.gray}`}
@@ -429,21 +443,11 @@ export const AppointmentsList = () => {
           </Text>
         )}
       </Box>
-      <Text textAlign="center" color={barberTheme.colors.primary.gray}>
-        <ChevronDownIcon className="scroll-animation" fontSize="24px" />
-      </Text>
+      {inactiveAppointments.length >= 2 && (
+        <Text textAlign="center" color={barberTheme.colors.primary.gray}>
+          <ChevronDownIcon className="scroll-animation" fontSize="24px" />
+        </Text>
+      )}
     </Box>
   );
 };
-
-// <Button
-//   onClick={() => {
-//     onOpen();
-//     setAppointmentId(String(appointment.id));
-//   }}
-//                   height="30px"
-//                   backgroundColor="red.400"
-//                   color="white"
-//                 >
-//                   Cancelar
-//                 </Button>
