@@ -361,7 +361,9 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Box as="main">{children}</Box>
+      <Box as="main" padding="8px 0">
+        {children}
+      </Box>
     </Box>
   );
 };

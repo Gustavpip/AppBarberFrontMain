@@ -71,11 +71,11 @@
       .react-calendar__navigation__label__labelText {
         color: white;
       }
-      .css-r6ivv1{
+      .css-r6ivv1 {
         border: 1px solid #26272b !important;
       }
       .css-t882uv {
-        max-width:  312px !important;
+        max-width: 312px !important;
         border: 1px solid #26272b !important;
       }
 
@@ -92,6 +92,21 @@
       .react-calendar__tile--active {
         background-color: #838896 !important;
         border-radius: 64px;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(10px);
+        }
+      }
+
+      /* Aplicar a animação ao ícone */
+      .scroll-animation {
+        animation: bounce 1.5s infinite;
       }
     </style>
     <!-- Favicon -->

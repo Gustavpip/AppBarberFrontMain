@@ -20,12 +20,13 @@ import { useEffect, useState } from 'react';
 
 import useAppointmentsList from '../hooks/useListAppointments';
 import useDeleteAppointment from '../hooks/useDeleteAppointment';
-import { CloseIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
 
 type Appointment = {
   id: string;
   data: string;
   hora: string;
+  status: boolean;
   barbearia: {
     id: number;
     email: string;
@@ -65,6 +66,9 @@ type Appointment = {
 export const AppointmentsList = () => {
   const { getAppointments, loading } = useAppointmentsList();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [inactiveAppointments, setInactiveAppointments] = useState<
+    Appointment[]
+  >([]);
   const { deleteAppointment, loading: loadingDeleteAppointment } =
     useDeleteAppointment();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -108,8 +112,17 @@ export const AppointmentsList = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       const data = await getAppointments();
+      const appointmentsActive = data.data.data.filter(
+        (appointment: Appointment) => appointment.status !== true
+      );
 
-      setAppointments(data.data.data || []);
+      const appointmenetsInactive = data.data.data.filter(
+        (appointment: Appointment) => appointment.status !== false
+      );
+
+      setInactiveAppointments(appointmenetsInactive);
+
+      setAppointments(appointmentsActive || []);
     };
     fetchAppointments();
   }, []);
@@ -131,6 +144,7 @@ export const AppointmentsList = () => {
       display="flex"
       flexDirection="column"
       margin="0 auto"
+      height="calc(92vh - 73px)"
     >
       <Box alignItems="center">
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -171,29 +185,50 @@ export const AppointmentsList = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
-        <Text
-          m="16px 0"
-          fontWeight={barberTheme.fontWeights.bold}
-          color="white"
-          fontSize="18px"
-          as="h1"
-        >
-          Agendamentos
-        </Text>
-        <Text
-          m="16px 0"
-          fontWeight={barberTheme.fontWeights.bold}
-          color={barberTheme.colors.primary.gray03}
-          fontSize="16px"
-          as="h1"
-        >
-          CONFIRMADOS
-        </Text>
+        {/* Títulos */}
+        <Box flexShrink={0}>
+          <Text
+            m="0px 0"
+            fontWeight={barberTheme.fontWeights.bold}
+            color="white"
+            fontSize="18px"
+            as="h1"
+            position="sticky"
+            top="0"
+            bg={barberTheme.colors.primary.black}
+            zIndex="10"
+            padding="8px 0"
+          >
+            Agendamentos
+          </Text>
+          <Text
+            m="8px 0"
+            fontWeight={barberTheme.fontWeights.bold}
+            color={barberTheme.colors.primary.gray03}
+            fontSize="16px"
+            as="h1"
+            position="sticky"
+            top="32px"
+            bg={barberTheme.colors.primary.black}
+            zIndex="10"
+            padding="8px 0"
+          >
+            CONFIRMADOS
+          </Text>
+        </Box>
       </Box>
-      <Box overflowY="auto">
+      <Box
+        minHeight={`${appointments.length < 1 ? '32px' : '300px'}`}
+        padding="8px"
+        borderTop={`2px solid ${barberTheme.colors.primary.gray}`}
+        borderBottom={`2px solid ${barberTheme.colors.primary.gray}`}
+        overflowY={`${appointments.length < 1 ? 'visible' : 'auto'}`}
+        maxHeight={`${appointments.length < 1 ? '32px' : '300px'}`}
+      >
         {appointments.length > 0 ? (
           appointments.map((appointment, index) => (
             <Box
+              my="8px"
               position="relative"
               key={index}
               display="flex"
@@ -246,7 +281,7 @@ export const AppointmentsList = () => {
                     src="https://img.freepik.com/vetores-premium/logotipo-do-emblema-do-cracha-da-barbearia-com-icone-de-bigode-barba-logotipo-do-emblema-vintage-simples-hexagono-classico_645012-28.jpg?semt=ais_hybrid"
                   />
                   <Text color="white" mx="8px">
-                    {appointment.barbearia.nome_barbearia}
+                    {appointment.cliente.nome}
                   </Text>
                 </Box>
               </Box>
@@ -276,7 +311,6 @@ export const AppointmentsList = () => {
           ))
         ) : (
           <Text
-            marginY="128px"
             textAlign="center"
             alignSelf="center"
             fontSize="18px"
@@ -286,19 +320,37 @@ export const AppointmentsList = () => {
           </Text>
         )}
       </Box>
-      <Text
-          m="16px 0"
+      <Text textAlign="center" color={barberTheme.colors.primary.gray}>
+        <ChevronDownIcon className="scroll-animation" fontSize="24px" />
+      </Text>
+      <Box flexShrink={0}>
+        <Text
+          m="8px 0"
           fontWeight={barberTheme.fontWeights.bold}
           color={barberTheme.colors.primary.gray03}
           fontSize="16px"
           as="h1"
+          position="sticky"
+          top="64px"
+          bg={barberTheme.colors.primary.black}
+          zIndex="10"
+          padding="8px 0"
         >
           FINALIZADOS
         </Text>
-      <Box overflowY="auto">
-        {appointments.length > 0 ? (
-          appointments.map((appointment, index) => (
+      </Box>
+      <Box
+        minHeight={`${appointments.length < 1 ? '32px' : '220px'}`}
+        padding="8px"
+        borderTop={`2px solid ${barberTheme.colors.primary.gray}`}
+        borderBottom={`2px solid ${barberTheme.colors.primary.gray}`}
+        overflowY={`${inactiveAppointments.length < 1 ? 'visible' : 'auto'}`}
+        maxHeight={`${inactiveAppointments.length < 1 ? '32px' : '320px'}`}
+      >
+        {inactiveAppointments.length > 0 ? (
+          inactiveAppointments.map((appointment, index) => (
             <Box
+              my="8px"
               position="relative"
               key={index}
               display="flex"
@@ -317,19 +369,6 @@ export const AppointmentsList = () => {
                     fontWeight={barberTheme.fontWeights.bold}
                   >
                     Confirmado
-                  </Text>
-                  <Text
-                    cursor="pointer"
-                    fontSize="12px"
-                    color="red.400"
-                    paddingRight="8px"
-                  >
-                    <CloseIcon
-                      onClick={() => {
-                        onOpen();
-                        setAppointmentId(String(appointment.id));
-                      }}
-                    />
                   </Text>
                 </Box>
                 <Text
@@ -351,7 +390,7 @@ export const AppointmentsList = () => {
                     src="https://img.freepik.com/vetores-premium/logotipo-do-emblema-do-cracha-da-barbearia-com-icone-de-bigode-barba-logotipo-do-emblema-vintage-simples-hexagono-classico_645012-28.jpg?semt=ais_hybrid"
                   />
                   <Text color="white" mx="8px">
-                    {appointment.barbearia.nome_barbearia}
+                    {appointment.cliente.nome}
                   </Text>
                 </Box>
               </Box>
@@ -381,7 +420,6 @@ export const AppointmentsList = () => {
           ))
         ) : (
           <Text
-            marginY="128px"
             textAlign="center"
             alignSelf="center"
             fontSize="18px"
@@ -391,6 +429,9 @@ export const AppointmentsList = () => {
           </Text>
         )}
       </Box>
+      <Text textAlign="center" color={barberTheme.colors.primary.gray}>
+        <ChevronDownIcon className="scroll-animation" fontSize="24px" />
+      </Text>
     </Box>
   );
 };
