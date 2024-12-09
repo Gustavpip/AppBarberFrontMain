@@ -76,11 +76,11 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
               />
             </Link>
           </Box>
-          <Box>
+          <Box zIndex={101} >
             <IconButton
               icon={
                 isOpen ? (
-                  <CloseIcon color="white" boxSize="12px" zIndex={100} />
+                  <CloseIcon color="white" boxSize="12px" />
                 ) : (
                   <HamburgerIcon />
                 )

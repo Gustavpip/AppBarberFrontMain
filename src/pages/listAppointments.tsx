@@ -180,7 +180,7 @@ export const AppointmentsList = () => {
                 color="white"
                 backgroundColor="red.400"
               >
-                Cancelar
+                Sim
               </Button>
             </ModalFooter>
           </ModalContent>
