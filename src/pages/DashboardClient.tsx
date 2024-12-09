@@ -24,7 +24,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
   const [selectedItem, setSelectedItem] = useState<string>('');
   const { isOpen: isOpenModal, onClose } = useDisclosure();
 
-  const { token } = useParams();
+  const { token, hashIdClient } = useParams();
 
   const navigate = useNavigate();
 
@@ -71,7 +71,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
                 />
               </Link>
             </Box>
-            <Box>
+            <Box zIndex={101}>
               <IconButton
                 icon={
                   isOpen ? (
@@ -97,7 +97,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
           backgroundColor={barberTheme.colors.primary.black}
           overflow="hidden" /* Evita rolagem desnecessária */
         >
-          <Slide direction="right" in={isOpen} style={{ zIndex: 1 }}>
+          <Slide direction="right" in={isOpen} style={{ zIndex: 100 }}>
             <Box
               position="fixed"
               top="0"
@@ -192,9 +192,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
               </ModalFooter>
             </ModalContent>
           </Modal>
-          <Box as="main" overflow="auto">
-            {children}
-          </Box>
+          <Box as="main">{children}</Box>
         </Box>
       </Box>
     </>

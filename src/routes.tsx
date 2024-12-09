@@ -18,6 +18,7 @@ import { DashboardClient } from './pages/DashboardClient';
 import { ScheduleClient } from './pages/ScheduleClient';
 import { ClientServiceList } from './pages/ClientServiceList';
 import { AppointmentsList } from './pages/listAppointments';
+import { AppointmentsListClient } from './pages/listAppointmentsClient';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -64,7 +65,6 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
-
       <Route
         path="/servicos"
         element={
@@ -106,8 +106,14 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
-
-
+      <Route
+        path="/agendamentos/:token/:hashIdClient"
+        element={
+          <DashboardClient>
+            <AppointmentsListClient />
+          </DashboardClient>
+        }
+      />
       <Route
         path="/barbeiros/cadastro"
         element={
@@ -126,7 +132,7 @@ const AppRoutes = () => {
           </DashboardClient>
         }
       />
-       <Route
+      <Route
         path="/agendar/servicos/:token"
         element={
           <DashboardClient>

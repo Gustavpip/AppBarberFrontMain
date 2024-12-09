@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import api from '../axiosConfig';
 
-const useAppointmentsList = () => {
+const useGetClientHashId = () => {
   const [loading, setLoading] = useState(false);
 
-  const getAppointments = async (id?: string, hashClient?: string) => {
-    let url = `${id ? '/api/appointments/' + id + '/' + hashClient : '/api/appointments'}`;
+  const getClientHashId = async (phone: string) => {
+    let url = `/api/client/${phone}`;
     setLoading(true);
 
     try {
@@ -22,7 +22,7 @@ const useAppointmentsList = () => {
       setLoading(false);
     }
   };
-  return { getAppointments, loading };
+  return { getClientHashId, loading };
 };
 
-export default useAppointmentsList;
+export default useGetClientHashId;

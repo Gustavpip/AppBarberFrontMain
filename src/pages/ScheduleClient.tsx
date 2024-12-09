@@ -26,6 +26,7 @@ import Calendar from 'react-calendar';
 import { useState } from 'react';
 import useBarberList from '../hooks/useBarberList';
 import useHoursList from '../hooks/useHoursList';
+import useGetClientHashId from '../hooks/useGetClientHashId';
 
 export const ScheduleClient = () => {
   const {
@@ -57,6 +58,7 @@ export const ScheduleClient = () => {
   const { getServices } = useServiceList();
   const { getBarbers } = useBarberList();
   const { getHours, loading: loadingHours } = useHoursList();
+
   const navigate = useNavigate();
   const { token } = useParams();
 
@@ -135,7 +137,6 @@ export const ScheduleClient = () => {
       | 'barbearia_id'
     >
   ) => {
-    
     if (hourSchedule.length < 1) {
       toast({
         title: 'Por favor, selecione um horário',
@@ -193,8 +194,10 @@ export const ScheduleClient = () => {
           position: 'top-right',
         });
 
-        // reset();
-        // navigate('/barbeiros');
+        reset();
+        navigate(
+          `/agendamentos/${token}/${result.data.data.cliente.hashIdClient}`
+        );
       }
     } else {
       toast({
@@ -236,7 +239,9 @@ export const ScheduleClient = () => {
     }
 
     if (nome_completo && telefone) {
-      if (currentStep === 1) setCurrentStep(2);
+      if (currentStep === 1) {
+        setCurrentStep(2);
+      }
 
       if (currentStep === 2) {
         if (selectedItems.length > 0) {
