@@ -21,12 +21,14 @@ import { useEffect, useState } from 'react';
 import useAppointmentsList from '../hooks/useListAppointments';
 import useDeleteAppointment from '../hooks/useDeleteAppointment';
 import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
+import useCancelAppointment from '../hooks/useCancelAppointment';
 
 type Appointment = {
   id: string;
   data: string;
   hora: string;
   status: boolean;
+  cancelado: boolean;
   barbearia: {
     id: number;
     email: string;
@@ -69,43 +71,71 @@ export const AppointmentsList = () => {
   const [inactiveAppointments, setInactiveAppointments] = useState<
     Appointment[]
   >([]);
-  const { deleteAppointment, loading: loadingDeleteAppointment } =
-    useDeleteAppointment();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [appointmentId, setAppointmentId] = useState<string>();
-  // const { id } = useParams();
-
+  const { cancelAppointment, loading: cancelLoading } = useCancelAppointment();
   const toast = useToast();
 
-  const handleDeleteService = async () => {
+  const handleCancelAppointment = async () => {
     if (appointmentId) {
-      const result = await deleteAppointment({ id: appointmentId });
+      try {
+        const result = await cancelAppointment({ appointmentId });
 
-      if (!result.success) {
+        if (!result.success) {
+          toast({
+            title: 'Erro ao cancelar',
+            description:
+              result?.data?.response?.data?.message ||
+              'Ocorreu um erro ao tentar cancelar o agendamento.',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+          return;
+        }
+
+        setAppointments((prevServices) => {
+          const updatedServices = prevServices.filter(
+            (s) => String(s.id) !== appointmentId
+          );
+          const canceledAppointment = prevServices.find(
+            (s) => String(s.id) === appointmentId
+          );
+
+          if (canceledAppointment) {
+            setInactiveAppointments((prevInactive) => [
+              ...prevInactive,
+              canceledAppointment,
+            ]);
+          }
+
+          return updatedServices;
+        });
+
+        onClose();
+
         toast({
-          title: 'Erro ao excluir',
-          description: result?.data.response.data.message,
+          title: 'Sucesso',
+          description:
+            result?.data?.data?.message || 'Agendamento cancelado com sucesso.',
+          status: 'success',
+          duration: 5000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      } catch (error) {
+        toast({
+          title: 'Erro ao cancelar',
+          description:
+            'Ocorreu um erro inesperado. Tente novamente mais tarde.',
           status: 'error',
           duration: 5000,
           isClosable: true,
           position: 'top-right',
         });
-        return;
       }
-
-      setAppointments((prevServices) =>
-        prevServices.filter((s) => String(s.id) !== appointmentId)
-      );
-      onClose();
-
-      toast({
-        title: 'Sucesso',
-        description: result?.data.data.message,
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-        position: 'top-right',
-      });
     }
   };
 
@@ -174,9 +204,9 @@ export const AppointmentsList = () => {
                 Fechar
               </Button>
               <Button
-                isLoading={loadingDeleteAppointment}
+                isLoading={cancelLoading}
                 loadingText="Cancelando..."
-                onClick={handleDeleteService}
+                onClick={handleCancelAppointment}
                 color="white"
                 backgroundColor="red.400"
               >
@@ -269,7 +299,7 @@ export const AppointmentsList = () => {
                   </Text>
                 </Box>
                 <Text
-                  maxWidth="130px"
+                  maxWidth="94%"
                   as="h2"
                   my="8px"
                   fontWeight={barberTheme.fontWeights.bold}
@@ -348,7 +378,7 @@ export const AppointmentsList = () => {
         </Text>
       </Box>
       <Box
-         minHeight={`${
+        minHeight={`${
           inactiveAppointments.length < 1
             ? '50px'
             : inactiveAppointments.length === 1
@@ -379,14 +409,18 @@ export const AppointmentsList = () => {
               >
                 <Box display="flex" justifyContent="space-between">
                   <Text
-                    color={barberTheme.colors.primary.orange}
+                    color={
+                      appointment.cancelado
+                        ? 'red.400'
+                        : barberTheme.colors.primary.orange
+                    }
                     fontWeight={barberTheme.fontWeights.bold}
                   >
-                    Confirmado
+                    {appointment.cancelado ? 'Cancelado' : 'Finalizado'}
                   </Text>
                 </Box>
                 <Text
-                  maxWidth="130px"
+                  maxWidth="94%"
                   as="h2"
                   my="8px"
                   fontWeight={barberTheme.fontWeights.bold}

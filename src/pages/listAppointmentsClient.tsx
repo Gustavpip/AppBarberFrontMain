@@ -28,6 +28,7 @@ type Appointment = {
   data: string;
   hora: string;
   status: boolean;
+  cancelado: boolean;
   barbearia: {
     id: number;
     email: string;
@@ -113,13 +114,16 @@ export const AppointmentsListClient = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       const data = await getAppointments(token, hashIdClient);
+      console.log(data.data.data);
       if (data.success) {
         const appointmentsActive = data.data.data.filter(
-          (appointment: Appointment) => appointment.status !== true
+          (appointment: Appointment) =>
+            appointment.status !== true && appointment.cancelado !== true
         );
 
         const appointmenetsInactive = data.data.data.filter(
-          (appointment: Appointment) => appointment.status !== false
+          (appointment: Appointment) =>
+            appointment.status !== false || appointment.cancelado
         );
 
         setInactiveAppointments(appointmenetsInactive);
@@ -301,7 +305,7 @@ export const AppointmentsListClient = () => {
                   </Text>
                 </Box>
                 <Text
-                  maxWidth="130px"
+                  maxWidth="94%"
                   as="h2"
                   my="8px"
                   fontWeight={barberTheme.fontWeights.bold}
@@ -411,14 +415,18 @@ export const AppointmentsListClient = () => {
               >
                 <Box display="flex" justifyContent="space-between">
                   <Text
-                    color={barberTheme.colors.primary.orange}
+                    color={
+                      appointment.cancelado
+                        ? 'red.400'
+                        : barberTheme.colors.primary.orange
+                    }
                     fontWeight={barberTheme.fontWeights.bold}
                   >
-                    Confirmado
+                    {appointment.cancelado ? 'Cancelado' : 'Finalizado'}
                   </Text>
                 </Box>
                 <Text
-                  maxWidth="130px"
+                  maxWidth="94%"
                   as="h2"
                   my="8px"
                   fontWeight={barberTheme.fontWeights.bold}
