@@ -42,7 +42,7 @@ export const ScheduleClient = () => {
     >
   >();
 
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(4);
   const [hourSchedule, sethourSchedule] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<string[]>([]);
@@ -492,7 +492,7 @@ export const ScheduleClient = () => {
           {currentStep === 4 && (
             <InputGroup marginTop="-8px" display="flex" flexDirection="column">
               <Text mb="16px" maxWidth="312px" color="orange.500">
-                Selecione a data e o horário desejados para o agendamento.
+                Selecione a data e o horário.
               </Text>
               <Box display="flex" flexDirection="column" alignItems="center">
                 <Box
