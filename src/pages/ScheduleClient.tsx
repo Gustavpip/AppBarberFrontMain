@@ -290,7 +290,7 @@ export const ScheduleClient = () => {
 
   return (
     <Box
-      padding="0px 16px 16px 16px"
+      padding="-32px 16px 16px 16px"
       backgroundColor={barberTheme.colors.primary.black}
       display="flex"
       justifyContent="center"
