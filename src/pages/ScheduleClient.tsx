@@ -295,7 +295,7 @@ export const ScheduleClient = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight="86vh"
+      minHeight="80vh"
     >
       <Box>
         <Text color={barberTheme.colors.primary.orange}>
