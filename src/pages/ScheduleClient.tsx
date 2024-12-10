@@ -536,7 +536,7 @@ export const ScheduleClient = () => {
                         cursor="pointer"
                         p="8px"
                         width="54px"
-                        height="44px"
+                        height="34px"
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
