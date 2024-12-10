@@ -263,6 +263,7 @@ export const ClientServiceList = () => {
                 _loading={{
                   opacity: 0.4,
                   color: 'white',
+                  backgroundColor: 'red.400',
                 }}
               >
                 Excluir

@@ -349,6 +349,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
           _loading={{
             opacity: 0.4,
             color: 'white',
+            backgroundColor: barberTheme.colors.primary.black,
           }}
           borderRadius="md"
         >

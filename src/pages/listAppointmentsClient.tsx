@@ -232,6 +232,7 @@ export const AppointmentsListClient = () => {
                 _loading={{
                   opacity: 0.4,
                   color: 'white',
+                  backgroundColor: 'red.400',
                 }}
                 _active={{ opacity: 0.4 }}
                 backgroundColor="red.400"

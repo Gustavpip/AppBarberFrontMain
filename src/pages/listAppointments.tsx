@@ -224,6 +224,7 @@ export const AppointmentsList = () => {
               _loading={{
                 opacity: 0.4,
                 color: 'white',
+                backgroundColor: barberTheme.colors.primary.gray,
               }}
                _active={{ opacity: 0.4 }}
                 isLoading={cancelLoading}
