@@ -186,7 +186,7 @@ export const ScheduleClient = () => {
       } else if (result.success) {
         toast({
           title: 'Sucesso',
-          description: 'Barbeiro cadastrado com sucesso.',
+          description: 'Agendamento realizado com sucesso.',
           status: 'success',
           duration: 5000,
           isClosable: true,
