@@ -76,7 +76,7 @@ export const AppointmentsListClient = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [appointmentId, setAppointmentId] = useState<string>();
-  const { token, hashIdClient } = useParams();
+  const { token } = useParams();
 
   const toast = useToast();
 
