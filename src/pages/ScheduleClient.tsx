@@ -311,7 +311,7 @@ export const ScheduleClient = () => {
         <Stack spacing={4} as="form" onSubmit={handleSubmit(onSubmit)}>
           {currentStep === 1 && (
             <>
-              <Box marginTop="32px">
+              <Box marginTop="64px">
                 <>
                   <Box margin="16px 0">
                     <CustomInput
