@@ -489,7 +489,7 @@ export const ScheduleClient = () => {
           )}
 
           {currentStep === 4 && (
-            <InputGroup marginTop="-16px" display="flex" flexDirection="column">
+            <InputGroup marginTop="-8px" display="flex" flexDirection="column">
               <Text mb="16px" maxWidth="312px" color="orange.500">
                 Selecione a data e o horário desejados para o agendamento.
               </Text>
