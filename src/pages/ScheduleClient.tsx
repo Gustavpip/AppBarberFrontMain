@@ -42,7 +42,7 @@ export const ScheduleClient = () => {
     >
   >();
 
-  const [currentStep, setCurrentStep] = useState(4);
+  const [currentStep, setCurrentStep] = useState(1);
   const [hourSchedule, sethourSchedule] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<string[]>([]);
@@ -302,7 +302,7 @@ export const ScheduleClient = () => {
             ? '70vh'
             : currentStep === 3
               ? '70vh'
-              : '91.2vh'
+              : '80vh'
       }
     >
       <Box>
