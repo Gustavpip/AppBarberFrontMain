@@ -295,7 +295,15 @@ export const ScheduleClient = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
-      minHeight="80vh"
+      minHeight={
+        currentStep === 1
+          ? '70vh'
+          : currentStep === 2
+            ? '70vh'
+            : currentStep === 3
+              ? '70vh'
+              : '91.2vh'
+      }
     >
       <Box>
         <Text color={barberTheme.colors.primary.orange}>
