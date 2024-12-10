@@ -561,7 +561,7 @@ export const ScheduleClient = () => {
             </InputGroup>
           )}
 
-          <Stack direction="row" left="16px" spacing={4} mt={4}>
+          <Stack direction="row" left="16px" spacing={4} mt="12px">
             {(currentStep === 2 || currentStep === 3 || currentStep === 4) && (
               <Button
                 onClick={handlePreviousStep}
