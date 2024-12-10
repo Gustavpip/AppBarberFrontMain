@@ -259,6 +259,7 @@ export const BarberRegister = () => {
   return (
     <Box
       padding="16px"
+      paddingTop="74px"
       backgroundColor={barberTheme.colors.primary.black}
       display="flex"
       height="70vh"

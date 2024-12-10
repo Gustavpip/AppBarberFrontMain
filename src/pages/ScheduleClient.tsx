@@ -295,6 +295,7 @@ export const ScheduleClient = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
+      paddingTop="74px"
     >
       <Box>
         <Text color={barberTheme.colors.primary.orange}>

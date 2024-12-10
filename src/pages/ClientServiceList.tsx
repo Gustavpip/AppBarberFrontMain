@@ -101,6 +101,7 @@ export const ClientServiceList = () => {
       display="flex"
       flexDirection="column"
       margin="0 auto"
+      paddingTop="74px"
     >
       <Box
         width="100%"

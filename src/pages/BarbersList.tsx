@@ -88,6 +88,7 @@ export const BarbersList = () => {
   return (
     <Box
       p="16px"
+      paddingTop="74px"
       as="section"
       maxWidth="402px"
       display="flex"

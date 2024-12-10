@@ -190,6 +190,7 @@ export const AppointmentsList = () => {
       display="flex"
       flexDirection="column"
       margin="0 auto"
+      paddingTop="74px"
       height="calc(92vh - 73px)"
     >
       <Box alignItems="center">
