@@ -71,7 +71,7 @@ export const AppointmentsList = () => {
   const [inactiveAppointments, setInactiveAppointments] = useState<
     Appointment[]
   >([]);
-
+  const [reload, setReload] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [appointmentId, setAppointmentId] = useState<string>();
   const { cancelAppointment, loading: cancelLoading } = useCancelAppointment();
@@ -96,11 +96,11 @@ export const AppointmentsList = () => {
           return;
         }
 
-        setAppointments((prevServices) => {
-          const updatedServices = prevServices.filter(
+        setAppointments((prevAppointments) => {
+          const updatedAppointments = prevAppointments.filter(
             (s) => String(s.id) !== appointmentId
           );
-          const canceledAppointment = prevServices.find(
+          const canceledAppointment = prevAppointments.find(
             (s) => String(s.id) === appointmentId
           );
 
@@ -111,20 +111,34 @@ export const AppointmentsList = () => {
             ]);
           }
 
-          return updatedServices;
+          return updatedAppointments;
         });
 
         onClose();
-
-        toast({
-          title: 'Sucesso',
-          description:
-            result?.data?.data?.message || 'Agendamento cancelado com sucesso.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
+        if (result.success) {
+          toast({
+            title: 'Sucesso',
+            description:
+              result?.data?.data?.message ||
+              'Agendamento cancelado com sucesso.',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+          setReload((prev) => !prev);
+        } else {
+          toast({
+            title: 'Erro',
+            description:
+              result?.data?.data?.message ||
+              'Erro interno. Tente novamente mais tarde.',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+        }
       } catch (error) {
         toast({
           title: 'Erro ao cancelar',
@@ -143,19 +157,21 @@ export const AppointmentsList = () => {
     const fetchAppointments = async () => {
       const data = await getAppointments();
       const appointmentsActive = data.data.data.filter(
-        (appointment: Appointment) => appointment.status !== true
+        (appointment: Appointment) =>
+          appointment.status !== true && appointment.cancelado !== true
       );
 
       const appointmenetsInactive = data.data.data.filter(
-        (appointment: Appointment) => appointment.status !== false
+        (appointment: Appointment) =>
+          appointment.status === true || appointment.cancelado === true
       );
 
       setInactiveAppointments(appointmenetsInactive);
-
-      setAppointments(appointmentsActive || []);
+      setAppointments(appointmentsActive);
     };
+
     fetchAppointments();
-  }, []);
+  }, [reload]); // Reexecuta o fetch apenas quando `reload` mudar
 
   if (loading) {
     return (

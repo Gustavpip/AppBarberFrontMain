@@ -22,6 +22,7 @@ import useAppointmentsList from '../hooks/useListAppointments';
 import useDeleteAppointment from '../hooks/useDeleteAppointment';
 import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
 import { Link, useParams } from 'react-router-dom';
+import useCancelAppointment from '../hooks/useCancelAppointment';
 
 type Appointment = {
   id: string;
@@ -71,79 +72,110 @@ export const AppointmentsListClient = () => {
   const [inactiveAppointments, setInactiveAppointments] = useState<
     Appointment[]
   >([]);
-  const { deleteAppointment, loading: loadingDeleteAppointment } =
-    useDeleteAppointment();
+  const [reload, setReload] = useState(false);
+  const { cancelAppointment, loading: cancelLoading } = useCancelAppointment();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [appointmentId, setAppointmentId] = useState<string>();
   const { token, hashIdClient } = useParams();
 
   const toast = useToast();
 
-  const handleDeleteService = async () => {
+  const handleCancelAppointment = async () => {
     if (appointmentId) {
-      const result = await deleteAppointment({ id: appointmentId });
+      try {
+        const result = await cancelAppointment({ appointmentId });
 
-      if (!result.success) {
+        if (!result.success) {
+          toast({
+            title: 'Erro ao cancelar',
+            description:
+              result?.data?.response?.data?.message ||
+              'Ocorreu um erro ao tentar cancelar o agendamento.',
+            status: 'error',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+          return;
+        }
+
+        setAppointments((prevAppointments) => {
+          const updatedAppointments = prevAppointments.filter(
+            (s) => String(s.id) !== appointmentId
+          );
+          const canceledAppointment = prevAppointments.find(
+            (s) => String(s.id) === appointmentId
+          );
+
+          if (canceledAppointment) {
+            setInactiveAppointments((prevInactive) => [
+              ...prevInactive,
+              canceledAppointment,
+            ]);
+          }
+
+          return updatedAppointments;
+        });
+
+        onClose();
+        if (result.success) {
+          toast({
+            title: 'Sucesso',
+            description:
+              result?.data?.data?.message ||
+              'Agendamento cancelado com sucesso.',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+          setReload((prev) => !prev);
+        } else {
+          toast({
+            title: 'Erro',
+            description:
+              result?.data?.data?.message ||
+              'Erro interno. Tente novamente mais tarde.',
+            status: 'success',
+            duration: 5000,
+            isClosable: true,
+            position: 'top-right',
+          });
+        }
+      } catch (error) {
         toast({
-          title: 'Erro ao excluir',
-          description: result?.data.response.data.message,
+          title: 'Erro ao cancelar',
+          description:
+            'Ocorreu um erro inesperado. Tente novamente mais tarde.',
           status: 'error',
           duration: 5000,
           isClosable: true,
           position: 'top-right',
         });
-        return;
       }
-
-      setAppointments((prevServices) =>
-        prevServices.filter((s) => String(s.id) !== appointmentId)
-      );
-      onClose();
-
-      toast({
-        title: 'Sucesso',
-        description: result?.data.data.message,
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-        position: 'top-right',
-      });
     }
   };
 
   useEffect(() => {
     const fetchAppointments = async () => {
-      const data = await getAppointments(token, hashIdClient);
-      console.log(data.data.data);
-      if (data.success) {
-        const appointmentsActive = data.data.data.filter(
-          (appointment: Appointment) =>
-            appointment.status !== true && appointment.cancelado !== true
-        );
+      const data = await getAppointments();
+      const appointmentsActive = data.data.data.filter(
+        (appointment: Appointment) =>
+          appointment.status !== true && appointment.cancelado !== true
+      );
 
-        const appointmenetsInactive = data.data.data.filter(
-          (appointment: Appointment) =>
-            appointment.status !== false || appointment.cancelado
-        );
+      const appointmenetsInactive = data.data.data.filter(
+        (appointment: Appointment) =>
+          appointment.status === true || appointment.cancelado === true
+      );
 
-        setInactiveAppointments(appointmenetsInactive);
-
-        setAppointments(appointmentsActive || []);
-      } else {
-        toast({
-          title: 'Erro ao exibir',
-          description: data.data.response.data.message,
-          status: 'error',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
-        return;
-      }
+      setInactiveAppointments(appointmenetsInactive);
+      setAppointments(appointmentsActive);
     };
 
     fetchAppointments();
-  }, []);
+  }, [reload]); // Reexecuta o fetch apenas quando `reload` mudar
 
   if (loading) {
     return (
@@ -192,9 +224,9 @@ export const AppointmentsListClient = () => {
                 Fechar
               </Button>
               <Button
-                isLoading={loadingDeleteAppointment}
+                isLoading={cancelLoading}
                 loadingText="Cancelando..."
-                onClick={handleDeleteService}
+                onClick={handleCancelAppointment}
                 color="white"
                 backgroundColor="red.400"
               >
