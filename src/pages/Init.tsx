@@ -27,7 +27,6 @@ export const Init = () => {
   return (
     <Box
       p="16px"
-      paddingTop="74px"
       position="absolute"
       width="100%"
       height="70vh"

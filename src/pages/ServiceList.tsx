@@ -96,7 +96,6 @@ export const ServiceList = () => {
       maxWidth="402px"
       width="100%"
       display="flex"
-       paddingTop="74px"
       flexDirection="column"
       margin="0 auto"
     >

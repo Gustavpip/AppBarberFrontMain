@@ -28,7 +28,7 @@ export const ServiceRegister = () => {
   } = useForm<Pick<ServiceDTO, 'nome' | 'descricao' | 'preco' | 'tempo'>>();
 
   const [formattedValue, setFormattedValue] = useState('');
- 
+
   const { createService, loading } = useServiceRegister();
   const navigate = useNavigate();
 
@@ -80,7 +80,6 @@ export const ServiceRegister = () => {
   return (
     <Box
       padding="16px"
-       paddingTop="74px"
       backgroundColor={barberTheme.colors.primary.black}
       display="flex"
       height="70vh"
@@ -172,7 +171,11 @@ export const ServiceRegister = () => {
                 color={barberTheme.colors.primary.gray03}
                 height="44px"
                 pl="32px" // Adiciona o padding à esquerda de 32px para afastar o valor
-              > <option value="" defaultChecked>Tempo</option>
+              >
+                {' '}
+                <option value="" defaultChecked>
+                  Tempo
+                </option>
                 <option value="02:00:00">02:00:00</option>
                 <option value="01:00:00">01:00:00</option>
                 <option value="00:30:00">00:30:00</option>
