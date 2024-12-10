@@ -128,8 +128,8 @@ export const BarbersList = () => {
                 color="white"
                 _loading={{
                   opacity: 0.4,
-                  color: 'white',
-                  backgroundColor: 'red.400',
+                  color: 'white !important',
+                  backgroundColor: 'red.400 !important',
                 }}
                 backgroundColor="red.400"
                 _active={{ opacity: 0.4 }}

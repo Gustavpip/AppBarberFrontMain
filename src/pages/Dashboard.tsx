@@ -348,8 +348,8 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
           marginX="16px"
           _loading={{
             opacity: 0.4,
-            color: 'white',
-            backgroundColor: barberTheme.colors.primary.black,
+            color: 'white !important',
+            backgroundColor: barberTheme.colors.primary.black + ' !important',
           }}
           borderRadius="md"
         >
