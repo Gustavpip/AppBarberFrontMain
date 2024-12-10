@@ -28,7 +28,7 @@ export const ServiceRegister = () => {
   } = useForm<Pick<ServiceDTO, 'nome' | 'descricao' | 'preco' | 'tempo'>>();
 
   const [formattedValue, setFormattedValue] = useState('');
-  const [selectedTime, setSelectedTime] = useState(null);
+ 
   const { createService, loading } = useServiceRegister();
   const navigate = useNavigate();
 

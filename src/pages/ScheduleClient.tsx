@@ -26,7 +26,6 @@ import Calendar from 'react-calendar';
 import { useState } from 'react';
 import useBarberList from '../hooks/useBarberList';
 import useHoursList from '../hooks/useHoursList';
-import useGetClientHashId from '../hooks/useGetClientHashId';
 
 export const ScheduleClient = () => {
   const {

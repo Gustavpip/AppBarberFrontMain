@@ -19,7 +19,6 @@ import barberTheme from '../theme';
 import { useEffect, useState } from 'react';
 
 import useAppointmentsList from '../hooks/useListAppointments';
-import useDeleteAppointment from '../hooks/useDeleteAppointment';
 import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
 import useCancelAppointment from '../hooks/useCancelAppointment';
 

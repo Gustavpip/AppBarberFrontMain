@@ -24,7 +24,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
   const [selectedItem, setSelectedItem] = useState<string>('');
   const { isOpen: isOpenModal, onClose } = useDisclosure();
 
-  const { token, hashIdClient } = useParams();
+  const { token } = useParams();
 
   const navigate = useNavigate();
 
