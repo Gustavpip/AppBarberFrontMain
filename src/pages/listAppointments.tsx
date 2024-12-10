@@ -221,6 +221,10 @@ export const AppointmentsList = () => {
                 Fechar
               </Button>
               <Button
+              _loading={{
+                opacity: 0.4,
+                color: 'white',
+              }}
                _active={{ opacity: 0.4 }}
                 isLoading={cancelLoading}
                 loadingText="Cancelando..."

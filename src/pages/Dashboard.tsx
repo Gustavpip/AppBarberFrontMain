@@ -346,6 +346,10 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
           mx="auto"
           marginY="200px"
           marginX="16px"
+          _loading={{
+            opacity: 0.4,
+            color: 'white',
+          }}
           borderRadius="md"
         >
           <ModalHeader>Você tem certeza?</ModalHeader>
@@ -363,7 +367,12 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
             >
               Fechar
             </Button>
-            <Button onClick={logout} color="white" backgroundColor="red.400"  _active={{ opacity: 0.4 }}>
+            <Button
+              onClick={logout}
+              color="white"
+              backgroundColor="red.400"
+              _active={{ opacity: 0.4 }}
+            >
               Sair
             </Button>
           </ModalFooter>

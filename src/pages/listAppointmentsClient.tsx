@@ -229,6 +229,10 @@ export const AppointmentsListClient = () => {
                 loadingText="Cancelando..."
                 onClick={handleCancelAppointment}
                 color="white"
+                _loading={{
+                  opacity: 0.4,
+                  color: 'white',
+                }}
                 _active={{ opacity: 0.4 }}
                 backgroundColor="red.400"
               >

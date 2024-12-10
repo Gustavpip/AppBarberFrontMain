@@ -133,6 +133,10 @@ export const ServiceList = () => {
                 color="white"
                 _active={{ opacity: 0.4 }}
                 backgroundColor="red.400"
+                _loading={{
+                  opacity: 0.4,
+                  color: 'white',
+                }}
               >
                 Excluir
               </Button>
