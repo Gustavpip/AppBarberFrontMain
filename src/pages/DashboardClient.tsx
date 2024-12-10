@@ -45,9 +45,17 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
     <>
       <Box width="100%" minHeight="100vh" display="flex" flexDirection="column">
         <Box
+          width="100%"
           as="header"
           padding="16px"
-          borderBottom={`1px solid ${barberTheme.colors.primary.gray}`}
+          borderBottom={`${isOpen ? '' : '1px solid ' + barberTheme.colors.primary.gray}`}
+          position="fixed"
+          top="0"
+          left="0"
+          right="0"
+          zIndex={999} // Certifique-se de que o header tem um zIndex alto
+          backdropFilter={isOpen ? '' : 'blur(10px)'} // Aplica o desfoque
+          background={isOpen ? 'transparent' : 'rgba(255, 255, 255, 0.1)'} // Fundo semi-transparente
         >
           <Box
             as="nav"
@@ -175,7 +183,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
               </ModalBody>
               <ModalFooter>
                 <Button
-                 _active={{ opacity: 0.4 }}
+                  _active={{ opacity: 0.4 }}
                   backgroundColor={barberTheme.colors.primary.gray}
                   color="white"
                   mr={3}
@@ -184,13 +192,12 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
                   Fechar
                 </Button>
                 <Button
-                 _active={{ opacity: 0.4 }}
+                  _active={{ opacity: 0.4 }}
                   onClick={logout}
                   color="white"
                   backgroundColor="red.400"
                 >
                   Sair
-
                 </Button>
               </ModalFooter>
             </ModalContent>
