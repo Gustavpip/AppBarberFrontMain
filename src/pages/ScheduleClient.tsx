@@ -290,11 +290,13 @@ export const ScheduleClient = () => {
 
   return (
     <Box
-      padding="32px 16px 16px 16px"
+      padding="0px 16px 16px 16px"
       backgroundColor={barberTheme.colors.primary.black}
       display="flex"
       justifyContent="center"
       alignItems="center"
+      minHeight="86vh"
+  
     >
       <Box>
         <Text color={barberTheme.colors.primary.orange}>
@@ -311,7 +313,7 @@ export const ScheduleClient = () => {
         <Stack spacing={4} as="form" onSubmit={handleSubmit(onSubmit)}>
           {currentStep === 1 && (
             <>
-              <Box marginTop="64px">
+              <Box>
                 <>
                   <Box margin="16px 0">
                     <CustomInput
