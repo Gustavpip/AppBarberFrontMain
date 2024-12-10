@@ -51,7 +51,12 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
         width="100%"
         as="header"
         padding="16px"
-        borderBottom={`1px solid ${barberTheme.colors.primary.gray}`}
+        borderBottom={`${isOpen ? 'transparente' : '1px solid ' + barberTheme.colors.primary.gray}`}
+        position="fixed"
+        top="0"
+        left="0"
+        right="0"
+        zIndex={101}
       >
         <Box
           as="nav"
@@ -60,7 +65,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
           alignItems="center"
           justifyContent="space-between"
         >
-          <Box className="logo">
+          <Box>
             <Link to="/">
               {' '}
               <Image
@@ -76,7 +81,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
               />
             </Link>
           </Box>
-          <Box zIndex={101} >
+          <Box zIndex={101}>
             <IconButton
               icon={
                 isOpen ? (
@@ -361,7 +366,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Box as="main" padding="8px 0">
+      <Box as="main" paddingTop="74px">
         {children}
       </Box>
     </Box>

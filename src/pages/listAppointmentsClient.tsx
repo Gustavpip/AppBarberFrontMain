@@ -159,6 +159,7 @@ export const AppointmentsListClient = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       const data = await getAppointments();
+      console.log(data);
       const appointmentsActive = data.data.data.filter(
         (appointment: Appointment) =>
           appointment.status !== true && appointment.cancelado !== true
@@ -354,7 +355,7 @@ export const AppointmentsListClient = () => {
                     src="https://img.freepik.com/vetores-premium/logotipo-do-emblema-do-cracha-da-barbearia-com-icone-de-bigode-barba-logotipo-do-emblema-vintage-simples-hexagono-classico_645012-28.jpg?semt=ais_hybrid"
                   />
                   <Text color="white" mx="8px">
-                    {appointment.cliente.nome}
+                    {appointment?.cliente.nome}
                   </Text>
                 </Box>
               </Box>
@@ -475,7 +476,7 @@ export const AppointmentsListClient = () => {
                     src="https://img.freepik.com/vetores-premium/logotipo-do-emblema-do-cracha-da-barbearia-com-icone-de-bigode-barba-logotipo-do-emblema-vintage-simples-hexagono-classico_645012-28.jpg?semt=ais_hybrid"
                   />
                   <Text color="white" mx="8px">
-                    {appointment.cliente.nome}
+                    {appointment?.cliente.nome}
                   </Text>
                 </Box>
               </Box>

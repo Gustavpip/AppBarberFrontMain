@@ -192,7 +192,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
               </ModalFooter>
             </ModalContent>
           </Modal>
-          <Box as="main">{children}</Box>
+          <Box as="main" paddingTop="74px">{children}</Box>
         </Box>
       </Box>
     </>
