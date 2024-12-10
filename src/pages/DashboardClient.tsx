@@ -188,11 +188,14 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
                   backgroundColor="red.400"
                 >
                   Sair
+                  
                 </Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
-          <Box as="main" paddingTop="74px">{children}</Box>
+          <Box as="main" paddingTop="74px">
+            {children}
+          </Box>
         </Box>
       </Box>
     </>
