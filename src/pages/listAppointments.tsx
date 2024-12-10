@@ -215,11 +215,13 @@ export const AppointmentsList = () => {
                 backgroundColor={barberTheme.colors.primary.gray}
                 color="white"
                 mr={3}
+                _active={{ opacity: 0.4 }}
                 onClick={onClose}
               >
                 Fechar
               </Button>
               <Button
+               _active={{ opacity: 0.4 }}
                 isLoading={cancelLoading}
                 loadingText="Cancelando..."
                 onClick={handleCancelAppointment}

@@ -568,6 +568,7 @@ export const ScheduleClient = () => {
                 color="white"
                 _hover={{ opacity: 0.8 }}
                 type="button"
+                _active={{ opacity: 0.4 }}
               >
                 Voltar
               </Button>
@@ -579,6 +580,7 @@ export const ScheduleClient = () => {
                 backgroundColor={barberTheme.colors.primary.orange}
                 color="white"
                 _hover={{ opacity: 0.8 }}
+                _active={{ opacity: 0.4 }}
               >
                 Próximo
               </Button>
@@ -593,6 +595,7 @@ export const ScheduleClient = () => {
                 type="submit"
                 loadingText="Finalizando..."
                 isLoading={loading}
+                _active={{ opacity: 0.4 }}
               >
                 Finalizar
               </Button>

@@ -259,7 +259,6 @@ export const BarberRegister = () => {
   return (
     <Box
       padding="16px"
-   
       backgroundColor={barberTheme.colors.primary.black}
       display="flex"
       height="70vh"
@@ -457,6 +456,7 @@ export const BarberRegister = () => {
                 color="white"
                 _hover={{ opacity: 0.8 }}
                 type="button"
+                _active={{ opacity: 0.4 }}
               >
                 Voltar
               </Button>
@@ -467,8 +467,9 @@ export const BarberRegister = () => {
                 onClick={handleNextStep}
                 backgroundColor={barberTheme.colors.primary.orange}
                 color="white"
-                _hover={{ opacity: 0.8 }}
+                _hover={{ opacity: 0.7 }}
                 type="button"
+                _active={{ opacity: 0.4 }}
               >
                 Próximo
               </Button>
@@ -483,6 +484,7 @@ export const BarberRegister = () => {
                 type="submit"
                 loadingText="Finalizando..."
                 isLoading={loading}
+                _active={{ opacity: 0.4 }}
               >
                 Finalizar
               </Button>

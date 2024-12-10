@@ -121,6 +121,7 @@ export const ServiceList = () => {
                 backgroundColor={barberTheme.colors.primary.gray}
                 color="white"
                 mr={3}
+                _active={{ opacity: 0.4 }}
                 onClick={onClose}
               >
                 Fechar
@@ -130,6 +131,7 @@ export const ServiceList = () => {
                 loadingText="Excluindo..."
                 onClick={handleDeleteService}
                 color="white"
+                _active={{ opacity: 0.4 }}
                 backgroundColor="red.400"
               >
                 Excluir
@@ -148,7 +150,7 @@ export const ServiceList = () => {
         </Text>
         <Link to="/servicos/cadastro">
           <Button
-            _active={{}}
+            _active={{ opacity: 0.4 }}
             _hover={{}}
             height="30px"
             color={barberTheme.colors.neutral.white}
@@ -218,6 +220,7 @@ export const ServiceList = () => {
                     height="30px"
                     backgroundColor={barberTheme.colors.primary.gray}
                     color="white"
+                    _active={{ opacity: 0.4 }}
                   >
                     Editar
                   </Button>
@@ -229,6 +232,7 @@ export const ServiceList = () => {
                     height="30px"
                     backgroundColor="red.400"
                     color="white"
+                    _active={{ opacity: 0.4 }}
                   >
                     Excluir
                   </Button>

@@ -245,6 +245,7 @@ export const ServiceRegister = () => {
             type="submit"
             loadingText="Cadastrando..."
             isLoading={loading}
+            _active={{ opacity: 0.4 }}
             my="16px"
           >
             Cadastrar

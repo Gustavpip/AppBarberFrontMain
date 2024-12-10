@@ -248,11 +248,13 @@ export const ClientServiceList = () => {
                 backgroundColor={barberTheme.colors.primary.gray}
                 color="white"
                 mr={3}
+                _active={{ opacity: 0.4 }}
                 onClick={onClose}
               >
                 Fechar
               </Button>
               <Button
+                _active={{ opacity: 0.4 }}
                 isLoading={loadingDelete}
                 loadingText="Excluindo..."
                 onClick={handleDeleteService}
@@ -335,6 +337,7 @@ export const ClientServiceList = () => {
                       setServiceId(String(service.id));
                     }}
                     float="right"
+                    _active={{ opacity: 0.4 }}
                     height="30px"
                     backgroundColor={barberTheme.colors.primary.gray}
                     color="white"

@@ -141,6 +141,7 @@ export const Signin = () => {
 
           <Button
             _hover={{ opacity: 0.8 }}
+            _active={{ opacity: 0.4 }}
             backgroundColor={barberTheme.colors.primary.orange}
             color={barberTheme.colors.neutral.white}
             type="submit"

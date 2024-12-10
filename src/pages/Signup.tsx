@@ -208,6 +208,7 @@ export const Signup = () => {
             </CustomParagraph>
           </Link>
           <Button
+            _active={{ opacity: 0.4 }}
             _hover={{ opacity: 0.8 }}
             backgroundColor={barberTheme.colors.primary.orange}
             color={barberTheme.colors.neutral.white}

@@ -218,6 +218,7 @@ export const AppointmentsListClient = () => {
               <Button
                 backgroundColor={barberTheme.colors.primary.gray}
                 color="white"
+                _active={{ opacity: 0.4 }}
                 mr={3}
                 onClick={onClose}
               >
@@ -228,6 +229,7 @@ export const AppointmentsListClient = () => {
                 loadingText="Cancelando..."
                 onClick={handleCancelAppointment}
                 color="white"
+                _active={{ opacity: 0.4 }}
                 backgroundColor="red.400"
               >
                 Sim
@@ -273,7 +275,7 @@ export const AppointmentsListClient = () => {
 
             <Link to={`/agendar/${token}`}>
               <Button
-                _active={{}}
+                _active={{ opacity: 0.4 }}
                 _hover={{}}
                 height="30px"
                 color={barberTheme.colors.neutral.white}

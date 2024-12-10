@@ -51,12 +51,14 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
         width="100%"
         as="header"
         padding="16px"
-        borderBottom={`${isOpen ? 'transparente' : '1px solid ' + barberTheme.colors.primary.gray}`}
+        borderBottom={`${isOpen ? '' : '1px solid ' + barberTheme.colors.primary.gray}`}
         position="fixed"
         top="0"
         left="0"
         right="0"
-        zIndex={101}
+        zIndex={999} // Certifique-se de que o header tem um zIndex alto
+        backdropFilter={isOpen ? '' : 'blur(10px)'} // Aplica o desfoque
+        background={isOpen ? 'transparent' : 'rgba(255, 255, 255, 0.1)'} // Fundo semi-transparente
       >
         <Box
           as="nav"
@@ -357,16 +359,17 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
               color="white"
               mr={3}
               onClick={onClose}
+              _active={{ opacity: 0.4 }}
             >
               Fechar
             </Button>
-            <Button onClick={logout} color="white" backgroundColor="red.400">
+            <Button onClick={logout} color="white" backgroundColor="red.400"  _active={{ opacity: 0.4 }}>
               Sair
             </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Box as="main" paddingTop="74px">
+      <Box as="main" paddingTop="74px" overflow="hidden">
         {children}
       </Box>
     </Box>

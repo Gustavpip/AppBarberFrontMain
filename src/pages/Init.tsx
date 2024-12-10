@@ -60,6 +60,7 @@ export const Init = () => {
           backgroundColor={barberTheme.colors.primary.orange}
           color="white"
           onClick={handleCopy}
+          _active={{ opacity: 0.4 }}
         >
           Copiar
         </Button>

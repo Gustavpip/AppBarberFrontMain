@@ -117,6 +117,7 @@ export const BarbersList = () => {
                 color="white"
                 mr={3}
                 onClick={onClose}
+                _active={{ opacity: 0.4 }}
               >
                 Fechar
               </Button>
@@ -126,6 +127,7 @@ export const BarbersList = () => {
                 onClick={handleDeleteBarber}
                 color="white"
                 backgroundColor="red.400"
+                _active={{ opacity: 0.4 }}
               >
                 Excluir
               </Button>
@@ -143,7 +145,7 @@ export const BarbersList = () => {
         </Text>
         <Link to="/barbeiros/cadastro">
           <Button
-            _active={{}}
+            _active={{ opacity: 0.4 }}
             _hover={{}}
             height="30px"
             color={barberTheme.colors.neutral.white}
@@ -189,6 +191,7 @@ export const BarbersList = () => {
                 </Text>
                 <Box display="flex" alignItems="end" justifyContent="end">
                   <Button
+                    _active={{ opacity: 0.4 }}
                     mx="4px"
                     mt="30px"
                     height="30px"
@@ -206,6 +209,7 @@ export const BarbersList = () => {
                     height="30px"
                     backgroundColor="red.400"
                     color="white"
+                    _active={{ opacity: 0.4 }}
                   >
                     Excluir
                   </Button>

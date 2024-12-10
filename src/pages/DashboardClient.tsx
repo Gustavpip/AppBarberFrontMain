@@ -175,6 +175,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
               </ModalBody>
               <ModalFooter>
                 <Button
+                 _active={{ opacity: 0.4 }}
                   backgroundColor={barberTheme.colors.primary.gray}
                   color="white"
                   mr={3}
@@ -183,17 +184,18 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
                   Fechar
                 </Button>
                 <Button
+                 _active={{ opacity: 0.4 }}
                   onClick={logout}
                   color="white"
                   backgroundColor="red.400"
                 >
                   Sair
-                  
+
                 </Button>
               </ModalFooter>
             </ModalContent>
           </Modal>
-          <Box as="main" paddingTop="74px">
+          <Box as="main" paddingTop="74px" overflow="hidden">
             {children}
           </Box>
         </Box>
