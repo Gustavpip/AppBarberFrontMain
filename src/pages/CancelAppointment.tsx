@@ -22,6 +22,7 @@ import useAppointmentsList from '../hooks/useListAppointments';
 import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
 import { Link, useParams } from 'react-router-dom';
 import useCancelAppointment from '../hooks/useCancelAppointment';
+import useGetAppointment from '../hooks/useGetAppointment';
 
 type Appointment = {
   id: string;
@@ -65,8 +66,8 @@ type Appointment = {
   };
 };
 
-export const AppointmentsListClient = () => {
-  const { getAppointments, loading } = useAppointmentsList();
+export const CancelAppointment = () => {
+  const { getAppointment, loading } = useGetAppointment();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [inactiveAppointments, setInactiveAppointments] = useState<
     Appointment[]
@@ -76,7 +77,7 @@ export const AppointmentsListClient = () => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [appointmentId, setAppointmentId] = useState<string>();
-  const { token, hashIdClient } = useParams();
+  const { token, appointmentHashId } = useParams();
 
   const toast = useToast();
 
@@ -96,6 +97,7 @@ export const AppointmentsListClient = () => {
             isClosable: true,
             position: 'top-right',
           });
+          onClose();
           return;
         }
 
@@ -157,37 +159,45 @@ export const AppointmentsListClient = () => {
   };
 
   useEffect(() => {
+    setAppointmentId(appointmentHashId);
+
+    onOpen();
+  }, []);
+
+  useEffect(() => {
     const fetchAppointments = async () => {
-      const data = await getAppointments(token, hashIdClient);
+      const data = await getAppointment(appointmentHashId);
       if (!data.success) {
         toast({
-          title: 'Erro ao consultar',
+          title: 'Status',
           description:
             data?.data?.response?.data?.message ||
             'Ocorreu um erro ao tentar cancelar o agendamento.',
-          status: 'error',
+          status: 'warning',
           duration: 5000,
           isClosable: true,
           position: 'top-right',
         });
+        onClose();
         return;
       }
-      const appointmentsActive = data.data.data.filter(
+      const dataArray = [];
+      dataArray.push(data.data.data);
+      const appointmentsActive = dataArray.filter(
         (appointment: Appointment) =>
           appointment.status !== true && appointment.cancelado !== true
       );
 
-      const appointmenetsInactive = data.data.data.filter(
+      const appointmenetsInactive = dataArray.filter(
         (appointment: Appointment) =>
           appointment.status === true || appointment.cancelado === true
       );
-
       setInactiveAppointments(appointmenetsInactive);
       setAppointments(appointmentsActive);
     };
 
     fetchAppointments();
-  }, [reload]); // Reexecuta o fetch apenas quando `reload` mudar
+  }, []); // Reexecuta o fetch apenas quando `reload` mudar
 
   if (loading) {
     return (
@@ -268,7 +278,7 @@ export const AppointmentsListClient = () => {
             zIndex="10"
             padding="8px 0"
           >
-            Agendamentos
+            Cancelar
           </Text>
           <Box
             display="flex"
@@ -287,7 +297,7 @@ export const AppointmentsListClient = () => {
               zIndex="10"
               padding="8px 0"
             >
-              CONFIRMADOS
+              AGENDAMENTO
             </Text>
 
             <Link to={`/agendar/${token}`}>
@@ -413,132 +423,6 @@ export const AppointmentsListClient = () => {
           </Text>
         )}
       </Box>
-      {appointments.length >= 2 && (
-        <Text textAlign="center" color={barberTheme.colors.primary.gray}>
-          <ChevronDownIcon className="scroll-animation" fontSize="24px" />
-        </Text>
-      )}
-      <Box flexShrink={0}>
-        <Text
-          m="8px 0"
-          fontWeight={barberTheme.fontWeights.bold}
-          color={barberTheme.colors.primary.gray03}
-          fontSize="16px"
-          as="h1"
-          position="sticky"
-          top="64px"
-          bg={barberTheme.colors.primary.black}
-          zIndex="10"
-          padding="8px 0"
-        >
-          FINALIZADOS
-        </Text>
-      </Box>
-      <Box
-        minHeight={`${
-          inactiveAppointments.length < 1
-            ? '50px'
-            : inactiveAppointments.length === 1
-              ? '110px'
-              : '220px'
-        }`}
-        padding="8px"
-        borderTop={`2px solid ${barberTheme.colors.primary.gray}`}
-        borderBottom={`2px solid ${barberTheme.colors.primary.gray}`}
-        overflowY={`${inactiveAppointments.length < 1 ? 'visible' : 'auto'}`}
-        maxHeight={`${inactiveAppointments.length < 1 ? '32px' : '320px'}`}
-      >
-        {inactiveAppointments.length > 0 ? (
-          inactiveAppointments.map((appointment, index) => (
-            <Box
-              my="8px"
-              position="relative"
-              key={index}
-              display="flex"
-              borderRadius="10px"
-              padding="12px"
-              border={`1px solid ${barberTheme.colors.primary.gray}`}
-              maxHeight="136px"
-            >
-              <Box
-                borderRight={`1px solid ${barberTheme.colors.primary.gray}`}
-                width="70%"
-              >
-                <Box display="flex" justifyContent="space-between">
-                  <Text
-                    color={
-                      appointment.cancelado
-                        ? 'red.400'
-                        : barberTheme.colors.primary.orange
-                    }
-                    fontWeight={barberTheme.fontWeights.bold}
-                  >
-                    {appointment.cancelado ? 'Cancelado' : 'Finalizado'}
-                  </Text>
-                </Box>
-                <Text
-                  maxWidth="94%"
-                  as="h2"
-                  my="8px"
-                  fontWeight={barberTheme.fontWeights.bold}
-                  fontSize="18px"
-                  color="white"
-                >
-                  {appointment.servico.nome}
-                </Text>
-                <Box display="flex">
-                  <Image
-                    borderRadius="12px"
-                    height="24px"
-                    width="24px"
-                    objectFit="cover"
-                    src="https://img.freepik.com/vetores-premium/logotipo-do-emblema-do-cracha-da-barbearia-com-icone-de-bigode-barba-logotipo-do-emblema-vintage-simples-hexagono-classico_645012-28.jpg?semt=ais_hybrid"
-                  />
-                  <Text color="white" mx="8px">
-                    {appointment?.cliente.nome}
-                  </Text>
-                </Box>
-              </Box>
-              <Box
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                width="30%"
-              >
-                <Text fontSize="16px" color="white">
-                  {new Date(appointment.data)
-                    .toLocaleDateString('pt-BR', {
-                      month: 'long',
-                    })
-                    .replace(/^\w/, (char) => char.toUpperCase())}
-                </Text>
-                <Text fontSize="32px" color="white">
-                  {appointment.data.slice(8, 12)}
-                </Text>
-
-                <Text color="white" fontSize="16px">
-                  {appointment.hora.slice(0, 5)}
-                </Text>
-              </Box>
-            </Box>
-          ))
-        ) : (
-          <Text
-            textAlign="center"
-            alignSelf="center"
-            fontSize="18px"
-            color={barberTheme.colors.primary.gray}
-          >
-            Nenhum agendamento...
-          </Text>
-        )}
-      </Box>
-      {inactiveAppointments.length >= 2 && (
-        <Text textAlign="center" color={barberTheme.colors.primary.gray}>
-          <ChevronDownIcon className="scroll-animation" fontSize="24px" />
-        </Text>
-      )}
     </Box>
   );
 };

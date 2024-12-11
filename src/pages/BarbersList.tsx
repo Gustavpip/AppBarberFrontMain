@@ -72,6 +72,7 @@ export const BarbersList = () => {
   useEffect(() => {
     const fetchBarbers = async () => {
       const data = await getBarbers();
+      console.log(data.data.data)
       setBarbers(data.data.data || []);
     };
     fetchBarbers();

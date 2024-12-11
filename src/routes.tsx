@@ -19,6 +19,7 @@ import { ScheduleClient } from './pages/ScheduleClient';
 import { ClientServiceList } from './pages/ClientServiceList';
 import { AppointmentsList } from './pages/listAppointments';
 import { AppointmentsListClient } from './pages/listAppointmentsClient';
+import { CancelAppointment } from './pages/CancelAppointment';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -137,6 +138,14 @@ const AppRoutes = () => {
         element={
           <DashboardClient>
             <ClientServiceList />
+          </DashboardClient>
+        }
+      />
+      <Route
+        path="/agendamentos/cancelar/:token/:appointmentHashId"
+        element={
+          <DashboardClient>
+            <CancelAppointment />
           </DashboardClient>
         }
       />
