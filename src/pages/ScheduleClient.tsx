@@ -452,14 +452,14 @@ export const ScheduleClient = () => {
                 display="grid"
                 gridTemplateColumns="repeat(2, 1fr)"
                 gap="8px"
-                maxWidth="312px"
+               
               >
                 {barbers.map((barber, index) => (
                   <Box
                     onClick={() => handleSelectBarber(barber.id)}
                     key={index}
                     cursor="pointer"
-                    width="160px"
+            
                     p="8px"
                     display="flex"
                     alignItems="center"
@@ -481,7 +481,7 @@ export const ScheduleClient = () => {
                         objectFit: 'cover',
                         height: ' 140px',
                       }}
-                      width="140px"
+                      width="100%"
                       src={barber.foto}
                       loading="lazy"
                     />
@@ -542,7 +542,7 @@ export const ScheduleClient = () => {
                       <Box
                         onClick={() => handlehourSchedule(hour)}
                         key={index}
-                        m="4px"
+                        m="2px"
                         cursor="pointer"
                         p="8px"
                         width="62px"
