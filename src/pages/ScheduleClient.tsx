@@ -537,7 +537,7 @@ export const ScheduleClient = () => {
                         color={barberTheme.colors.primary.orange}
                       />
                     </Center>
-                  ) : hours && hours.length > 0 ? (
+                  ) : hours && hours.length > 0 ? ( 
                     hours.map((hour, index) => (
                       <Box
                         onClick={() => handlehourSchedule(hour)}
