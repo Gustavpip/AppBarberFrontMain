@@ -277,7 +277,7 @@ export const BarberRegister = () => {
         >
           Cadastrar Barbeiro - Etapa {currentStep}
         </Text>
-        <Stack spacing={4} as="form" onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={0} as="form" onSubmit={handleSubmit(onSubmit)}>
           {currentStep === 1 && (
             <>
               <CustomInput
@@ -344,7 +344,7 @@ export const BarberRegister = () => {
               <Text mb="16px" color={barberTheme.colors.primary.orange}>
                 Selecione os dias de trabalho do barbeiro
               </Text>
-              <Box display="flex" maxWidth="312px" flexWrap="wrap">
+              <Box display="flex" maxWidth="384px" flexWrap="wrap">
                 {days.map((day, index) => (
                   <Box
                     onClick={() => handleSelect(day.value)}

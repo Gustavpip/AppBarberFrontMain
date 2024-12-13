@@ -192,7 +192,7 @@ export const ScheduleClient = () => {
           isClosable: true,
           position: 'top-right',
         });
-
+        console.log(result.data);
         reset();
         navigate(
           `/agendamentos/${token}/${result.data.data.cliente.hashIdClient}`
@@ -290,22 +290,21 @@ export const ScheduleClient = () => {
 
   return (
     <Box
-      padding="0px 16px 16px 16px"
       backgroundColor={barberTheme.colors.primary.black}
       display="flex"
       justifyContent="center"
       alignItems="center"
       minHeight={
         currentStep === 1
-          ? '70vh'
+          ? '80vh'
           : currentStep === 2
-            ? '70vh'
+            ? '80vh'
             : currentStep === 3
-              ? '70vh'
+              ? '80vh'
               : '80vh'
       }
     >
-      <Box>
+      <Box width="100%" mt="4px">
         <Text color={barberTheme.colors.primary.orange}>
           Etapa {currentStep} de 4
         </Text>
@@ -317,7 +316,12 @@ export const ScheduleClient = () => {
         >
           Agendar - Etapa {currentStep}
         </Text>
-        <Stack spacing={4} as="form" onSubmit={handleSubmit(onSubmit)}>
+        <Stack
+          width="100%"
+          spacing={2}
+          as="form"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           {currentStep === 1 && (
             <>
               <Box>
@@ -346,7 +350,7 @@ export const ScheduleClient = () => {
                           : barberTheme.colors.primary.gray
                       }
                       color={barberTheme.colors.primary.gray03}
-                      width="312px"
+                      width="100%"
                       height="44px"
                     />
                   </Box>
@@ -378,12 +382,12 @@ export const ScheduleClient = () => {
                           : barberTheme.colors.primary.gray
                       }
                       color={barberTheme.colors.primary.gray03}
-                      width="312px"
+                      width="100%"
                       height="44px"
                     />
                   </Box>
                   <Text
-                    maxWidth="312px"
+                    width="100%"
                     fontSize="14px"
                     textAlign="left"
                     m="16px 0"
@@ -406,7 +410,7 @@ export const ScheduleClient = () => {
                 display="grid"
                 gridTemplateColumns="repeat(2, 1fr)"
                 gap="8px"
-                maxWidth="312px"
+                width="100%"
               >
                 {services.map((service, index) => (
                   <Box
@@ -414,7 +418,7 @@ export const ScheduleClient = () => {
                     key={index}
                     cursor="pointer"
                     p="8px"
-                    width="160px"
+                    width="100%"
                     height="120px"
                     display="flex"
                     alignItems="center"
@@ -499,13 +503,12 @@ export const ScheduleClient = () => {
 
           {currentStep === 4 && (
             <InputGroup marginTop="-8px" display="flex" flexDirection="column">
-              <Text mb="16px" maxWidth="312px" color="orange.500">
+              <Text mb="16px" color="orange.500">
                 Selecione a data e o horário.
               </Text>
               <Box display="flex" flexDirection="column" alignItems="center">
                 <Box
                   width="100%"
-                  maxWidth="312px"
                   height="300px"
                   border="1px solid #ccc"
                   borderRadius="8px"
@@ -520,7 +523,6 @@ export const ScheduleClient = () => {
                   mt="16px"
                   display="flex"
                   justifyContent="flex-start"
-                  maxWidth="312px"
                   flexWrap="wrap"
                 >
                   {loadingHours ? (
@@ -543,8 +545,8 @@ export const ScheduleClient = () => {
                         m="4px"
                         cursor="pointer"
                         p="8px"
-                        width="54px"
-                        height="34px"
+                        width="62px"
+                        height="32px"
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
