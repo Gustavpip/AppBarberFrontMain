@@ -261,6 +261,7 @@ export const AppointmentsListClient = () => {
             color="white"
             fontSize="18px"
             as="h1"
+            
             position="sticky"
             top="0"
             bg={barberTheme.colors.primary.black}
