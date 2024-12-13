@@ -562,6 +562,7 @@ export const ScheduleClient = () => {
                       </Box>
                     ))
                   ) : (
+                    
                     <Text color={barberTheme.colors.primary.orange}>
                       Não há horários para esta data...
                     </Text>
