@@ -79,14 +79,14 @@ export const ServiceRegister = () => {
 
   return (
     <Box
-      padding="16px"
+      pt="16px"
       backgroundColor={barberTheme.colors.primary.black}
       display="flex"
       height="70vh"
       justifyContent="center"
       alignItems="center"
     >
-      <Box>
+      <Box width="100%">
         <Text
           fontSize="18px"
           fontWeight={barberTheme.fontWeights.bold}
@@ -95,7 +95,7 @@ export const ServiceRegister = () => {
         >
           Cadastrar Serviço
         </Text>
-        <Stack spacing={4} as="form" onSubmit={handleSubmit(onSubmit)}>
+        <Stack spacing={2} as="form" onSubmit={handleSubmit(onSubmit)}>
           <>
             <CustomInput
               leftIcon={
@@ -117,7 +117,7 @@ export const ServiceRegister = () => {
                 errors.nome ? 'red.500' : barberTheme.colors.primary.gray
               }
               color={barberTheme.colors.primary.gray03}
-              width="312px"
+              width="100%"
               height="44px"
             />
             <CustomInput
@@ -140,13 +140,13 @@ export const ServiceRegister = () => {
                 errors.descricao ? 'red.500' : barberTheme.colors.primary.gray
               }
               color={barberTheme.colors.primary.gray03}
-              width="312px"
+              width="100%"
               height="44px"
             />
             <InputGroup
               border={`1px solid ${barberTheme.colors.primary.gray}`}
               borderRadius="4px"
-              width="312px"
+              width="100%"
             >
               <InputLeftElement pointerEvents="none">
                 <img
@@ -181,7 +181,7 @@ export const ServiceRegister = () => {
                 <option value="00:30:00">00:30:00</option>
               </Select>
             </InputGroup>
-            <InputGroup width="312px">
+            <InputGroup width="100%">
               <InputLeftElement pointerEvents="none">
                 <img
                   src="/Vector (10).svg"
@@ -233,6 +233,7 @@ export const ServiceRegister = () => {
                 }
                 color={barberTheme.colors.primary.gray03}
                 height="44px"
+                border={`1px solid ${barberTheme.colors.primary.gray}`}
               />
             </InputGroup>
           </>

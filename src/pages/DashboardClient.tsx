@@ -140,7 +140,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
                   width="310px"
                   borderRadius="12px"
                   color="white"
-                  padding="0 16px"
+                
                   cursor="pointer"
                   backgroundColor={
                     selectedItem === 'perfil'

@@ -379,7 +379,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-      <Box as="main" border="1px solid red" paddingTop="74px" overflow="hidden">
+      <Box as="main" paddingTop="74px" px="16px" overflow="hidden">
         {children}
       </Box>
     </Box>

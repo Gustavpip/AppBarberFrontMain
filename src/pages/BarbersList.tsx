@@ -72,7 +72,7 @@ export const BarbersList = () => {
   useEffect(() => {
     const fetchBarbers = async () => {
       const data = await getBarbers();
-      console.log(data.data.data)
+      console.log(data.data.data);
       setBarbers(data.data.data || []);
     };
     fetchBarbers();
@@ -88,7 +88,6 @@ export const BarbersList = () => {
 
   return (
     <Box
-      p="16px"
       as="section"
       maxWidth="402px"
       display="flex"
@@ -169,6 +168,7 @@ export const BarbersList = () => {
               display="flex"
               borderRadius="10px"
               padding="12px"
+              my="8px"
               border={`1px solid ${barberTheme.colors.primary.gray}`}
             >
               <Image
@@ -198,7 +198,7 @@ export const BarbersList = () => {
                 <Box display="flex" alignItems="end" justifyContent="end">
                   <Button
                     _active={{ opacity: 0.4 }}
-                    mx="4px"
+                    mr="8px"
                     mt="30px"
                     height="30px"
                     backgroundColor={barberTheme.colors.primary.gray}

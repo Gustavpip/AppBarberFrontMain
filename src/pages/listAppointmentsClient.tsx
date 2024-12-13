@@ -199,7 +199,7 @@ export const AppointmentsListClient = () => {
 
   return (
     <Box
-      p="16px"
+      pt="16px"
       as="section"
       maxWidth="402px"
       width="100%"
@@ -257,7 +257,6 @@ export const AppointmentsListClient = () => {
         {/* Títulos */}
         <Box flexShrink={0}>
           <Text
-            m="0px 0"
             fontWeight={barberTheme.fontWeights.bold}
             color="white"
             fontSize="18px"
@@ -312,7 +311,6 @@ export const AppointmentsListClient = () => {
               ? '150px'
               : '300px'
         }`}
-        padding="8px"
         borderTop={`2px solid ${barberTheme.colors.primary.gray}`}
         borderBottom={`2px solid ${barberTheme.colors.primary.gray}`}
         overflowY={`${appointments.length < 1 ? 'visible' : 'auto'}`}
@@ -442,7 +440,6 @@ export const AppointmentsListClient = () => {
               ? '110px'
               : '220px'
         }`}
-        padding="8px"
         borderTop={`2px solid ${barberTheme.colors.primary.gray}`}
         borderBottom={`2px solid ${barberTheme.colors.primary.gray}`}
         overflowY={`${inactiveAppointments.length < 1 ? 'visible' : 'auto'}`}

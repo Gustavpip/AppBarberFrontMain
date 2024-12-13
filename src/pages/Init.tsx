@@ -26,8 +26,6 @@ export const Init = () => {
 
   return (
     <Box
-      p="16px"
-      position="absolute"
       width="100%"
       height="70vh"
       as="section"
@@ -41,30 +39,32 @@ export const Init = () => {
           Link
         </Text>
 
-        <Input
-          ref={inputRef}
-          _focus={{
-            borderColor: barberTheme.colors.primary.gray,
-          }}
-          borderColor={barberTheme.colors.primary.gray}
-          color={barberTheme.colors.primary.gray03}
-          outline="none"
-          width="200px"
-          height="44px"
-          defaultValue={link}
-          isReadOnly
-        />
-        <Button
-          mx="8px"
-          marginTop="-2px"
-          backgroundColor={barberTheme.colors.primary.orange}
-          color="white"
-          onClick={handleCopy}
-          _active={{ opacity: 0.4 }}
-        >
-          Copiar
-        </Button>
-        <Text mt="32px" maxWidth="312px" color="gray.500">
+        <Box width="100%">
+          <Input
+            ref={inputRef}
+            _focus={{
+              borderColor: barberTheme.colors.primary.gray,
+            }}
+            borderColor={barberTheme.colors.primary.gray}
+            color={barberTheme.colors.primary.gray03}
+            outline="none"
+            maxWidth="74%"
+            height="44px"
+            defaultValue={link}
+            isReadOnly
+          />
+          <Button
+            mx="8px"
+            marginTop="-2px"
+            backgroundColor={barberTheme.colors.primary.orange}
+            color="white"
+            onClick={handleCopy}
+            _active={{ opacity: 0.4 }}
+          >
+            Copiar
+          </Button>
+        </Box>
+        <Text mt="32px" color="gray.500">
           OBS: Envie este link para que seus clientes agendem um horário com
           você de forma prática...
         </Text>

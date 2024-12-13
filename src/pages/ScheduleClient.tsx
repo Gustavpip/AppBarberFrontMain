@@ -296,15 +296,15 @@ export const ScheduleClient = () => {
       alignItems="center"
       minHeight={
         currentStep === 1
-          ? '80vh'
+          ? '73vh'
           : currentStep === 2
-            ? '80vh'
+            ? '73vh'
             : currentStep === 3
-              ? '80vh'
+              ? '73vh'
               : '80vh'
       }
     >
-      <Box width="100%" mt="4px">
+      <Box width="100%" >
         <Text color={barberTheme.colors.primary.orange}>
           Etapa {currentStep} de 4
         </Text>

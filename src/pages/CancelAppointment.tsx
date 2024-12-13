@@ -206,7 +206,7 @@ export const CancelAppointment = () => {
 
   return (
     <Box
-      p="16px"
+    pt="16px"
       as="section"
       maxWidth="402px"
       width="100%"
@@ -319,7 +319,7 @@ export const CancelAppointment = () => {
               ? '150px'
               : '300px'
         }`}
-        padding="8px"
+       
         borderTop={`2px solid ${barberTheme.colors.primary.gray}`}
         borderBottom={`2px solid ${barberTheme.colors.primary.gray}`}
         overflowY={`${appointments.length < 1 ? 'visible' : 'auto'}`}

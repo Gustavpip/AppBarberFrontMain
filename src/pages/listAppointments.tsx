@@ -183,7 +183,7 @@ export const AppointmentsList = () => {
 
   return (
     <Box
-      p="16px"
+      pt="16px"
       as="section"
       maxWidth="402px"
       width="100%"

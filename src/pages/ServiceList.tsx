@@ -91,7 +91,7 @@ export const ServiceList = () => {
 
   return (
     <Box
-      p="16px"
+      pt="16px"
       as="section"
       maxWidth="402px"
       width="100%"
@@ -171,6 +171,7 @@ export const ServiceList = () => {
             <Box
               position="relative"
               key={service.id}
+              my="8px"
               display="flex"
               borderRadius="10px"
               padding="12px"
