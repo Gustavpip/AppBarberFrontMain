@@ -18,8 +18,7 @@ import {
 import barberTheme from '../theme';
 import { useEffect, useState } from 'react';
 
-import useAppointmentsList from '../hooks/useListAppointments';
-import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
+import { CloseIcon } from '@chakra-ui/icons';
 import { Link, useParams } from 'react-router-dom';
 import useCancelAppointment from '../hooks/useCancelAppointment';
 import useGetAppointment from '../hooks/useGetAppointment';
@@ -69,10 +68,8 @@ type Appointment = {
 export const CancelAppointment = () => {
   const { getAppointment, loading } = useGetAppointment();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [inactiveAppointments, setInactiveAppointments] = useState<
-    Appointment[]
-  >([]);
-  const [reload, setReload] = useState(false);
+  const [, setInactiveAppointments] = useState<Appointment[]>([]);
+  const [, setReload] = useState(false);
   const { cancelAppointment, loading: cancelLoading } = useCancelAppointment();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
