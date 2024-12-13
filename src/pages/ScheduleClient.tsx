@@ -557,6 +557,7 @@ export const ScheduleClient = () => {
                             : barberTheme.colors.primary.gray
                         }
                         color="white"
+                        
                       >
                         {hour.slice(0, 5)}
                       </Box>
