@@ -544,8 +544,8 @@ export const ScheduleClient = () => {
                         key={index}
                         m="2px"
                         cursor="pointer"
-                        p="8px"
-                        width="62px"
+                        p="2px"
+                        width="50px"
                         height="32px"
                         display="flex"
                         alignItems="center"
