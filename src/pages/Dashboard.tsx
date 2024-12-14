@@ -41,6 +41,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
 
   return (
     <Box
+      maxHeight="100vh"
       style={{
         backgroundColor: barberTheme.colors.primary.black,
         minHeight: '100vh',
