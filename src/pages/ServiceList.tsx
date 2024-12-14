@@ -41,6 +41,7 @@ export const ServiceList = () => {
   const toast = useToast();
 
   const handleDeleteService = async () => {
+    window.scrollTo(0, 0);
     if (serviceId) {
       const result = await deleteService({ id: serviceId });
 
