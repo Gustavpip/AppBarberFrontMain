@@ -42,7 +42,7 @@ export const ScheduleClient = () => {
     >
   >();
 
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(4);
   const [hourSchedule, sethourSchedule] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<string[]>([]);
@@ -294,6 +294,8 @@ export const ScheduleClient = () => {
       display="flex"
       justifyContent="center"
       alignItems="center"
+      maxWidth="540px"
+      margin="0 auto"
       minHeight={
         currentStep === 1
           ? '73vh'
@@ -304,7 +306,7 @@ export const ScheduleClient = () => {
               : '80vh'
       }
     >
-      <Box width="100%" >
+      <Box width="100%">
         <Text color={barberTheme.colors.primary.orange}>
           Etapa {currentStep} de 4
         </Text>
@@ -452,14 +454,12 @@ export const ScheduleClient = () => {
                 display="grid"
                 gridTemplateColumns="repeat(2, 1fr)"
                 gap="8px"
-               
               >
                 {barbers.map((barber, index) => (
                   <Box
                     onClick={() => handleSelectBarber(barber.id)}
                     key={index}
                     cursor="pointer"
-            
                     p="8px"
                     display="flex"
                     alignItems="center"
@@ -537,7 +537,7 @@ export const ScheduleClient = () => {
                         color={barberTheme.colors.primary.orange}
                       />
                     </Center>
-                  ) : hours && hours.length > 0 ? ( 
+                  ) : hours && hours.length > 0 ? (
                     hours.map((hour, index) => (
                       <Box
                         onClick={() => handlehourSchedule(hour)}
@@ -557,7 +557,6 @@ export const ScheduleClient = () => {
                             : barberTheme.colors.primary.gray
                         }
                         color="white"
-                        
                       >
                         {hour.slice(0, 5)}
                       </Box>

@@ -89,9 +89,9 @@ export const BarbersList = () => {
   return (
     <Box
       as="section"
-      maxWidth="402px"
       display="flex"
       flexDirection="column"
+      maxWidth="540px"
       margin="0 auto"
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">

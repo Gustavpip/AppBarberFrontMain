@@ -206,14 +206,14 @@ export const CancelAppointment = () => {
 
   return (
     <Box
-    pt="16px"
+      pt="16px"
       as="section"
-      maxWidth="402px"
       width="100%"
       display="flex"
       flexDirection="column"
-      margin="0 auto"
       height="calc(92vh - 73px)"
+      maxWidth="540px"
+      margin="0 auto"
     >
       <Box alignItems="center">
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -319,7 +319,6 @@ export const CancelAppointment = () => {
               ? '150px'
               : '300px'
         }`}
-       
         borderTop={`2px solid ${barberTheme.colors.primary.gray}`}
         borderBottom={`2px solid ${barberTheme.colors.primary.gray}`}
         overflowY={`${appointments.length < 1 ? 'visible' : 'auto'}`}
@@ -414,6 +413,7 @@ export const CancelAppointment = () => {
             textAlign="center"
             alignSelf="center"
             fontSize="18px"
+            paddingTop="8px"
             color={barberTheme.colors.primary.gray}
           >
             Nenhum agendamento...

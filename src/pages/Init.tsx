@@ -33,6 +33,8 @@ export const Init = () => {
       justifyContent="center"
       flexDirection="column"
       alignItems="center"
+      maxWidth="540px"
+      margin="0 auto"
     >
       <Box>
         <Text margin="16px 0" textAlign="start" fontSize="18px" color="white">

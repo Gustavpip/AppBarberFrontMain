@@ -85,6 +85,8 @@ export const ServiceRegister = () => {
       height="70vh"
       justifyContent="center"
       alignItems="center"
+      maxWidth="540px"
+      margin="0 auto"
     >
       <Box width="100%">
         <Text

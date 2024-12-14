@@ -185,7 +185,7 @@ export const AppointmentsList = () => {
     <Box
       pt="16px"
       as="section"
-      maxWidth="402px"
+      maxWidth="540px"
       width="100%"
       display="flex"
       flexDirection="column"

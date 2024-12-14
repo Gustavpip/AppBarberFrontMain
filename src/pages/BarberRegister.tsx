@@ -264,6 +264,8 @@ export const BarberRegister = () => {
       height="70vh"
       justifyContent="center"
       alignItems="center"
+      maxWidth="540px"
+      margin="0 auto"
     >
       <Box width="100%">
         <Text color={barberTheme.colors.primary.orange}>
@@ -329,7 +331,7 @@ export const BarberRegister = () => {
                 color={barberTheme.colors.primary.gray03}
                 width="100%"
                 height="44px"
-                padding="8px 0 0 0"
+                padding="8px 0 0 8px"
                 style={{
                   borderRadius: '4px',
                   borderWidth: '1px',

@@ -49,6 +49,7 @@
       }
 
       .react-calendar__tile {
+        background-color: transparent !important;
         color: white !important;
       }
 
@@ -90,12 +91,28 @@
       .css-r6ivv1 {
         height: 290px !important;
       }
+      
 
       .react-calendar__tile--now {
         background-color: #df9146 !important;
         border-radius: 64px;
+        max-width: 80px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        max-height: 34px !important;
+        
         color: white !important;
       }
+
+      .react-calendar__navigation__label:hover{
+        background-color: transparent !important;
+      }
+
+      .react-calendar__navigation__label{
+        background-color: transparent !important;
+      }
+
 
       .react-calendar__tile--active {
         background-color: #838896 !important;
@@ -119,6 +136,10 @@
       /* Aplicar a animação ao ícone */
       .scroll-animation {
         animation: bounce 1.5s infinite;
+      }
+
+      .react-calendar__year-view__months__month{
+        background-color: transparent !important;
       }
     </style>
     <!-- Favicon -->

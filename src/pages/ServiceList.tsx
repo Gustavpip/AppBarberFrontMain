@@ -93,11 +93,11 @@ export const ServiceList = () => {
     <Box
       pt="16px"
       as="section"
-      maxWidth="402px"
+      maxWidth="540px"
+      margin="0 auto"
       width="100%"
       display="flex"
       flexDirection="column"
-      margin="0 auto"
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Modal isOpen={isOpen} onClose={onClose}>

@@ -97,9 +97,9 @@ export const ClientServiceList = () => {
   return (
     <Box
       as="section"
-      maxWidth="312px"
       display="flex"
       flexDirection="column"
+      maxWidth="540px"
       margin="0 auto"
     >
       <Box
