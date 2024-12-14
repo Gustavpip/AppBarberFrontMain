@@ -76,6 +76,7 @@ export const BarbersList = () => {
       setBarbers(data.data.data || []);
     };
     fetchBarbers();
+    window.scrollTo(0, 0);
   }, []);
 
   if (loading) {

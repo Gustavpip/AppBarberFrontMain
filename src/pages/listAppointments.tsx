@@ -171,6 +171,7 @@ export const AppointmentsList = () => {
     };
 
     fetchAppointments();
+    window.scrollTo(0, 0);
   }, [reload]);
 
   if (loading) {

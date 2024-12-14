@@ -187,6 +187,7 @@ export const AppointmentsListClient = () => {
     };
 
     fetchAppointments();
+    window.scrollTo(0, 0);
   }, [reload]); // Reexecuta o fetch apenas quando `reload` mudar
 
   if (loading) {

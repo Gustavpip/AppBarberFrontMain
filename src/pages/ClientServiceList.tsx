@@ -84,6 +84,7 @@ export const ClientServiceList = () => {
       setServices(data.data.data || []);
     };
     fetchServices();
+    window.scrollTo(0, 0);
   }, []);
 
   if (loading) {

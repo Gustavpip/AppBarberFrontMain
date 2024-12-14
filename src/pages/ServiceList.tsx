@@ -79,6 +79,7 @@ export const ServiceList = () => {
       setServices(data.data.data || []);
     };
     fetchServices();
+    window.scrollTo(0, 0);
   }, []);
 
   if (loading) {
