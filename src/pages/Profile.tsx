@@ -9,11 +9,11 @@ import { useNavigate } from 'react-router-dom';
 
 import useProfileEdit from '../hooks/useProfileEdit';
 import useGetUser from '../hooks/useGetUser';
+import { useAuth } from '../context/AuthContext';
 
 export const Profile = () => {
   const {
     register,
-    reset,
     handleSubmit,
     setValue,
     formState: { errors },
@@ -28,6 +28,7 @@ export const Profile = () => {
         'id' | 'email' | 'nome_barbearia' | 'phone' | 'logo' | 'endereco'
       >
     >();
+  const { user, setUser, updateLocalStorage } = useAuth();
   const { getUser } = useGetUser();
 
   const { updateProfile, loading } = useProfileEdit();
@@ -35,13 +36,37 @@ export const Profile = () => {
 
   const toast = useToast();
 
+  const handleUpdateUser = (
+    data: Pick<
+      UserDTO,
+      'email' | 'nome_barbearia' | 'phone' | 'logo' | 'endereco'
+    >
+  ) => {
+    setUser({
+      ...user,
+      logo: data.logo,
+      endereco: data.endereco,
+      phone: data.phone,
+      email: data.email,
+      nome_barbearia: data.nome_barbearia,
+    });
+
+    updateLocalStorage({
+      ...user,
+      logo: data.logo,
+      endereco: data.endereco,
+      phone: data.phone,
+      email: data.email,
+      nome_barbearia: data.nome_barbearia,
+    });
+  };
+
   const onSubmit = async (
     data: Pick<
       ProfileDTO,
       'email' | 'logo' | 'nome_barbearia' | 'phone' | 'endereco'
     >
   ) => {
-
     if (
       (data.email && data.nome_barbearia && data.phone && data.logo.length > 0,
       data.endereco)
@@ -52,8 +77,6 @@ export const Profile = () => {
       formData.append('logo', data.logo[0]);
       formData.append('phone', data.phone);
       formData.append('endereco', data.endereco);
-      console.log(formData);
-      console.log(data.logo[0]);
 
       const result = await updateProfile(data);
 
@@ -76,7 +99,8 @@ export const Profile = () => {
           position: 'top-right',
         });
 
-        reset();
+        handleUpdateUser(result.data.data);
+
         navigate('/perfil');
       }
     } else {
@@ -212,9 +236,7 @@ export const Profile = () => {
             <Input
               type="file"
               id="foto"
-              {...register('logo', {
-                required: 'Foto é obrigatória',
-              })}
+              {...register('logo')}
               accept="image/*"
               borderColor={
                 errors.logo ? 'red.500' : barberTheme.colors.primary.gray

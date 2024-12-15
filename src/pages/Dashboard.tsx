@@ -19,11 +19,13 @@ import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { ReactNode, useState } from 'react';
 import barberTheme from '../theme';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export const Dashboard = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string>('');
   const { isOpen: isOpenModal, onOpen, onClose } = useDisclosure();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
@@ -152,7 +154,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
                 borderRadius="50%"
                 height="48px"
                 width="48px"
-                src="https://static.vecteezy.com/ti/fotos-gratis/p1/26411272-sorrir-homem-retrato-feliz-confiante-apreciar-africano-jovem-preto-americano-sorridente-emocao-foto.jpg"
+                src={user?.logo}
               />
             </Box>
             <Box as="div">
@@ -161,9 +163,9 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
                 fontWeight={barberTheme.fontWeights.bold}
                 fontSize="16px"
               >
-                Pedro Sales
+                {user?.nome_barbearia}
               </Text>
-              <Text as="h4">pedrosales@gmail.com</Text>
+              <Text as="h4">{user?.email}</Text>
             </Box>
           </Box>
           <Box

@@ -155,7 +155,6 @@ export const AppointmentsList = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       const data = await getAppointments();
-      console.log(data);
       const appointmentsActive = data.data.data.filter(
         (appointment: Appointment) =>
           appointment.status !== true && appointment.cancelado !== true

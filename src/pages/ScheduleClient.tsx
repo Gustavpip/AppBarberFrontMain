@@ -192,7 +192,6 @@ export const ScheduleClient = () => {
           isClosable: true,
           position: 'top-right',
         });
-        console.log(result.data);
         reset();
         navigate(
           `/agendamentos/${token}/${result.data.data.cliente.hashIdClient}`
