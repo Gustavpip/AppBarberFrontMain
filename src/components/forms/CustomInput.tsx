@@ -26,6 +26,7 @@ type CustomInputProps = {
   padding?: string;
   register: UseFormRegisterReturn;
   margin?: string;
+  defaultValue?: string;
 };
 
 export const CustomInput = ({
@@ -45,6 +46,7 @@ export const CustomInput = ({
   register,
   padding,
   margin,
+  defaultValue,
 }: CustomInputProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (type === 'file' && e.target.files) {
@@ -73,6 +75,7 @@ export const CustomInput = ({
         width={width}
         height={height}
         color={color}
+        defaultValue={defaultValue}
         padding={padding}
         margin={margin ? margin : ''}
         autoComplete="off"

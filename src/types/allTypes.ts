@@ -9,6 +9,7 @@ export interface UserDTO {
   absent: boolean;
   email_verificado: boolean;
   senha: string;
+  logo?: string;
 }
 
 export interface WorkSchedule {
@@ -27,6 +28,15 @@ export interface BarberDTO {
   foto: string;
   barbearia: UserDTO;
   dias_trabalho: WorkSchedule[];
+}
+
+export interface ProfileDTO {
+  id: string;
+  nome_barbearia: string;
+  phone: string;
+  logo: string;
+  email: string;
+  endereco: string;
 }
 
 export interface ServiceDTO {

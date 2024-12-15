@@ -20,6 +20,7 @@ import { ClientServiceList } from './pages/ClientServiceList';
 import { AppointmentsList } from './pages/listAppointments';
 import { AppointmentsListClient } from './pages/listAppointmentsClient';
 import { CancelAppointment } from './pages/CancelAppointment';
+import { Profile } from './pages/Profile';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -107,6 +108,18 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
+
+      <Route
+        path="/perfil"
+        element={
+          <ProtectedRoute>
+            <Dashboard>
+              <Profile />
+            </Dashboard>
+          </ProtectedRoute>
+        }
+      />
+
       <Route
         path="/agendamentos/:token/:hashIdClient"
         element={

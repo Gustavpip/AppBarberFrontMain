@@ -244,7 +244,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
             >
               <Image src="/whiteuser.svg" boxSize="20px" marginRight="8px" />{' '}
               <Link
-                to="/"
+                to="/perfil"
                 style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
               >
                 Perfil
