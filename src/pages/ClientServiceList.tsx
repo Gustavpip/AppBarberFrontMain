@@ -187,7 +187,7 @@ export const ClientServiceList = () => {
               padding="0 16px"
               cursor="pointer"
             >
-              <Image src="/whiteuser.svg" boxSize="20px" marginRight="8px" />{' '}
+              <Image src="/SmartphoneWhite.svg" boxSize="20px" marginRight="8px" />{' '}
               <Link
                 to="/"
                 style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}

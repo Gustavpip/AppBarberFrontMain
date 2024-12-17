@@ -15,14 +15,18 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { CloseIcon, HamburgerIcon } from '@chakra-ui/icons';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import barberTheme from '../theme';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import useGetUser from '../hooks/useGetUser';
+import { UserDTO } from '../types/allTypes';
 
 export const DashboardClient = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string>('');
   const { isOpen: isOpenModal, onClose } = useDisclosure();
+  const { getUser } = useGetUser();
+  const [barberShop, setBarberShop] = useState<Pick<UserDTO, 'phone'>>();
 
   const { token } = useParams();
 
@@ -40,6 +44,16 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
     localStorage.removeItem('token');
     navigate('/barbeiros', { replace: true });
   };
+
+  useEffect(() => {
+    const fetchBarberShop = async () => {
+      const result = await getUser(token ? token : '');
+
+      setBarberShop(result.data.data);
+    };
+
+    fetchBarberShop();
+  }, []);
 
   return (
     <>
@@ -149,15 +163,16 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
                   onClick={() => handleSelect('perfil')}
                 >
                   <Image
-                    src="/whiteuser.svg"
+                    src="/SmartphoneWhite.svg"
                     boxSize="20px"
                     marginRight="8px"
                   />{' '}
                   <Link
-                    to="/"
+                    target='_black'
+                    to={`https://wa.me/${barberShop?.phone}`}
                     style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
                   >
-                    Dados
+                    Contato
                   </Link>
                 </Text>
               </Box>

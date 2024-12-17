@@ -4,8 +4,8 @@ import api from '../axiosConfig';
 const useGetUser = () => {
   const [loading, setLoading] = useState(false);
 
-  const getUser = async () => {
-    let url = `/api/user`;
+  const getUser = async (id?: string) => {
+    let url = id ? `/api/user/${id}` : `/api/user`;
     setLoading(true);
 
     try {
