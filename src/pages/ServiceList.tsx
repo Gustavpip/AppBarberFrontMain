@@ -223,15 +223,17 @@ export const ServiceList = () => {
                   R$ {String(service.preco).replace('.', ',')}
                 </Text>
                 <Box>
-                  <Button
-                    mx="4px"
-                    height="30px"
-                    backgroundColor={barberTheme.colors.primary.gray}
-                    color="white"
-                    _active={{ opacity: 0.4 }}
-                  >
-                    Editar
-                  </Button>
+                  <Link to={`/servico/${service.id}`}>
+                    <Button
+                      mx="4px"
+                      height="30px"
+                      backgroundColor={barberTheme.colors.primary.gray}
+                      color="white"
+                      _active={{ opacity: 0.4 }}
+                    >
+                      Editar
+                    </Button>
+                  </Link>
                   <Button
                     onClick={() => {
                       onOpen();

@@ -21,6 +21,7 @@ import { AppointmentsList } from './pages/listAppointments';
 import { AppointmentsListClient } from './pages/listAppointmentsClient';
 import { CancelAppointment } from './pages/CancelAppointment';
 import { Profile } from './pages/Profile';
+import { ServiceEdit } from './pages/ServiceEdit';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -152,6 +153,15 @@ const AppRoutes = () => {
           <DashboardClient>
             <ClientServiceList />
           </DashboardClient>
+        }
+      />
+
+      <Route
+        path="/servico/:idService"
+        element={
+          <Dashboard>
+            <ServiceEdit />
+          </Dashboard>
         }
       />
       <Route

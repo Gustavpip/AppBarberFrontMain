@@ -1,4 +1,13 @@
-import { Box, Button, Input, Stack, Text, useToast } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Center,
+  Input,
+  Spinner,
+  Stack,
+  Text,
+  useToast,
+} from '@chakra-ui/react';
 import { CustomInput } from '../components/forms/CustomInput';
 import { ProfileDTO, UserDTO } from '../types/allTypes';
 import { useForm } from 'react-hook-form';
@@ -29,7 +38,7 @@ export const Profile = () => {
       >
     >();
   const { user, setUser, updateLocalStorage } = useAuth();
-  const { getUser } = useGetUser();
+  const { getUser, loading: loadingUser } = useGetUser();
 
   const { updateProfile, loading } = useProfileEdit();
   const navigate = useNavigate();
@@ -147,125 +156,131 @@ export const Profile = () => {
         >
           Editar perfil
         </Text>
-        <Stack spacing={2} as="form" onSubmit={handleSubmit(onSubmit)}>
-          <>
-            <CustomInput
-              leftIcon={
-                <img
-                  src="/Group.svg"
-                  height="16px"
-                  width="20px"
-                  alt="User Icon"
-                />
-              }
-              register={register('nome_barbearia', {
-                required: 'Nome da barbearia é obrigatório',
-              })}
-              id="nome_barbearia"
-              placeholder="Barbearia"
-              type="text"
-              isRequired
-              borderColor={
-                errors.nome_barbearia
-                  ? 'red.500'
-                  : barberTheme.colors.primary.gray
-              }
-              color={barberTheme.colors.primary.gray03}
-              width="100%"
-              height="44px"
-            />
-            <CustomInput
-              leftIcon={
-                <img
-                  src="/User.svg"
-                  height=""
-                  width="26px"
-                  alt="Smartphone Icon"
-                />
-              }
-              register={register('email', {
-                required: 'Email é obrigatório',
-              })}
-              id="email"
-              placeholder="Email"
-              type="text"
-              isRequired
-              borderColor={
-                errors.email ? 'red.500' : barberTheme.colors.primary.gray
-              }
-              color={barberTheme.colors.primary.gray03}
-              width="100%"
-              height="44px"
-            />
-            <CustomInput
-              leftIcon={<img src="/Smartphone.svg" alt="Smartphone Icon" />}
-              register={register('phone', {
-                required: 'Telefone é obrigatório',
-                minLength: 10,
-                maxLength: 11,
-              })}
-              id="telefone"
-              placeholder="Telefone"
-              type="number"
-              isRequired
-              borderColor={
-                errors.phone ? 'red.500' : barberTheme.colors.primary.gray
-              }
-              color={barberTheme.colors.primary.gray03}
-              width="100%"
-              height="44px"
-            />
+        {loadingUser ? (
+          <Center height="100vh">
+            <Spinner size="xl" color={barberTheme.colors.primary.orange} />
+          </Center>
+        ) : (
+          <Stack spacing={2} as="form" onSubmit={handleSubmit(onSubmit)}>
+            <>
+              <CustomInput
+                leftIcon={
+                  <img
+                    src="/Group.svg"
+                    height="16px"
+                    width="20px"
+                    alt="User Icon"
+                  />
+                }
+                register={register('nome_barbearia', {
+                  required: 'Nome da barbearia é obrigatório',
+                })}
+                id="nome_barbearia"
+                placeholder="Barbearia"
+                type="text"
+                isRequired
+                borderColor={
+                  errors.nome_barbearia
+                    ? 'red.500'
+                    : barberTheme.colors.primary.gray
+                }
+                color={barberTheme.colors.primary.gray03}
+                width="100%"
+                height="44px"
+              />
+              <CustomInput
+                leftIcon={
+                  <img
+                    src="/User.svg"
+                    height=""
+                    width="26px"
+                    alt="Smartphone Icon"
+                  />
+                }
+                register={register('email', {
+                  required: 'Email é obrigatório',
+                })}
+                id="email"
+                placeholder="Email"
+                type="text"
+                isRequired
+                borderColor={
+                  errors.email ? 'red.500' : barberTheme.colors.primary.gray
+                }
+                color={barberTheme.colors.primary.gray03}
+                width="100%"
+                height="44px"
+              />
+              <CustomInput
+                leftIcon={<img src="/Smartphone.svg" alt="Smartphone Icon" />}
+                register={register('phone', {
+                  required: 'Telefone é obrigatório',
+                  minLength: 10,
+                  maxLength: 11,
+                })}
+                id="telefone"
+                placeholder="Telefone"
+                type="number"
+                isRequired
+                borderColor={
+                  errors.phone ? 'red.500' : barberTheme.colors.primary.gray
+                }
+                color={barberTheme.colors.primary.gray03}
+                width="100%"
+                height="44px"
+              />
 
-            <CustomInput
-              leftIcon={<img src="/Home.svg" alt="Home Icon" />}
-              register={register('endereco', {
-                required: 'Endereço é obrigatório',
-              })}
-              id="endereco"
-              placeholder="Endereço"
-              type="text"
-              isRequired
-              borderColor={
-                errors.endereco ? 'red.500' : barberTheme.colors.primary.gray
-              }
-              color={barberTheme.colors.primary.gray03}
-              width="100%"
-              height="44px"
-            />
+              <CustomInput
+                leftIcon={<img src="/Home.svg" alt="Home Icon" />}
+                register={register('endereco', {
+                  required: 'Endereço é obrigatório',
+                })}
+                id="endereco"
+                placeholder="Endereço"
+                type="text"
+                isRequired
+                borderColor={
+                  errors.endereco ? 'red.500' : barberTheme.colors.primary.gray
+                }
+                color={barberTheme.colors.primary.gray03}
+                width="100%"
+                height="44px"
+              />
 
-            <Input
-              type="file"
-              id="foto"
-              {...register('logo')}
-              accept="image/*"
-              borderColor={
-                errors.logo ? 'red.500' : barberTheme.colors.primary.gray
-              }
-              color={barberTheme.colors.primary.gray03}
-              width="100%"
-              height="44px"
-              padding="8px 0 0 8px"
-              style={{
-                borderRadius: '4px',
-                borderWidth: '1px',
-              }}
-            />
-          </>
+              <Input
+                type="file"
+                id="foto"
+                {...register('logo')}
+                accept="image/*"
+                borderColor={
+                  errors.logo ? 'red.500' : barberTheme.colors.primary.gray
+                }
+                color={barberTheme.colors.primary.gray03}
+                width="100%"
+                height="44px"
+                padding="8px 0 0 8px"
+                style={{
+                  borderRadius: '4px',
+                  borderWidth: '1px',
+                }}
+              />
+            </>
 
-          <Button
-            onClick={handleSubmit(onSubmit)}
-            backgroundColor={barberTheme.colors.primary.orange}
-            color="white"
-            _hover={{ opacity: 0.8 }}
-            type="submit"
-            loadingText="Editando..."
-            isLoading={loading}
-            _active={{ opacity: 0.4 }}
-            my="16px"
-          >
-            Editar
-          </Button>
-        </Stack>
+            <Button
+              onClick={handleSubmit(onSubmit)}
+              backgroundColor={barberTheme.colors.primary.orange}
+              color="white"
+              _hover={{ opacity: 0.8 }}
+              type="submit"
+              loadingText="Editando..."
+              isLoading={loading}
+              _active={{ opacity: 0.4 }}
+              my="16px"
+            >
+              Editar
+            </Button>
+          </Stack>
+        )}
       </Box>
     </Box>
   );
