@@ -50,7 +50,7 @@ export const Init = () => {
             borderColor={barberTheme.colors.primary.gray}
             color={barberTheme.colors.primary.gray03}
             outline="none"
-            maxWidth="74%"
+            maxWidth="72%"
             height="44px"
             defaultValue={link}
             isReadOnly
