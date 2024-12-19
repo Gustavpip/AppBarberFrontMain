@@ -192,10 +192,10 @@ export const ScheduleClient = () => {
           isClosable: true,
           position: 'top-right',
         });
-        // reset();
-        // navigate(
-        //   `/agendamentos/${token}/${result.data.data.cliente.hashIdClient}`
-        // );
+        reset();
+        navigate(
+          `/agendamentos/${token}/${result.data.data.cliente.hashIdClient}`
+        );
       }
     } else {
       toast({
