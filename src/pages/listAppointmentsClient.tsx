@@ -23,12 +23,15 @@ import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
 import { Link, useParams } from 'react-router-dom';
 import useCancelAppointment from '../hooks/useCancelAppointment';
 
+import ReactLoading from 'react-loading';
+
 type Appointment = {
   id: string;
   data: string;
   hora: string;
   status: boolean;
   cancelado: boolean;
+  andamento: boolean;
   barbearia: {
     id: number;
     email: string;
@@ -174,12 +177,14 @@ export const AppointmentsListClient = () => {
       }
       const appointmentsActive = data.data.data.filter(
         (appointment: Appointment) =>
-          appointment.status !== true && appointment.cancelado !== true
+          appointment.status !== true &&
+          appointment.cancelado !== true &&
+          !appointment.andamento
       );
 
       const appointmenetsInactive = data.data.data.filter(
         (appointment: Appointment) =>
-          appointment.status === true || appointment.cancelado === true
+          appointment.status || appointment.cancelado || appointment.andamento
       );
 
       setInactiveAppointments(appointmenetsInactive);
@@ -189,6 +194,9 @@ export const AppointmentsListClient = () => {
     fetchAppointments();
     window.scrollTo(0, 0);
   }, [reload]); // Reexecuta o fetch apenas quando `reload` mudar
+
+  console.log(inactiveAppointments);
+  console.log(appointments);
 
   if (loading) {
     return (
@@ -320,6 +328,7 @@ export const AppointmentsListClient = () => {
         {appointments.length > 0 ? (
           appointments.map((appointment, index) => (
             <Box
+              backgroundColor="#1A1B1F"
               my="8px"
               position="relative"
               key={index}
@@ -335,6 +344,9 @@ export const AppointmentsListClient = () => {
               >
                 <Box display="flex" justifyContent="space-between">
                   <Text
+                    borderRadius="16px"
+                    padding="2px 8px"
+                    background={barberTheme.colors.primary.black}
                     color={barberTheme.colors.primary.orange}
                     fontWeight={barberTheme.fontWeights.bold}
                   >
@@ -431,7 +443,7 @@ export const AppointmentsListClient = () => {
           zIndex="10"
           padding="8px 0"
         >
-          FINALIZADOS
+          FINALIZADOS / PENDENTES
         </Text>
       </Box>
       <Box
@@ -450,6 +462,7 @@ export const AppointmentsListClient = () => {
         {inactiveAppointments.length > 0 ? (
           inactiveAppointments.map((appointment, index) => (
             <Box
+              backgroundColor="#1A1B1F"
               my="8px"
               position="relative"
               key={index}
@@ -465,14 +478,34 @@ export const AppointmentsListClient = () => {
               >
                 <Box display="flex" justifyContent="space-between">
                   <Text
+                    alignItems="center"
+                    display="flex"
                     color={
                       appointment.cancelado
                         ? 'red.400'
                         : barberTheme.colors.primary.orange
                     }
+                    borderRadius="16px"
+                    padding="2px 8px"
+                    background={barberTheme.colors.primary.black}
                     fontWeight={barberTheme.fontWeights.bold}
                   >
-                    {appointment.cancelado ? 'Cancelado' : 'Finalizado'}
+                    {appointment.cancelado
+                      ? 'Cancelado'
+                      : appointment.andamento
+                        ? 'Andamento'
+                        : 'Finalizado'}
+
+                    {appointment.andamento && (
+                      <Box mx="8px">
+                        <ReactLoading
+                          type="bubbles"
+                          color={barberTheme.colors.primary.orange}
+                          height={20}
+                          width={20}
+                        />
+                      </Box>
+                    )}
                   </Text>
                 </Box>
                 <Text
