@@ -261,6 +261,7 @@ export const ClientServiceList = () => {
                 onClick={handleDeleteService}
                 color="white"
                 backgroundColor="red.400"
+                
                 _loading={{
                   opacity: 0.4,
                   color: 'white !important',

@@ -125,6 +125,9 @@ export const ServiceList = () => {
                 mr={3}
                 _active={{ opacity: 0.4 }}
                 onClick={onClose}
+                _hover={{
+                  opacity: 0.4,
+                }}
               >
                 Fechar
               </Button>
@@ -135,6 +138,9 @@ export const ServiceList = () => {
                 color="white"
                 _active={{ opacity: 0.4 }}
                 backgroundColor="red.400"
+                _hover={{
+                  opacity: 0.4,
+                }}
                 _loading={{
                   opacity: 0.4,
                   color: 'white !important',
@@ -230,6 +236,9 @@ export const ServiceList = () => {
                       backgroundColor={barberTheme.colors.primary.gray}
                       color="white"
                       _active={{ opacity: 0.4 }}
+                      _hover={{
+                        opacity: 0.4,
+                      }}
                     >
                       Editar
                     </Button>
@@ -243,6 +252,9 @@ export const ServiceList = () => {
                     backgroundColor="red.400"
                     color="white"
                     _active={{ opacity: 0.4 }}
+                    _hover={{
+                      opacity: 0.4,
+                    }}
                   >
                     Excluir
                   </Button>

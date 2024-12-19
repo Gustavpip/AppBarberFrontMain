@@ -240,6 +240,9 @@ export const CancelAppointment = () => {
                 _active={{ opacity: 0.4 }}
                 mr={3}
                 onClick={onClose}
+                _hover={{
+                  opacity: 0.4,
+                }}
               >
                 Fechar
               </Button>
@@ -255,6 +258,9 @@ export const CancelAppointment = () => {
                 }}
                 _active={{ opacity: 0.4 }}
                 backgroundColor="red.400"
+                _hover={{
+                  opacity: 0.4,
+                }}
               >
                 Sim
               </Button>

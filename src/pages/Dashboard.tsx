@@ -59,9 +59,9 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
         top="0"
         left="0"
         right="0"
-        zIndex={999}
+        zIndex={101}
         backdropFilter={isOpen ? '' : 'blur(10px)'}
-        background={isOpen ? 'transparent' : 'rgba(255, 255, 255, 0.1)'}
+        background={isOpen ? '' : 'rgba(255, 255, 255, 0.1)'}
       >
         <Box
           as="nav"
@@ -107,18 +107,17 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
         </Box>
       </Box>
       <Slide
-        
         direction="right"
         in={isOpen}
-        style={{ zIndex: 0, pointerEvents: isOpen ? 'auto' : 'none' }}
+        style={{ zIndex: 100, maxWidth: '300px' }} // ZIndex dinâmico com base no breakpoint
       >
         <Box
           position="fixed"
           top="0"
           right="0"
           height="100vh"
-          width="90%"
-          maxWidth="400px"
+          width="100%"
+          maxWidth="340px"
           bg="#18181D"
           borderLeft={`1px solid ` + barberTheme.colors.primary.gray}
           borderBottom={`1px solid ` + barberTheme.colors.primary.gray}

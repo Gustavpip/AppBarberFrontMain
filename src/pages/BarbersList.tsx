@@ -93,6 +93,7 @@ export const BarbersList = () => {
       flexDirection="column"
       maxWidth="540px"
       margin="0 auto"
+      zIndex="0"
     >
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Modal isOpen={isOpen} onClose={onClose}>
@@ -118,6 +119,9 @@ export const BarbersList = () => {
                 mr={3}
                 onClick={onClose}
                 _active={{ opacity: 0.4 }}
+                _hover={{
+                  opacity: 0.4,
+                }}
               >
                 Fechar
               </Button>
@@ -132,6 +136,9 @@ export const BarbersList = () => {
                   backgroundColor: 'red.400 !important',
                 }}
                 backgroundColor="red.400"
+                _hover={{
+                  opacity: 0.4,
+                }}
                 _active={{ opacity: 0.4 }}
               >
                 Excluir
@@ -203,6 +210,9 @@ export const BarbersList = () => {
                     height="30px"
                     backgroundColor={barberTheme.colors.primary.gray}
                     color="white"
+                    _hover={{
+                      opacity: 0.4,
+                    }}
                   >
                     Editar
                   </Button>
@@ -215,6 +225,9 @@ export const BarbersList = () => {
                     height="30px"
                     backgroundColor="red.400"
                     color="white"
+                    _hover={{
+                      opacity: 0.4,
+                    }}
                     _active={{ opacity: 0.4 }}
                   >
                     Excluir

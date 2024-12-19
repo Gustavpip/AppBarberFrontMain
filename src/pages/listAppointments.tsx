@@ -222,6 +222,9 @@ export const AppointmentsList = () => {
                 mr={3}
                 _active={{ opacity: 0.4 }}
                 onClick={onClose}
+                _hover={{
+                  opacity: 0.4,
+                }}
               >
                 Fechar
               </Button>
@@ -237,6 +240,9 @@ export const AppointmentsList = () => {
                 loadingText="Cancelando..."
                 onClick={handleCancelAppointment}
                 color="white"
+                _hover={{
+                  opacity: 0.4,
+                }}
                 backgroundColor="red.400"
               >
                 Sim

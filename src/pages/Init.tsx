@@ -61,6 +61,7 @@ export const Init = () => {
             backgroundColor={barberTheme.colors.primary.orange}
             color="white"
             onClick={handleCopy}
+            _hover={{ opacity: 0.4 }}
             _active={{
               opacity: 0.4,
               background: barberTheme.colors.primary.orange + '!important',

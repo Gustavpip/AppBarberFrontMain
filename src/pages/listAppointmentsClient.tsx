@@ -242,6 +242,9 @@ export const AppointmentsListClient = () => {
                 _active={{ opacity: 0.4 }}
                 mr={3}
                 onClick={onClose}
+                _hover={{
+                  opacity: 0.4,
+                }}
               >
                 Fechar
               </Button>
@@ -256,6 +259,9 @@ export const AppointmentsListClient = () => {
                   backgroundColor: 'red.400 !important',
                 }}
                 _active={{ opacity: 0.4 }}
+                _hover={{
+                  opacity: 0.4,
+                }}
                 backgroundColor="red.400"
               >
                 Sim
@@ -512,7 +518,6 @@ export const AppointmentsListClient = () => {
                       />
                     )}
                   </Box>
-                
                 </Box>
                 <Text
                   maxWidth="94%"
