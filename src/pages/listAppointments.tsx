@@ -22,12 +22,15 @@ import useAppointmentsList from '../hooks/useListAppointments';
 import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
 import useCancelAppointment from '../hooks/useCancelAppointment';
 
+import ReactLoading from 'react-loading';
+
 type Appointment = {
   id: string;
   data: string;
   hora: string;
   status: boolean;
   cancelado: boolean;
+  andamento: boolean;
   barbearia: {
     id: number;
     email: string;
@@ -157,12 +160,14 @@ export const AppointmentsList = () => {
       const data = await getAppointments();
       const appointmentsActive = data.data.data.filter(
         (appointment: Appointment) =>
-          appointment.status !== true && appointment.cancelado !== true
+          appointment.status !== true &&
+          appointment.cancelado !== true &&
+          !appointment.andamento
       );
 
       const appointmenetsInactive = data.data.data.filter(
         (appointment: Appointment) =>
-          appointment.status === true || appointment.cancelado === true
+          appointment.status || appointment.cancelado || appointment.andamento
       );
 
       setInactiveAppointments(appointmenetsInactive);
@@ -221,12 +226,13 @@ export const AppointmentsList = () => {
                 Fechar
               </Button>
               <Button
-              _loading={{
-                opacity: 0.4,
-                color: 'white',
-                backgroundColor: barberTheme.colors.primary.gray + ' !important',
-              }}
-               _active={{ opacity: 0.4 }}
+                _loading={{
+                  opacity: 0.4,
+                  color: 'white',
+                  backgroundColor:
+                    barberTheme.colors.primary.gray + ' !important',
+                }}
+                _active={{ opacity: 0.4 }}
                 isLoading={cancelLoading}
                 loadingText="Cancelando..."
                 onClick={handleCancelAppointment}
@@ -287,6 +293,7 @@ export const AppointmentsList = () => {
         {appointments.length > 0 ? (
           appointments.map((appointment, index) => (
             <Box
+              backgroundColor="#1A1B1F"
               my="8px"
               position="relative"
               key={index}
@@ -302,6 +309,9 @@ export const AppointmentsList = () => {
               >
                 <Box display="flex" justifyContent="space-between">
                   <Text
+                    borderRadius="16px"
+                    padding="2px 8px"
+                    background={barberTheme.colors.primary.black}
                     color={barberTheme.colors.primary.orange}
                     fontWeight={barberTheme.fontWeights.bold}
                   >
@@ -397,7 +407,7 @@ export const AppointmentsList = () => {
           zIndex="10"
           padding="8px 0"
         >
-          FINALIZADOS
+          PENDENTES / FINALIZADOS
         </Text>
       </Box>
       <Box
@@ -417,6 +427,7 @@ export const AppointmentsList = () => {
         {inactiveAppointments.length > 0 ? (
           inactiveAppointments.map((appointment, index) => (
             <Box
+              backgroundColor="#1A1B1F"
               my="8px"
               position="relative"
               key={index}
@@ -430,17 +441,42 @@ export const AppointmentsList = () => {
                 borderRight={`1px solid ${barberTheme.colors.primary.gray}`}
                 width="70%"
               >
-                <Box display="flex" justifyContent="space-between">
+                <Box display="flex" alignItems="center">
                   <Text
+                    alignItems="center"
+                    display="flex"
                     color={
                       appointment.cancelado
                         ? 'red.400'
-                        : barberTheme.colors.primary.orange
+                        : appointment.status
+                          ? barberTheme.colors.primary.gray03
+                          : barberTheme.colors.primary.orange
+                    }
+                    borderRadius="16px"
+                    padding="2px 8px"
+                    background={
+                      appointment.status
+                        ? barberTheme.colors.primary.gray
+                        : barberTheme.colors.primary.black
                     }
                     fontWeight={barberTheme.fontWeights.bold}
                   >
-                    {appointment.cancelado ? 'Cancelado' : 'Finalizado'}
+                    {appointment.cancelado
+                      ? 'Cancelado'
+                      : appointment.andamento
+                        ? 'Andamento'
+                        : 'Finalizado'}
                   </Text>
+                  <Box>
+                    {appointment.andamento && (
+                      <ReactLoading
+                        type="bubbles"
+                        color={barberTheme.colors.primary.orange}
+                        height={20}
+                        width={20}
+                      />
+                    )}
+                  </Box>
                 </Box>
                 <Text
                   maxWidth="94%"

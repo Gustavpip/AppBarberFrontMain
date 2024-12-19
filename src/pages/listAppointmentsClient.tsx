@@ -443,7 +443,7 @@ export const AppointmentsListClient = () => {
           zIndex="10"
           padding="8px 0"
         >
-          FINALIZADOS / PENDENTES
+          PENDENTES / FINALIZADOS
         </Text>
       </Box>
       <Box
@@ -476,18 +476,24 @@ export const AppointmentsListClient = () => {
                 borderRight={`1px solid ${barberTheme.colors.primary.gray}`}
                 width="70%"
               >
-                <Box display="flex" justifyContent="space-between">
+                <Box display="flex" alignItems="center">
                   <Text
                     alignItems="center"
                     display="flex"
                     color={
                       appointment.cancelado
                         ? 'red.400'
-                        : barberTheme.colors.primary.orange
+                        : appointment.status
+                          ? barberTheme.colors.primary.gray03
+                          : barberTheme.colors.primary.orange
                     }
                     borderRadius="16px"
                     padding="2px 8px"
-                    background={barberTheme.colors.primary.black}
+                    background={
+                      appointment.status
+                        ? barberTheme.colors.primary.gray
+                        : barberTheme.colors.primary.black
+                    }
                     fontWeight={barberTheme.fontWeights.bold}
                   >
                     {appointment.cancelado
@@ -495,18 +501,18 @@ export const AppointmentsListClient = () => {
                       : appointment.andamento
                         ? 'Andamento'
                         : 'Finalizado'}
-
-                    {appointment.andamento && (
-                      <Box mx="8px">
-                        <ReactLoading
-                          type="bubbles"
-                          color={barberTheme.colors.primary.orange}
-                          height={20}
-                          width={20}
-                        />
-                      </Box>
-                    )}
                   </Text>
+                  <Box>
+                    {appointment.andamento && (
+                      <ReactLoading
+                        type="bubbles"
+                        color={barberTheme.colors.primary.orange}
+                        height={20}
+                        width={20}
+                      />
+                    )}
+                  </Box>
+                
                 </Box>
                 <Text
                   maxWidth="94%"
