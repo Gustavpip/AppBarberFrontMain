@@ -109,7 +109,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
       <Slide
         direction="right"
         in={isOpen}
-        style={{ zIndex: 100, maxWidth: '300px' }} // ZIndex dinâmico com base no breakpoint
+        style={{ zIndex: 100, maxWidth: '400px' }} // ZIndex dinâmico com base no breakpoint
       >
         <Box
           position="fixed"
@@ -117,7 +117,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
           right="0"
           height="100vh"
           width="100%"
-          maxWidth="340px"
+          maxWidth="400px"
           bg="#18181D"
           borderLeft={`1px solid ` + barberTheme.colors.primary.gray}
           borderBottom={`1px solid ` + barberTheme.colors.primary.gray}

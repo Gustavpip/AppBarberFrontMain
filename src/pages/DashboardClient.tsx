@@ -119,7 +119,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
           backgroundColor={barberTheme.colors.primary.black}
           overflow="hidden" /* Evita rolagem desnecessária */
         >
-          <Slide direction="right" in={isOpen} style={{ zIndex: 100 }}>
+          <Slide direction="right" in={isOpen} style={{ zIndex: 100, maxWidth: '400px' }}>
             <Box
               position="fixed"
               top="0"
