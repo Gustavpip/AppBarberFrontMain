@@ -59,9 +59,9 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
         top="0"
         left="0"
         right="0"
-        zIndex={999} // Certifique-se de que o header tem um zIndex alto
-        backdropFilter={isOpen ? '' : 'blur(10px)'} // Aplica o desfoque
-        background={isOpen ? 'transparent' : 'rgba(255, 255, 255, 0.1)'} // Fundo semi-transparente
+        zIndex={999}
+        backdropFilter={isOpen ? '' : 'blur(10px)'}
+        background={isOpen ? 'transparent' : 'rgba(255, 255, 255, 0.1)'}
       >
         <Box
           as="nav"
@@ -107,9 +107,10 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
         </Box>
       </Box>
       <Slide
+        
         direction="right"
         in={isOpen}
-        style={{ zIndex: 100, pointerEvents: 'auto' }}
+        style={{ zIndex: 0, pointerEvents: isOpen ? 'auto' : 'none' }}
       >
         <Box
           position="fixed"

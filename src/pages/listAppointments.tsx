@@ -407,7 +407,7 @@ export const AppointmentsList = () => {
           zIndex="10"
           padding="8px 0"
         >
-          PENDENTES / FINALIZADOS
+          ANDAMENTO / FINALIZADOS
         </Text>
       </Box>
       <Box
