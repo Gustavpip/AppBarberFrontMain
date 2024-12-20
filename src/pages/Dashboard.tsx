@@ -368,6 +368,9 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
               mr={3}
               onClick={onClose}
               _active={{ opacity: 0.4 }}
+              _hover={{
+                opacity: 0.4,
+              }}
             >
               Fechar
             </Button>
@@ -376,6 +379,9 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
               color="white"
               backgroundColor="red.400"
               _active={{ opacity: 0.4 }}
+              _hover={{
+                opacity: 0.4,
+              }}
             >
               Sair
             </Button>

@@ -40,11 +40,11 @@ export const Signup = () => {
       return;
     }
 
-    if (data.phone.length < 11) {
+    if (data.phone?.trim().length < 11 || data.phone?.trim().length > 11) {
       toast({
         title: 'Erro de validação',
         description:
-          'Por favor, inclua o DDD e adicione o número 9 antes do telefone.',
+          'Por favor, inclua o DDD e adicione o número 9 antes do telefone. Máximo 11 dígitos',
         status: 'error',
         duration: 5000,
         isClosable: true,

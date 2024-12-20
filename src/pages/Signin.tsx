@@ -130,9 +130,15 @@ export const Signin = () => {
             height="44px"
           />
 
-          <Link to="/recuperar/senha">
+          <Link
+            style={{
+              width: '156px',
+              alignSelf: 'end',
+            }}
+            to="/recuperar/senha"
+          >
             <CustomParagraph
-              textAlign="right"
+              style={{ display: 'inline-block' }}
               color={barberTheme.colors.primary.gray03}
             >
               Esqueceu sua senha?
