@@ -71,6 +71,18 @@ export const ScheduleClient = () => {
       formattedDate
     );
 
+    if (!response.success) {
+      toast({
+        title: 'Erro ao buscar',
+        description: response?.data?.response?.data?.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'top-right',
+      });
+      return;
+    }
+
     setHours(response.data.data);
   };
 
