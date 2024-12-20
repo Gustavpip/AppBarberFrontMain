@@ -80,6 +80,7 @@ export const ScheduleClient = () => {
         isClosable: true,
         position: 'top-right',
       });
+      setHours([]);
       return;
     }
 
