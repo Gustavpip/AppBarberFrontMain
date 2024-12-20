@@ -131,8 +131,9 @@ export const ScheduleClient = () => {
         setHours(response.data.data);
       };
       fetchHours();
+      console.log('loopig');
     }
-  }, [selectedBarber]);
+  }, [selectedBarber, selectedDate]);
 
   const toast = useToast();
 
@@ -270,6 +271,7 @@ export const ScheduleClient = () => {
       if (currentStep === 3) {
         if (selectedBarber.length > 0) {
           setCurrentStep(4);
+          setSelectedDate(moment(new Date()).format('YYYY-MM-DD'));
         } else {
           toast({
             title: 'Por favor, selecione o barbeiro',
