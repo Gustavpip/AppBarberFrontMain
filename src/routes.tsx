@@ -22,6 +22,7 @@ import { AppointmentsListClient } from './pages/listAppointmentsClient';
 import { CancelAppointment } from './pages/CancelAppointment';
 import { Profile } from './pages/Profile';
 import { ServiceEdit } from './pages/ServiceEdit';
+import { BarberEdit } from './pages/BarberEdit';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, loading } = useAuth();
@@ -161,6 +162,15 @@ const AppRoutes = () => {
         element={
           <Dashboard>
             <ServiceEdit />
+          </Dashboard>
+        }
+      />
+
+      <Route
+        path="/barbeiro/:idBarber"
+        element={
+          <Dashboard>
+            <BarberEdit />
           </Dashboard>
         }
       />

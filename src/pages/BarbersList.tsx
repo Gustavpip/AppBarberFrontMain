@@ -203,19 +203,21 @@ export const BarbersList = () => {
                   {barber.nome_completo} - Barbeiro
                 </Text>
                 <Box display="flex" alignItems="end" justifyContent="end">
-                  <Button
-                    _active={{ opacity: 0.4 }}
-                    mr="8px"
-                    mt="30px"
-                    height="30px"
-                    backgroundColor={barberTheme.colors.primary.gray}
-                    color="white"
-                    _hover={{
-                      opacity: 0.4,
-                    }}
-                  >
-                    Editar
-                  </Button>
+                  <Link to={`/barbeiro/${barber.id}`}>
+                    <Button
+                      _active={{ opacity: 0.4 }}
+                      mr="8px"
+                      mt="30px"
+                      height="30px"
+                      backgroundColor={barberTheme.colors.primary.gray}
+                      color="white"
+                      _hover={{
+                        opacity: 0.4,
+                      }}
+                    >
+                      Editar
+                    </Button>
+                  </Link>
                   <Button
                     onClick={() => {
                       onOpen();

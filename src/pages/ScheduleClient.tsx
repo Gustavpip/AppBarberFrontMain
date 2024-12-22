@@ -131,7 +131,6 @@ export const ScheduleClient = () => {
         setHours(response.data.data);
       };
       fetchHours();
-      console.log('loopig');
     }
   }, [selectedBarber, selectedDate]);
 
