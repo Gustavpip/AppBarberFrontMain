@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import api from '../axiosConfig';
-import { BarberDTO, ServiceDTO } from '../types/allTypes';
 
 const useBarberEdit = () => {
   const [loading, setLoading] = useState(false);
