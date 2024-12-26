@@ -195,9 +195,6 @@ export const AppointmentsListClient = () => {
     window.scrollTo(0, 0);
   }, [reload]); // Reexecuta o fetch apenas quando `reload` mudar
 
-  console.log(inactiveAppointments);
-  console.log(appointments);
-
   if (loading) {
     return (
       <Center height="calc(92vh - 73px)">

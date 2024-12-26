@@ -26,6 +26,7 @@ import Calendar from 'react-calendar';
 import { useState } from 'react';
 import useBarberList from '../hooks/useBarberList';
 import useHoursList from '../hooks/useHoursList';
+import useGetUser from '../hooks/useGetUser';
 
 export const ScheduleClient = () => {
   const {
@@ -47,6 +48,7 @@ export const ScheduleClient = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<string[]>([]);
   const [hours, setHours] = useState<string[]>([]);
+  const [absent, setAbsent] = useState(true);
   const [selectedDate, setSelectedDate] = useState<string>(
     moment(new Date()).format('YYYY-MM-DD')
   );
@@ -57,6 +59,7 @@ export const ScheduleClient = () => {
   const { getServices } = useServiceList();
   const { getBarbers } = useBarberList();
   const { getHours, loading: loadingHours } = useHoursList();
+  const { getUser, loading: loadingUser } = useGetUser();
 
   const navigate = useNavigate();
   const { token } = useParams();
@@ -106,6 +109,20 @@ export const ScheduleClient = () => {
   };
 
   useEffect(() => {
+    const fetchUser = async () => {
+      const result = await getUser(token);
+      if (!result?.data.data.absent) {
+        setAbsent(false);
+        toast({
+          title: 'A barbearia não está aceitando novos agendamentos para hoje.',
+          status: 'error',
+          duration: 5000,
+          position: 'top-right',
+          isClosable: true,
+        });
+      }
+    };
+
     const fetchBarbers = async () => {
       const result = await getBarbers(token);
       setBarbers(result.data.data);
@@ -114,7 +131,7 @@ export const ScheduleClient = () => {
       const response = await getServices(token);
       setServices(response.data.data);
     };
-
+    fetchUser();
     fetchServices();
     fetchBarbers();
   }, []);
@@ -337,83 +354,91 @@ export const ScheduleClient = () => {
           as="form"
           onSubmit={handleSubmit(onSubmit)}
         >
-          {currentStep === 1 && (
-            <>
-              <Box>
-                <>
-                  <Box margin="16px 0">
-                    <CustomInput
-                      leftIcon={<img src="/User.svg" alt="User Icon" />}
-                      register={register('nome', {
-                        required: 'Nome é obrigatório',
-                        validate: {
-                          hasTwoWords: (value) =>
-                            value.trim().split(/\s+/).length > 1 ||
-                            'Informe o nome completo',
-                          noSpacesOnly: (value) =>
-                            value.trim().length > 3 ||
-                            'Nome não pode ser vazio ou muito curto',
-                        },
-                      })}
-                      id="nome"
-                      placeholder="Nome e último nome"
-                      type="text"
-                      isRequired
-                      borderColor={
-                        errors.nome
-                          ? 'red.500'
-                          : barberTheme.colors.primary.gray
-                      }
-                      color={barberTheme.colors.primary.gray03}
-                      width="100%"
-                      height="44px"
-                    />
-                  </Box>
+          {loadingUser ? (
+            <Center height="2vh">
+              <Spinner size="xl" color={barberTheme.colors.primary.orange} />
+            </Center>
+          ) : (
+            currentStep === 1 && (
+              <>
+                <Box>
+                  <>
+                    <Box margin="16px 0">
+                      <CustomInput
+                        leftIcon={<img src="/User.svg" alt="User Icon" />}
+                        register={register('nome', {
+                          required: 'Nome é obrigatório',
+                          validate: {
+                            hasTwoWords: (value) =>
+                              value.trim().split(/\s+/).length > 1 ||
+                              'Informe o nome completo',
+                            noSpacesOnly: (value) =>
+                              value.trim().length > 3 ||
+                              'Nome não pode ser vazio ou muito curto',
+                          },
+                        })}
+                        id="nome"
+                        placeholder="Nome e último nome"
+                        type="text"
+                        isRequired
+                        isDisabled={absent ? false : true}
+                        borderColor={
+                          errors.nome
+                            ? 'red.500'
+                            : barberTheme.colors.primary.gray
+                        }
+                        color={barberTheme.colors.primary.gray03}
+                        width="100%"
+                        height="44px"
+                      />
+                    </Box>
 
-                  <Box>
-                    <CustomInput
-                      leftIcon={
-                        <img src="/Smartphone.svg" alt="Smartphone Icon" />
-                      }
-                      register={register('telefone', {
-                        required: 'Telefone é obrigatório',
-                        minLength: 10,
-                        maxLength: 11,
-                        validate: {
-                          validPhone: (value) =>
-                            /^\(?\d{2}\)?\s?9\d{4}-?\d{4}$/.test(
-                              value.trim()
-                            ) ||
-                            'Informe um telefone válido no formato correto (DDD + 9 + número)',
-                        },
-                      })}
-                      id="telefone"
-                      placeholder="Whatsapp"
-                      type="text"
-                      isRequired
-                      borderColor={
-                        errors.telefone
-                          ? 'red.500'
-                          : barberTheme.colors.primary.gray
-                      }
-                      color={barberTheme.colors.primary.gray03}
+                    <Box>
+                      <CustomInput
+                        leftIcon={
+                          <img src="/Smartphone.svg" alt="Smartphone Icon" />
+                        }
+                        register={register('telefone', {
+                          required: 'Telefone é obrigatório',
+                          minLength: 10,
+                          maxLength: 11,
+                          validate: {
+                            validPhone: (value) =>
+                              /^\(?\d{2}\)?\s?9\d{4}-?\d{4}$/.test(
+                                value.trim()
+                              ) ||
+                              'Informe um telefone válido no formato correto (DDD + 9 + número)',
+                          },
+                        })}
+                        id="telefone"
+                        placeholder="Whatsapp"
+                        type="text"
+                        isRequired
+                        isDisabled={absent ? false : true}
+                        borderColor={
+                          errors.telefone
+                            ? 'red.500'
+                            : barberTheme.colors.primary.gray
+                        }
+                        color={barberTheme.colors.primary.gray03}
+                        width="100%"
+                        height="44px"
+                      />
+                    </Box>
+                    <Text
                       width="100%"
-                      height="44px"
-                    />
-                  </Box>
-                  <Text
-                    width="100%"
-                    fontSize="14px"
-                    textAlign="left"
-                    m="16px 0"
-                    color={barberTheme.colors.primary.orange}
-                  >
-                    Por favor, insira o número com o DDD (2 dígitos), seguido do
-                    9 e o número de telefone.
-                  </Text>
-                </>
-              </Box>
-            </>
+                      fontSize="14px"
+                      textAlign="left"
+                      m="16px 0"
+                      color={barberTheme.colors.primary.orange}
+                    >
+                      Por favor, insira o número com o DDD (2 dígitos), seguido
+                      do 9 e o número de telefone.
+                    </Text>
+                  </>
+                </Box>
+              </>
+            )
           )}
 
           {currentStep === 2 && (
@@ -432,7 +457,7 @@ export const ScheduleClient = () => {
                     onClick={() => handleSelect(service.id)}
                     key={index}
                     cursor="pointer"
-                    p="8px"
+                    p="32px"
                     width="100%"
                     height="120px"
                     display="flex"
@@ -449,7 +474,7 @@ export const ScheduleClient = () => {
                     color="white"
                   >
                     <img src={service.foto} height="36px" width="36px" />
-                    <Text position="absolute" bottom="4px">
+                    <Text position="absolute" bottom="8px">
                       {service.nome}
                     </Text>
                   </Box>
@@ -603,6 +628,7 @@ export const ScheduleClient = () => {
                 onClick={handleNextStep}
                 backgroundColor={barberTheme.colors.primary.orange}
                 color="white"
+                isDisabled={absent ? false : true}
                 _hover={{ opacity: 0.8 }}
                 _active={{ opacity: 0.4 }}
               >

@@ -23,6 +23,8 @@ import { ChevronDownIcon, CloseIcon } from '@chakra-ui/icons';
 import useCancelAppointment from '../hooks/useCancelAppointment';
 
 import ReactLoading from 'react-loading';
+import useBlockAppointments from '../hooks/useBlockAppointments';
+import useGetUser from '../hooks/useGetUser';
 
 type Appointment = {
   id: string;
@@ -70,14 +72,28 @@ type Appointment = {
 export const AppointmentsList = () => {
   const { getAppointments, loading } = useAppointmentsList();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [barberShop, setBarberShop] = useState();
   const [inactiveAppointments, setInactiveAppointments] = useState<
     Appointment[]
   >([]);
+  const { getUser, loading: loadingUser } = useGetUser();
+  const [absent, setAbsent] = useState<boolean>();
   const [reload, setReload] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { blockAppointments, loading: loadingBlock } = useBlockAppointments();
+  const {
+    isOpen: isOpenBlock,
+    onOpen: onOpenBlock,
+    onClose: onCloseBlock,
+  } = useDisclosure();
   const [appointmentId, setAppointmentId] = useState<string>();
   const { cancelAppointment, loading: cancelLoading } = useCancelAppointment();
   const toast = useToast();
+
+  const handleBlockAppointments = async () => {
+    await blockAppointments({ absent: !absent });
+    onCloseBlock();
+  };
 
   const handleCancelAppointment = async () => {
     if (appointmentId) {
@@ -158,19 +174,22 @@ export const AppointmentsList = () => {
   useEffect(() => {
     const fetchAppointments = async () => {
       const data = await getAppointments();
-      const appointmentsActive = data.data.data.filter(
+      const result = await getUser();
+
+      const appointmentsActive = data.data.data?.filter(
         (appointment: Appointment) =>
           appointment.status !== true &&
           appointment.cancelado !== true &&
           !appointment.andamento
       );
 
-      const appointmenetsInactive = data.data.data.filter(
+      const appointmenetsInactive = data.data.data?.filter(
         (appointment: Appointment) =>
           appointment.status || appointment.cancelado || appointment.andamento
       );
-
+      setAbsent(result.data.data.absent);
       setInactiveAppointments(appointmenetsInactive);
+
       setAppointments(appointmentsActive);
     };
 
@@ -250,6 +269,67 @@ export const AppointmentsList = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
+
+        {/*teste*/}
+
+        <Modal isOpen={isOpenBlock} onClose={onCloseBlock}>
+          <ModalOverlay />
+          <ModalContent
+            bg={barberTheme.colors.primary.black}
+            color="white"
+            maxW="500px"
+            mx="auto"
+            marginY="200px"
+            marginX="16px"
+            borderRadius="md"
+          >
+            <ModalHeader>Você tem certeza?</ModalHeader>
+            <ModalCloseButton />
+
+            <ModalBody color={barberTheme.colors.primary.gray03}>
+              {absent
+                ? 'Ao confirmar, os clientes poderão agendar com você até que o bloqueio seja realizado.'
+                : 'Ao confirmar, os clientes não poderão agendar com você até que o desbloqueio seja realizado.'}
+            </ModalBody>
+            <ModalFooter>
+              <Button
+                backgroundColor={barberTheme.colors.primary.gray}
+                color="white"
+                mr={3}
+                _active={{ opacity: 0.4 }}
+                onClick={onCloseBlock}
+                _hover={{
+                  opacity: 0.4,
+                }}
+              >
+                Fechar
+              </Button>
+              <Button
+                _loading={{
+                  opacity: 0.4,
+                  color: 'white',
+                  backgroundColor:
+                    barberTheme.colors.primary.gray + ' !important',
+                }}
+                _active={{ opacity: 0.4 }}
+                isLoading={loadingBlock}
+                loadingText={absent ? 'Bloqueando...' : 'Desbloqueando...'}
+                onClick={() => {
+                  handleBlockAppointments();
+                  setAbsent(!absent);
+                }}
+                color="white"
+                _hover={{
+                  opacity: 0.4,
+                }}
+                backgroundColor="red.400"
+              >
+                Sim
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+
         {/* Títulos */}
         <Box flexShrink={0}>
           <Text
@@ -266,20 +346,31 @@ export const AppointmentsList = () => {
           >
             Agendamentos
           </Text>
-          <Text
-            m="8px 0"
-            fontWeight={barberTheme.fontWeights.bold}
-            color={barberTheme.colors.primary.gray03}
-            fontSize="16px"
-            as="h1"
-            position="sticky"
-            top="32px"
-            bg={barberTheme.colors.primary.black}
-            zIndex="10"
-            padding="8px 0"
-          >
-            CONFIRMADOS
-          </Text>
+          <Box display="flex" justifyContent="space-between">
+            <Text
+              m="8px 0"
+              fontWeight={barberTheme.fontWeights.bold}
+              color={barberTheme.colors.primary.gray03}
+              fontSize="16px"
+              as="h1"
+              position="sticky"
+              top="32px"
+              bg={barberTheme.colors.primary.black}
+              zIndex="10"
+              padding="8px 0"
+            >
+              CONFIRMADOS
+            </Text>
+            <Button
+              _active={{ opacity: 0.4 }}
+              _hover={{ opacity: 0.4 }}
+              backgroundColor="red.400"
+              color="white"
+              onClick={onOpenBlock}
+            >
+              {absent ? 'Desbloquear' : 'Bloquear'}
+            </Button>
+          </Box>
         </Box>
       </Box>
       <Box
@@ -352,8 +443,8 @@ export const AppointmentsList = () => {
                     borderRadius="12px"
                     height="24px"
                     width="24px"
-                    objectFit="cover"
-                    src="https://img.freepik.com/vetores-premium/logotipo-do-emblema-do-cracha-da-barbearia-com-icone-de-bigode-barba-logotipo-do-emblema-vintage-simples-hexagono-classico_645012-28.jpg?semt=ais_hybrid"
+                    objectFit={appointment.barbearia.logo ? 'cover' : 'contain'}
+                    src={appointment.barbearia.logo || '/logo.png'}
                   />
                   <Text color="white" mx="8px">
                     {appointment?.cliente?.nome}
@@ -499,8 +590,8 @@ export const AppointmentsList = () => {
                     borderRadius="12px"
                     height="24px"
                     width="24px"
-                    objectFit="cover"
-                    src="https://img.freepik.com/vetores-premium/logotipo-do-emblema-do-cracha-da-barbearia-com-icone-de-bigode-barba-logotipo-do-emblema-vintage-simples-hexagono-classico_645012-28.jpg?semt=ais_hybrid"
+                    objectFit={appointment.barbearia.logo ? 'cover' : 'contain'}
+                    src={appointment.barbearia.logo || '/logo.png'}
                   />
                   <Text color="white" mx="8px">
                     {appointment?.cliente.nome}

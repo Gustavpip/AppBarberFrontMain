@@ -147,7 +147,7 @@ export const BarberEdit = () => {
 
       formData.append('dias_trabalho', stringWorkDays);
       formData.append('id', idBarber ? idBarber : '');
-      // console.log(formData);
+
       // return;
       const result = await updateBarber(formData);
 
@@ -268,7 +268,7 @@ export const BarberEdit = () => {
   useEffect(() => {
     const fetchBarber = async () => {
       const response = await getBarber(idBarber);
-      console.log(response.data.data);
+      
       setBarber(response.data.data);
       setValue('nome_completo', response.data.data.nome_completo);
       setValue('telefone', response.data.data.telefone);
@@ -281,9 +281,6 @@ export const BarberEdit = () => {
         response.data.data.horariosTrabalho[0].inicio_almoco;
 
       const lunchEnd = response.data.data.horariosTrabalho[0].fim_almoco;
-      console.log(initialLunchInit);
-      console.log(lunchEnd);
-      console.log(initialLunchInit.slice(0, 5));
 
       const initWork = response.data.data.horariosTrabalho[0].horario_inicio;
       const endWork = response.data.data.horariosTrabalho[0].horario_fim;
