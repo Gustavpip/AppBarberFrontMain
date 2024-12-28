@@ -1,0 +1,48 @@
+name: "Deployment"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: npm
+          cache-dependency-path: './package-lock.json'
+
+      - name: NPM Install
+        run: |
+          npm install
+
+      - name: NPM Build
+        run: |
+          npm run build
+
+      - name: Send files
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOSTNAME }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          source: "dist"
+          target: "~"
+
+      - name: Install
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOSTNAME }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: |
+            mv AppBarberFrontMain AppBarberFrontMain.old
+            mv dist AppBarberFrontMain
+            rm -fr dist AppBarberFrontMain.old
