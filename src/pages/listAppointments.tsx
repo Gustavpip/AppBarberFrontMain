@@ -72,11 +72,10 @@ type Appointment = {
 export const AppointmentsList = () => {
   const { getAppointments, loading } = useAppointmentsList();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [barberShop, setBarberShop] = useState();
   const [inactiveAppointments, setInactiveAppointments] = useState<
     Appointment[]
   >([]);
-  const { getUser, loading: loadingUser } = useGetUser();
+  const { getUser } = useGetUser();
   const [absent, setAbsent] = useState<boolean>();
   const [reload, setReload] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
