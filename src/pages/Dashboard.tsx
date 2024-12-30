@@ -106,6 +106,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
           </Box>
         </Box>
       </Box>
+      {/* here*/}
       <Slide
         direction="right"
         in={isOpen}
@@ -133,7 +134,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
             py="22px"
             as="div"
             display="flex"
-            alignItems="center"
+            alignItems="start"
             flexDirection="row"
             borderBottom={`1px solid ${barberTheme.colors.primary.gray}`}
           >
@@ -141,7 +142,6 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
               mr="12px"
               display="flex"
               justifyContent="center"
-              alignItems="center"
               backgroundColor={barberTheme.colors.primary.orange}
               p="2px"
               borderRadius="50%"
@@ -172,150 +172,152 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
             as="ul"
             borderBottom={`1px solid ${barberTheme.colors.primary.gray}`}
           >
-            <Text
-              as="li"
-              display="flex"
-              alignItems="center"
-              height="44px"
-              my="16px"
-              width="310px"
-              borderRadius="12px"
-              color="white"
-              padding="0 16px"
-              cursor="pointer"
-              backgroundColor={
-                selectedItem === 'home'
-                  ? barberTheme.colors.primary.orange
-                  : 'transparent'
-              }
-              onClick={() => handleSelect('home')}
+            <Link
+              to="/"
+              style={{
+                flex: 1,
+                textAlign: 'start',
+                maxHeight: '46px !important',
+              }}
             >
-              <Image src="/home.svg" boxSize="20px" marginRight="8px" />{' '}
-              <Link
-                to="/"
-                style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
+              <Text
+                as="li"
+                display="flex"
+                alignItems="center"
+                height="44px"
+                width="310px"
+                borderRadius="12px"
+                color="white"
+                mt="16px"
+                padding="0 16px"
+                cursor="pointer"
+                backgroundColor={
+                  selectedItem === 'home'
+                    ? barberTheme.colors.primary.orange
+                    : 'transparent'
+                }
+                onClick={() => handleSelect('home')}
               >
+                <Image src="/home.svg" boxSize="20px" marginRight="8px" />{' '}
                 Início
-              </Link>
-            </Text>
-            <Text
-              as="li"
-              display="flex"
-              alignItems="center"
-              height="44px"
-              mt="16px"
-              mb="16px"
-              width="310px"
-              borderRadius="12px"
-              color="white"
-              padding="0 16px"
-              cursor="pointer"
-              backgroundColor={
-                selectedItem === 'appointments'
-                  ? barberTheme.colors.primary.orange
-                  : 'transparent'
-              }
-              onClick={() => handleSelect('appointments')}
-            >
-              <Image src="/appointments.svg" boxSize="20px" marginRight="8px" />{' '}
-              <Link
-                to="/agendamentos"
-                style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
-              >
-                Agendamentos
-              </Link>
-            </Text>
-            <Text
-              as="li"
-              display="flex"
-              alignItems="center"
-              height="44px"
-              mt="16px"
-              mb="16px"
-              width="310px"
-              borderRadius="12px"
-              color="white"
-              padding="0 16px"
-              cursor="pointer"
-              backgroundColor={
-                selectedItem === 'perfil'
-                  ? barberTheme.colors.primary.orange
-                  : 'perfil'
-              }
-              onClick={() => handleSelect('perfil')}
-            >
-              <Image src="/whiteuser.svg" boxSize="20px" marginRight="8px" />{' '}
-              <Link
-                to="/perfil"
-                style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
-              >
-                Perfil
-              </Link>
-            </Text>
-            <Text
-              as="li"
-              display="flex"
-              alignItems="center"
-              height="44px"
-              mt="16px"
-              mb="16px"
-              width="310px"
-              borderRadius="12px"
-              color="white"
-              padding="0 16px"
-              cursor="pointer"
-              backgroundColor={
-                selectedItem === 'barbeiros'
-                  ? barberTheme.colors.primary.orange
-                  : 'barbeiros'
-              }
-              onClick={() => handleSelect('barbeiros')}
-            >
-              <Image src="/barbeiros.svg" boxSize="20px" marginRight="8px" />{' '}
-              <Link
-                to="/barbeiros"
-                style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
-              >
-                Barbeiros
-              </Link>
-            </Text>
+              </Text>
+            </Link>
 
-            <Text
-              as="li"
-              display="flex"
-              alignItems="center"
-              height="44px"
-              mt="16px"
-              mb="32px"
-              width="310px"
-              borderRadius="12px"
-              color="white"
-              padding="0 16px"
-              cursor="pointer"
-              backgroundColor={
-                selectedItem === 'clients'
-                  ? barberTheme.colors.primary.orange
-                  : 'clients'
-              }
-              onClick={() => handleSelect('clients')}
+            <Link
+              to="/agendamentos"
+              style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
             >
-              <Image src="/clients.svg" boxSize="20px" marginRight="8px" />{' '}
-              <Link
-                to="/servicos"
-                style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
+              <Text
+                as="li"
+                display="flex"
+                alignItems="center"
+                height="44px"
+                width="310px"
+                borderRadius="12px"
+                color="white"
+                padding="0 16px"
+                cursor="pointer"
+                backgroundColor={
+                  selectedItem === 'appointments'
+                    ? barberTheme.colors.primary.orange
+                    : 'transparent'
+                }
+                onClick={() => handleSelect('appointments')}
               >
+                <Image
+                  src="/appointments.svg"
+                  boxSize="20px"
+                  marginRight="8px"
+                />{' '}
+                Agendamentos
+              </Text>
+            </Link>
+
+            <Link
+              to="/perfil"
+              style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
+            >
+              <Text
+                as="li"
+                display="flex"
+                alignItems="center"
+                height="44px"
+                width="310px"
+                borderRadius="12px"
+                color="white"
+                padding="0 16px"
+                cursor="pointer"
+                backgroundColor={
+                  selectedItem === 'perfil'
+                    ? barberTheme.colors.primary.orange
+                    : 'transparent'
+                }
+                onClick={() => handleSelect('perfil')}
+              >
+                <Image src="/whiteuser.svg" boxSize="20px" marginRight="8px" />{' '}
+                Perfil
+              </Text>
+            </Link>
+
+            <Link
+              to="/barbeiros"
+              style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
+            >
+              <Text
+                as="li"
+                display="flex"
+                alignItems="center"
+                height="44px"
+                width="310px"
+                borderRadius="12px"
+                color="white"
+                padding="0 16px"
+                cursor="pointer"
+                backgroundColor={
+                  selectedItem === 'barbeiros'
+                    ? barberTheme.colors.primary.orange
+                    : 'transparent'
+                }
+                onClick={() => handleSelect('barbeiros')}
+              >
+                <Image src="/barbeiros.svg" boxSize="20px" marginRight="8px" />{' '}
+                Barbeiros
+              </Text>
+            </Link>
+
+            <Link
+              to="/servicos"
+              style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
+            >
+              <Text
+                as="li"
+                display="flex"
+                alignItems="center"
+                height="44px"
+                width="310px"
+                borderRadius="12px"
+                color="white"
+                padding="0 16px"
+                cursor="pointer"
+                backgroundColor={
+                  selectedItem === 'clients'
+                    ? barberTheme.colors.primary.orange
+                    : 'transparent'
+                }
+                onClick={() => handleSelect('clients')}
+              >
+                <Image src="/clients.svg" boxSize="20px" marginRight="8px" />{' '}
                 Serviços
-              </Link>
-            </Text>
+              </Text>
+            </Link>
           </Box>
+
           <Box as="ul" mt="32px">
             <Text
               as="li"
               display="flex"
               alignItems="center"
               height="44px"
-              mt="16px"
-              mb="32px"
               width="310px"
               borderRadius="12px"
               color="white"
@@ -340,6 +342,7 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
           <VStack spacing={4}></VStack>
         </Box>
       </Slide>
+
       <Modal isOpen={isOpenModal} onClose={onClose}>
         <ModalOverlay />
         <ModalContent

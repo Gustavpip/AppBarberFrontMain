@@ -48,7 +48,7 @@ export const ScheduleClient = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<string[]>([]);
   const [hours, setHours] = useState<string[]>([]);
-  const [absent, setAbsent] = useState(true);
+  const [absent, setAbsent] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string>(
     moment(new Date()).format('YYYY-MM-DD')
   );
@@ -111,8 +111,8 @@ export const ScheduleClient = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const result = await getUser(token);
-      if (!result?.data.data.absent) {
-        setAbsent(false);
+      if (result?.data.data.absent) {
+        setAbsent(true);
         toast({
           title: 'A barbearia não está aceitando novos agendamentos para hoje.',
           status: 'error',
@@ -120,6 +120,7 @@ export const ScheduleClient = () => {
           position: 'top-right',
           isClosable: true,
         });
+        return;
       }
     };
 
@@ -381,7 +382,7 @@ export const ScheduleClient = () => {
                         placeholder="Nome e último nome"
                         type="text"
                         isRequired
-                        isDisabled={absent ? false : true}
+                        isDisabled={absent ? true : false}
                         borderColor={
                           errors.nome
                             ? 'red.500'
@@ -414,7 +415,7 @@ export const ScheduleClient = () => {
                         placeholder="Whatsapp"
                         type="text"
                         isRequired
-                        isDisabled={absent ? false : true}
+                        isDisabled={absent ? true : false}
                         borderColor={
                           errors.telefone
                             ? 'red.500'
@@ -628,7 +629,7 @@ export const ScheduleClient = () => {
                 onClick={handleNextStep}
                 backgroundColor={barberTheme.colors.primary.orange}
                 color="white"
-                isDisabled={absent ? false : true}
+                isDisabled={absent ? true : false}
                 _hover={{ opacity: 0.8 }}
                 _active={{ opacity: 0.4 }}
               >
