@@ -167,7 +167,7 @@ export const AppointmentsListClient = () => {
           title: 'Erro ao consultar',
           description:
             data?.data?.response?.data?.message ||
-            'Ocorreu um erro ao tentar cancelar o agendamento.',
+            'Ocorreu um erro ao consultar os agendamentos. Atualize a página.',
           status: 'error',
           duration: 5000,
           isClosable: true,

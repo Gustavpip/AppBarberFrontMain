@@ -92,6 +92,10 @@ export const BarberEdit = () => {
     '17:00',
     '18:00',
     '19:00',
+    '20:00',
+    '21:00',
+    '22:00',
+    '23:00'
   ];
   const intervalHour = ['11:00', '12:00', '13:00', '14:00'];
 
@@ -268,7 +272,6 @@ export const BarberEdit = () => {
   useEffect(() => {
     const fetchBarber = async () => {
       const response = await getBarber(idBarber);
-      
       setBarber(response.data.data);
       setValue('nome_completo', response.data.data.nome_completo);
       setValue('telefone', response.data.data.telefone);
@@ -284,6 +287,7 @@ export const BarberEdit = () => {
 
       const initWork = response.data.data.horariosTrabalho[0].horario_inicio;
       const endWork = response.data.data.horariosTrabalho[0].horario_fim;
+
       setLunchSchedule([initialLunchInit.slice(0, 5), lunchEnd.slice(0, 5)]);
       setSelectedItems(initialDays);
       setworkSchedule([initWork.slice(0, 5), endWork.slice(0, 5)]);

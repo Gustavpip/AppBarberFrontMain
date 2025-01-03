@@ -207,7 +207,7 @@ export const ScheduleClient = () => {
 
       if (!result.success) {
         toast({
-          title: 'Erro ao cadastrar',
+          title: 'Erro ao agendar',
           description: result?.data?.response?.data?.message,
           status: 'error',
           duration: 5000,
