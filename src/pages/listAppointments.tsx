@@ -92,6 +92,15 @@ export const AppointmentsList = () => {
   const handleBlockAppointments = async () => {
     await blockAppointments({ absent: !absent });
     onCloseBlock();
+
+    toast({
+      title: 'Bloqueio/Desbloqueio',
+      description: 'Operação realizada com sucesso',
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+      position: 'top-right',
+    });
   };
 
   const handleCancelAppointment = async () => {
