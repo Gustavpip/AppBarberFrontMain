@@ -362,7 +362,7 @@ export const AppointmentsList = () => {
               m="8px 0"
               fontWeight={barberTheme.fontWeights.bold}
               color="white"
-              fontSize="16px"
+              fontSize="18px"
               as="h1"
               position="sticky"
               top="32px"
