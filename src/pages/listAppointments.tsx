@@ -461,8 +461,6 @@ export const AppointmentsList = () => {
           );
 
           if (filteredAppointments.length > 0) {
-            console.log(filteredAppointments);
-
             return filteredAppointments.map((appointment, index) => (
               <Box
                 backgroundColor="#1A1B1F"
@@ -555,13 +553,14 @@ export const AppointmentsList = () => {
           }
 
           return (
-            <Box textAlign="center" py="16px">
+            <Box textAlign="center">
               <Text
+                textAlign="center"
+                alignSelf="center"
                 fontSize="18px"
-                fontWeight="bold"
                 color={barberTheme.colors.primary.gray}
               >
-                Nenhum agendamento encontrado.
+                Nenhum agendamento...
               </Text>
             </Box>
           );
