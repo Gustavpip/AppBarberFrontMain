@@ -25,6 +25,8 @@ import useCancelAppointment from '../hooks/useCancelAppointment';
 import ReactLoading from 'react-loading';
 import useBlockAppointments from '../hooks/useBlockAppointments';
 import useGetUser from '../hooks/useGetUser';
+import useBarberList from '../hooks/useBarberList';
+import { BarberDTO } from '../types/allTypes';
 
 type Appointment = {
   id: string;
@@ -77,6 +79,13 @@ export const AppointmentsList = () => {
   >([]);
   const { getUser } = useGetUser();
   const [absent, setAbsent] = useState<boolean>();
+  const [selectedBarber, setSelectedBarber] = useState('');
+  const [barbers, setBarbers] = useState<
+    Array<Pick<BarberDTO, 'nome_completo'>>
+  >([]);
+
+  const { getBarbers } = useBarberList();
+
   const [reload, setReload] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { blockAppointments, loading: loadingBlock } = useBlockAppointments();
@@ -180,8 +189,14 @@ export const AppointmentsList = () => {
   };
 
   useEffect(() => {
+    const fetchBarbers = async () => {
+      const data = await getBarbers();
+      setBarbers(data.data.data);
+      console.log(data.data.data[1]);
+    };
     const fetchAppointments = async () => {
       const data = await getAppointments();
+      console.log(data.data.data);
       const result = await getUser();
 
       const appointmentsActive = data.data.data?.filter(
@@ -202,6 +217,7 @@ export const AppointmentsList = () => {
     };
 
     fetchAppointments();
+    fetchBarbers();
     window.scrollTo(0, 0);
   }, [reload]);
 
@@ -340,21 +356,72 @@ export const AppointmentsList = () => {
 
         {/* Títulos */}
         <Box flexShrink={0}>
-          <Text
-            m="0px 0"
-            fontWeight={barberTheme.fontWeights.bold}
-            color="white"
-            fontSize="18px"
-            as="h1"
-            position="sticky"
-            top="0"
-            bg={barberTheme.colors.primary.black}
-            zIndex="10"
-            padding="8px 0"
-          >
-            Agendamentos
-          </Text>
           <Box display="flex" justifyContent="space-between">
+            <Text
+              m="0px 0"
+              fontWeight={barberTheme.fontWeights.bold}
+              color="white"
+              fontSize="18px"
+              as="h1"
+              position="sticky"
+              top="0"
+              bg={barberTheme.colors.primary.black}
+              zIndex="10"
+              padding="8px 0"
+            >
+              Agendamentos
+            </Text>
+            <Button
+              _active={{ opacity: 0.4 }}
+              _hover={{ opacity: 0.4 }}
+              backgroundColor="red.400"
+              color="white"
+              onClick={onOpenBlock}
+            >
+              {absent ? 'Desbloquear' : 'Bloquear'}
+            </Button>
+          </Box>
+          <Box
+            display="flex"
+            margin="8px 0"
+            padding="8px 0"
+            flexDirection="column"
+            borderBottom={`2px solid ${barberTheme.colors.primary.gray}`}
+          >
+            <Text
+              as="h1"
+              color={barberTheme.colors.primary.gray03}
+              fontSize="16px"
+            >
+              Filtrar barbeiro
+            </Text>
+            <Box>
+              {barbers.map((barber, index) => (
+                <Text
+                  key={index}
+                  fontWeight="bold"
+                  minWidth="80px"
+                  borderRadius="8px"
+                  display="inline-block"
+                  p="2px 12px"
+                  mr="8px"
+                  mt="8px"
+                  cursor="pointer"
+                  onClick={() => setSelectedBarber(barber.nome_completo)}
+                  textAlign="center"
+                  backgroundColor={
+                    selectedBarber === barber.nome_completo
+                      ? barberTheme.colors.primary.orange
+                      : barberTheme.colors.primary.gray
+                  }
+                  color="white"
+                >
+                  {barber.nome_completo}
+                </Text>
+              ))}
+            </Box>
+          </Box>
+          <Box>
             <Text
               m="8px 0"
               fontWeight={barberTheme.fontWeights.bold}
@@ -369,15 +436,6 @@ export const AppointmentsList = () => {
             >
               CONFIRMADOS
             </Text>
-            <Button
-              _active={{ opacity: 0.4 }}
-              _hover={{ opacity: 0.4 }}
-              backgroundColor="red.400"
-              color="white"
-              onClick={onOpenBlock}
-            >
-              {absent ? 'Desbloquear' : 'Bloquear'}
-            </Button>
           </Box>
         </Box>
       </Box>
@@ -395,105 +453,121 @@ export const AppointmentsList = () => {
         overflowY={`${appointments.length < 1 ? 'visible' : 'auto'}`}
         maxHeight={`${appointments.length < 1 ? '32px' : '300px'}`}
       >
-        {appointments.length > 0 ? (
-          appointments.map((appointment, index) => (
-            <Box
-              backgroundColor="#1A1B1F"
-              my="8px"
-              position="relative"
-              key={index}
-              display="flex"
-              borderRadius="10px"
-              padding="12px"
-              border={`1px solid ${barberTheme.colors.primary.gray}`}
-              maxHeight="136px"
-            >
-              <Box
-                borderRight={`1px solid ${barberTheme.colors.primary.gray}`}
-                width="70%"
-              >
-                <Box display="flex" justifyContent="space-between">
-                  <Text
-                    borderRadius="16px"
-                    padding="2px 8px"
-                    background={barberTheme.colors.primary.black}
-                    color={barberTheme.colors.primary.orange}
-                    fontWeight={barberTheme.fontWeights.bold}
-                  >
-                    Confirmado
-                  </Text>
-                  <Text
-                    cursor="pointer"
-                    fontSize="12px"
-                    color="red.400"
-                    paddingRight="8px"
-                  >
-                    <CloseIcon
-                      onClick={() => {
-                        onOpen();
-                        setAppointmentId(String(appointment.id));
-                      }}
-                    />
-                  </Text>
-                </Box>
-                <Text
-                  maxWidth="94%"
-                  as="h2"
-                  my="8px"
-                  fontWeight={barberTheme.fontWeights.bold}
-                  fontSize="18px"
-                  color="white"
-                >
-                  {appointment.servico.nome}
-                </Text>
-                <Box display="flex">
-                  <Image
-                    borderRadius="12px"
-                    height="24px"
-                    width="24px"
-                    objectFit={appointment.barbearia.logo ? 'cover' : 'contain'}
-                    src={appointment.barbearia.logo || '/logo.png'}
-                  />
-                  <Text color="white" mx="8px">
-                    {appointment?.cliente?.nome}
-                  </Text>
-                </Box>
-              </Box>
-              <Box
-                display="flex"
-                flexDirection="column"
-                justifyContent="center"
-                alignItems="center"
-                width="30%"
-              >
-                <Text fontSize="16px" color="white">
-                  {new Date(appointment.data)
-                    .toLocaleDateString('pt-BR', {
-                      month: 'long',
-                    })
-                    .replace(/^\w/, (char) => char.toUpperCase())}
-                </Text>
-                <Text fontSize="32px" color="white">
-                  {appointment.data.slice(8, 12)}
-                </Text>
+        {(() => {
+          const filteredAppointments = appointments.filter(
+            (appointment) =>
+              !selectedBarber ||
+              appointment.barbeiro.nome_completo === selectedBarber
+          );
 
-                <Text color="white" fontSize="16px">
-                  {appointment.hora.slice(0, 5)}
-                </Text>
+          if (filteredAppointments.length > 0) {
+            console.log(filteredAppointments);
+
+            return filteredAppointments.map((appointment, index) => (
+              <Box
+                backgroundColor="#1A1B1F"
+                my="8px"
+                position="relative"
+                key={index}
+                display="flex"
+                borderRadius="10px"
+                padding="12px"
+                border={`1px solid ${barberTheme.colors.primary.gray}`}
+                maxHeight="136px"
+              >
+                <Box
+                  borderRight={`1px solid ${barberTheme.colors.primary.gray}`}
+                  width="70%"
+                >
+                  <Box display="flex" justifyContent="space-between">
+                    <Text
+                      borderRadius="16px"
+                      padding="2px 8px"
+                      background={barberTheme.colors.primary.black}
+                      color={barberTheme.colors.primary.orange}
+                      fontWeight={barberTheme.fontWeights.bold}
+                    >
+                      Confirmado
+                    </Text>
+                    <Text
+                      cursor="pointer"
+                      fontSize="12px"
+                      color="red.400"
+                      paddingRight="8px"
+                    >
+                      <CloseIcon
+                        onClick={() => {
+                          onOpen();
+                          setAppointmentId(String(appointment.id));
+                        }}
+                      />
+                    </Text>
+                  </Box>
+                  <Text
+                    maxWidth="94%"
+                    as="h2"
+                    my="8px"
+                    fontWeight={barberTheme.fontWeights.bold}
+                    fontSize="18px"
+                    color="white"
+                  >
+                    {appointment.servico.nome}
+                  </Text>
+                  <Box display="flex">
+                    <Image
+                      borderRadius="12px"
+                      height="24px"
+                      width="24px"
+                      objectFit={
+                        appointment.barbearia.logo ? 'cover' : 'contain'
+                      }
+                      src={appointment.barbearia.logo || '/logo.png'}
+                    />
+                    <Text color="white" mx="8px">
+                      {appointment?.cliente?.nome}
+                    </Text>
+                  </Box>
+                </Box>
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  alignItems="center"
+                  width="30%"
+                >
+                  <Text fontSize="16px" color="white">
+                    {new Date(appointment.data)
+                      .toLocaleDateString('pt-BR', {
+                        month: 'long',
+                      })
+                      .replace(/^\w/, (char) => char.toUpperCase())}
+                  </Text>
+                  <Text fontSize="32px" color="white">
+                    {appointment.data.slice(8, 12)}
+                  </Text>
+
+                  <Text color="white" fontSize="16px">
+                    {appointment.hora.slice(0, 5)}
+                  </Text>
+                </Box>
               </Box>
+            ));
+          }
+
+          return (
+            <Box textAlign="center" py="16px">
+              <Text
+                fontSize="18px"
+                fontWeight="bold"
+                color={barberTheme.colors.primary.gray}
+              >
+                Nenhum agendamento encontrado.
+              </Text>
             </Box>
-          ))
-        ) : (
-          <Text
-            textAlign="center"
-            alignSelf="center"
-            fontSize="18px"
-            color={barberTheme.colors.primary.gray}
-          >
-            Nenhum agendamento...
-          </Text>
-        )}
+          );
+        })()}
       </Box>
+
       {appointments.length >= 2 && (
         <Text textAlign="center" color={barberTheme.colors.primary.gray}>
           <ChevronDownIcon className="scroll-animation" fontSize="24px" />
