@@ -357,7 +357,11 @@ export const AppointmentsList = () => {
 
         {/* Títulos */}
         <Box flexShrink={0}>
-          <Box display="flex" justifyContent="space-between">
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Text
               m="8px 0"
               fontWeight={barberTheme.fontWeights.bold}
@@ -398,7 +402,9 @@ export const AppointmentsList = () => {
             </Text>
             <Box>
               {loadingBarber ? (
-                <Text color={barberTheme.colors.primary.gray03}>Carregando</Text>
+                <Text color={barberTheme.colors.primary.gray03}>
+                  Carregando
+                </Text>
               ) : (
                 barbers.map((barber, index) => (
                   <Text
