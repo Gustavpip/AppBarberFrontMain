@@ -74,6 +74,11 @@ type Appointment = {
 export const AppointmentsList = () => {
   const { getAppointments, loading } = useAppointmentsList();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [filteredAppointments, setFilteredAppointments] = useState<
+    Appointment[]
+  >([]);
+  const [filteredInactiveAppointments, setFilteredInactiveAppointments] =
+    useState<Appointment[]>([]);
   const [inactiveAppointments, setInactiveAppointments] = useState<
     Appointment[]
   >([]);
@@ -83,9 +88,7 @@ export const AppointmentsList = () => {
   const [barbers, setBarbers] = useState<
     Array<Pick<BarberDTO, 'nome_completo'>>
   >([]);
-
-  const { getBarbers } = useBarberList();
-
+  const { getBarbers, loading: loadingBarber } = useBarberList();
   const [reload, setReload] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { blockAppointments, loading: loadingBlock } = useBlockAppointments();
@@ -192,11 +195,9 @@ export const AppointmentsList = () => {
     const fetchBarbers = async () => {
       const data = await getBarbers();
       setBarbers(data.data.data);
-      console.log(data.data.data[1]);
     };
     const fetchAppointments = async () => {
       const data = await getAppointments();
-      console.log(data.data.data);
       const result = await getUser();
 
       const appointmentsActive = data.data.data?.filter(
@@ -358,13 +359,13 @@ export const AppointmentsList = () => {
         <Box flexShrink={0}>
           <Box display="flex" justifyContent="space-between">
             <Text
-              m="0px 0"
+              m="8px 0"
               fontWeight={barberTheme.fontWeights.bold}
               color="white"
-              fontSize="18px"
+              fontSize="16px"
               as="h1"
               position="sticky"
-              top="0"
+              top="32px"
               bg={barberTheme.colors.primary.black}
               zIndex="10"
               padding="8px 0"
@@ -396,29 +397,51 @@ export const AppointmentsList = () => {
               Filtrar barbeiro
             </Text>
             <Box>
-              {barbers.map((barber, index) => (
-                <Text
-                  key={index}
-                  fontWeight="bold"
-                  minWidth="80px"
-                  borderRadius="8px"
-                  display="inline-block"
-                  p="2px 12px"
-                  mr="8px"
-                  mt="8px"
-                  cursor="pointer"
-                  onClick={() => setSelectedBarber(barber.nome_completo)}
-                  textAlign="center"
-                  backgroundColor={
-                    selectedBarber === barber.nome_completo
-                      ? barberTheme.colors.primary.orange
-                      : barberTheme.colors.primary.gray
-                  }
-                  color="white"
-                >
-                  {barber.nome_completo}
-                </Text>
-              ))}
+              {loadingBarber ? (
+                <Text color={barberTheme.colors.primary.gray03}>Carregando</Text>
+              ) : (
+                barbers.map((barber, index) => (
+                  <Text
+                    key={index}
+                    fontWeight="bold"
+                    minWidth="80px"
+                    borderRadius="8px"
+                    display="inline-block"
+                    p="2px 12px"
+                    mr="8px"
+                    mt="8px"
+                    cursor="pointer"
+                    onClick={() => {
+                      setSelectedBarber(barber.nome_completo);
+
+                      const filtered = appointments.filter(
+                        (app) =>
+                          app.barbeiro.nome_completo === barber.nome_completo
+                      );
+
+                      const filteredInactive = inactiveAppointments.filter(
+                        (app) =>
+                          app.barbeiro.nome_completo === barber.nome_completo &&
+                          (app.andamento || app.cancelado || app.status)
+                      );
+
+                      setFilteredAppointments(filtered);
+                      console.log('inativo');
+                      setFilteredInactiveAppointments(filteredInactive);
+                      console.log(filteredInactive);
+                    }}
+                    textAlign="center"
+                    backgroundColor={
+                      selectedBarber === barber.nome_completo
+                        ? barberTheme.colors.primary.orange
+                        : barberTheme.colors.primary.gray
+                    }
+                    color="white"
+                  >
+                    {barber.nome_completo}
+                  </Text>
+                ))
+              )}
             </Box>
           </Box>
           <Box>
@@ -441,130 +464,127 @@ export const AppointmentsList = () => {
       </Box>
       <Box
         minHeight={`${
-          appointments.length < 1
+          (filteredAppointments.length || appointments.length) < 1
             ? '50px'
-            : appointments.length === 1
+            : (filteredAppointments.length || appointments.length) === 1
               ? '150px'
               : '300px'
         }`}
         padding="8px"
         borderTop={`2px solid ${barberTheme.colors.primary.gray}`}
         borderBottom={`2px solid ${barberTheme.colors.primary.gray}`}
-        overflowY={`${appointments.length < 1 ? 'visible' : 'auto'}`}
-        maxHeight={`${appointments.length < 1 ? '32px' : '300px'}`}
+        overflowY={`${
+          (filteredAppointments.length || appointments.length) < 1
+            ? 'visible'
+            : 'auto'
+        }`}
+        maxHeight={`${
+          (filteredAppointments.length || appointments.length) < 1
+            ? '32px'
+            : '300px'
+        }`}
       >
-        {(() => {
-          const filteredAppointments = appointments.filter(
-            (appointment) =>
-              !selectedBarber ||
-              appointment.barbeiro.nome_completo === selectedBarber
-          );
-
-          if (filteredAppointments.length > 0) {
-            return filteredAppointments.map((appointment, index) => (
+        {(filteredAppointments.length > 0 ? filteredAppointments : appointments)
+          .length > 0 ? (
+          (filteredAppointments.length > 0
+            ? filteredAppointments
+            : appointments
+          ).map((appointment, index) => (
+            <Box
+              backgroundColor="#1A1B1F"
+              my="8px"
+              position="relative"
+              key={index}
+              display="flex"
+              borderRadius="10px"
+              padding="12px"
+              border={`1px solid ${barberTheme.colors.primary.gray}`}
+              maxHeight="136px"
+            >
               <Box
-                backgroundColor="#1A1B1F"
-                my="8px"
-                position="relative"
-                key={index}
-                display="flex"
-                borderRadius="10px"
-                padding="12px"
-                border={`1px solid ${barberTheme.colors.primary.gray}`}
-                maxHeight="136px"
+                borderRight={`1px solid ${barberTheme.colors.primary.gray}`}
+                width="70%"
               >
-                <Box
-                  borderRight={`1px solid ${barberTheme.colors.primary.gray}`}
-                  width="70%"
-                >
-                  <Box display="flex" justifyContent="space-between">
-                    <Text
-                      borderRadius="16px"
-                      padding="2px 8px"
-                      background={barberTheme.colors.primary.black}
-                      color={barberTheme.colors.primary.orange}
-                      fontWeight={barberTheme.fontWeights.bold}
-                    >
-                      Confirmado
-                    </Text>
-                    <Text
-                      cursor="pointer"
-                      fontSize="12px"
-                      color="red.400"
-                      paddingRight="8px"
-                    >
-                      <CloseIcon
-                        onClick={() => {
-                          onOpen();
-                          setAppointmentId(String(appointment.id));
-                        }}
-                      />
-                    </Text>
-                  </Box>
+                <Box display="flex" justifyContent="space-between">
                   <Text
-                    maxWidth="94%"
-                    as="h2"
-                    my="8px"
+                    borderRadius="16px"
+                    padding="2px 8px"
+                    background={barberTheme.colors.primary.black}
+                    color={barberTheme.colors.primary.orange}
                     fontWeight={barberTheme.fontWeights.bold}
-                    fontSize="18px"
-                    color="white"
                   >
-                    {appointment.servico.nome}
+                    Confirmado
                   </Text>
-                  <Box display="flex">
-                    <Image
-                      borderRadius="12px"
-                      height="24px"
-                      width="24px"
-                      objectFit={
-                        appointment.barbearia.logo ? 'cover' : 'contain'
-                      }
-                      src={appointment.barbearia.logo || '/logo.png'}
+                  <Text
+                    cursor="pointer"
+                    fontSize="12px"
+                    color="red.400"
+                    paddingRight="8px"
+                  >
+                    <CloseIcon
+                      onClick={() => {
+                        onOpen();
+                        setAppointmentId(String(appointment.id));
+                      }}
                     />
-                    <Text color="white" mx="8px">
-                      {appointment?.cliente?.nome}
-                    </Text>
-                  </Box>
+                  </Text>
                 </Box>
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  width="30%"
+                <Text
+                  maxWidth="94%"
+                  as="h2"
+                  my="8px"
+                  fontWeight={barberTheme.fontWeights.bold}
+                  fontSize="18px"
+                  color="white"
                 >
-                  <Text fontSize="16px" color="white">
-                    {new Date(appointment.data)
-                      .toLocaleDateString('pt-BR', {
-                        month: 'long',
-                      })
-                      .replace(/^\w/, (char) => char.toUpperCase())}
-                  </Text>
-                  <Text fontSize="32px" color="white">
-                    {appointment.data.slice(8, 12)}
-                  </Text>
-
-                  <Text color="white" fontSize="16px">
-                    {appointment.hora.slice(0, 5)}
+                  {appointment.servico.nome}
+                </Text>
+                <Box display="flex">
+                  <Image
+                    borderRadius="12px"
+                    height="24px"
+                    width="24px"
+                    objectFit={appointment.barbearia.logo ? 'cover' : 'contain'}
+                    src={appointment.barbearia.logo || '/logo.png'}
+                  />
+                  <Text color="white" mx="8px">
+                    {appointment?.cliente?.nome}
                   </Text>
                 </Box>
               </Box>
-            ));
-          }
-
-          return (
-            <Box textAlign="center">
-              <Text
-                textAlign="center"
-                alignSelf="center"
-                fontSize="18px"
-                color={barberTheme.colors.primary.gray}
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                width="30%"
               >
-                Nenhum agendamento...
-              </Text>
+                <Text fontSize="16px" color="white">
+                  {new Date(appointment.data)
+                    .toLocaleDateString('pt-BR', {
+                      month: 'long',
+                    })
+                    .replace(/^\w/, (char) => char.toUpperCase())}
+                </Text>
+                <Text fontSize="32px" color="white">
+                  {appointment.data.slice(8, 12)}
+                </Text>
+                <Text color="white" fontSize="16px">
+                  {appointment.hora.slice(0, 5)}
+                </Text>
+              </Box>
             </Box>
-          );
-        })()}
+          ))
+        ) : (
+          <Text
+            textAlign="center"
+            alignSelf="center"
+            fontSize="18px"
+            color={barberTheme.colors.primary.gray}
+          >
+            Nenhum agendamento...
+          </Text>
+        )}
       </Box>
 
       {appointments.length >= 2 && (
@@ -588,22 +608,79 @@ export const AppointmentsList = () => {
           ANDAMENTO / FINALIZADOS
         </Text>
       </Box>
+
       <Box
         minHeight={`${
-          inactiveAppointments.length < 1
+          (filteredInactiveAppointments.length > 0
+            ? filteredInactiveAppointments
+            : selectedBarber
+              ? inactiveAppointments.filter(
+                  (appointment) =>
+                    appointment.barbeiro.nome_completo === selectedBarber
+                )
+              : inactiveAppointments
+          ).length < 1
             ? '50px'
-            : inactiveAppointments.length === 1
+            : (filteredInactiveAppointments.length > 0
+                  ? filteredInactiveAppointments
+                  : selectedBarber
+                    ? inactiveAppointments.filter(
+                        (appointment) =>
+                          appointment.barbeiro.nome_completo === selectedBarber
+                      )
+                    : inactiveAppointments
+                ).length === 1
               ? '110px'
               : '220px'
         }`}
         padding="8px"
         borderTop={`2px solid ${barberTheme.colors.primary.gray}`}
         borderBottom={`2px solid ${barberTheme.colors.primary.gray}`}
-        overflowY={`${inactiveAppointments.length < 1 ? 'visible' : 'auto'}`}
-        maxHeight={`${inactiveAppointments.length < 1 ? '32px' : '320px'}`}
+        overflowY={`${
+          (filteredInactiveAppointments.length > 0
+            ? filteredInactiveAppointments
+            : selectedBarber
+              ? inactiveAppointments.filter(
+                  (appointment) =>
+                    appointment.barbeiro.nome_completo === selectedBarber
+                )
+              : inactiveAppointments
+          ).length < 1
+            ? 'visible'
+            : 'auto'
+        }`}
+        maxHeight={`${
+          (filteredInactiveAppointments.length > 0
+            ? filteredInactiveAppointments
+            : selectedBarber
+              ? inactiveAppointments.filter(
+                  (appointment) =>
+                    appointment.barbeiro.nome_completo === selectedBarber
+                )
+              : inactiveAppointments
+          ).length < 1
+            ? '32px'
+            : '320px'
+        }`}
       >
-        {inactiveAppointments.length > 0 ? (
-          inactiveAppointments.map((appointment, index) => (
+        {(filteredInactiveAppointments.length > 0
+          ? filteredInactiveAppointments
+          : selectedBarber
+            ? inactiveAppointments.filter(
+                (appointment) =>
+                  appointment.barbeiro.nome_completo === selectedBarber
+              )
+            : inactiveAppointments
+        ).length > 0 ? (
+          (filteredInactiveAppointments.length > 0
+            ? filteredInactiveAppointments
+            : selectedBarber
+              ? inactiveAppointments.filter(
+                  (appointment) =>
+                    appointment.barbeiro.nome_completo === selectedBarber
+                )
+              : inactiveAppointments
+          ).map((appointment, index) => (
             <Box
               backgroundColor="#1A1B1F"
               my="8px"
@@ -710,10 +787,11 @@ export const AppointmentsList = () => {
             fontSize="18px"
             color={barberTheme.colors.primary.gray}
           >
-            Nenhum agendamento...
+            Nenhum agendamento inativo...
           </Text>
         )}
       </Box>
+
       {inactiveAppointments.length >= 2 && (
         <Text textAlign="center" color={barberTheme.colors.primary.gray}>
           <ChevronDownIcon className="scroll-animation" fontSize="24px" />
