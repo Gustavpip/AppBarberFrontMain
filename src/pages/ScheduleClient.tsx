@@ -478,6 +478,9 @@ export const ScheduleClient = () => {
                     <Text position="absolute" bottom="8px">
                       {service.nome}
                     </Text>
+                    <Text position="absolute" top="8px" right="8px">
+                      R${service.preco}
+                    </Text>
                   </Box>
                 ))}
               </Box>

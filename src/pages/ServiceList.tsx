@@ -225,7 +225,7 @@ export const ServiceList = () => {
                   color={barberTheme.colors.primary.gray03}
                   as="h4"
                 >
-                  R$ {String(service.preco).replace('.', ',')}
+                  R${String(service.preco).replace('.', ',')}
                 </Text>
                 <Box>
                   <Link to={`/servico/${service.id}`}>
