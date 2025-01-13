@@ -80,9 +80,11 @@ export const Dashboard = ({ children }: { children: ReactNode }) => {
                   md: 'block',
                 }}
                 height="40px"
-                width="22"
-                src="/logo.png"
+                width="40px"
+                borderRadius="12%"
+                src={user?.logo}
                 alt="Logo"
+                objectFit="cover"
               />
             </Link>
           </Box>

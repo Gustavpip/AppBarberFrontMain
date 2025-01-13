@@ -432,9 +432,7 @@ export const AppointmentsList = () => {
                       );
 
                       setFilteredAppointments(filtered);
-                      console.log('inativo');
                       setFilteredInactiveAppointments(filteredInactive);
-                      console.log(filteredInactive);
                     }}
                     textAlign="center"
                     backgroundColor={

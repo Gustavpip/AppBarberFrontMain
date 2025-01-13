@@ -27,6 +27,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
   const { isOpen: isOpenModal, onClose } = useDisclosure();
   const { getUser } = useGetUser();
   const [barberShop, setBarberShop] = useState<Pick<UserDTO, 'phone'>>();
+  const [logo, setLogo] = useState();
 
   const { token } = useParams();
 
@@ -48,7 +49,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchBarberShop = async () => {
       const result = await getUser(token ? token : '');
-
+      setLogo(result.data.data.logo);
       setBarberShop(result.data.data);
     };
 
@@ -87,9 +88,11 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
                     md: 'block',
                   }}
                   height="40px"
-                  width="22"
-                  src="/logo.png"
+                  width="40px"
+                  borderRadius="12%"
+                  src={logo}
                   alt="Logo"
+                  objectFit="cover"
                 />
               </Link>
             </Box>
@@ -119,7 +122,11 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
           backgroundColor={barberTheme.colors.primary.black}
           overflow="hidden" /* Evita rolagem desnecessária */
         >
-          <Slide direction="right" in={isOpen} style={{ zIndex: 100, maxWidth: '400px' }}>
+          <Slide
+            direction="right"
+            in={isOpen}
+            style={{ zIndex: 100, maxWidth: '400px' }}
+          >
             <Box
               position="fixed"
               top="0"
@@ -168,7 +175,7 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
                     marginRight="8px"
                   />{' '}
                   <Link
-                    target='_black'
+                    target="_black"
                     to={`https://wa.me/${barberShop?.phone}`}
                     style={{ flex: 1, textAlign: 'start', margin: '0 8px' }}
                   >
