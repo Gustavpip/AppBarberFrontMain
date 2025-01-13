@@ -81,19 +81,29 @@ export const DashboardClient = ({ children }: { children: ReactNode }) => {
           >
             <Box className="logo">
               <Link to={`/agendar/${token}`}>
-                <Image
-                  display={{
-                    base: isOpen ? 'none' : 'block',
-                    sm: isOpen ? 'none' : 'block',
-                    md: 'block',
-                  }}
-                  height="40px"
-                  width="40px"
+                <Box
+                  height="46px"
+                  width="46px"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
                   borderRadius="12%"
-                  src={logo}
-                  alt="Logo"
-                  objectFit="cover"
-                />
+                  backgroundColor={barberTheme.colors.primary.black}
+                >
+                  <Image
+                    display={{
+                      base: isOpen ? 'none' : 'block',
+                      sm: isOpen ? 'none' : 'block',
+                      md: 'block',
+                    }}
+                    height="38px"
+                    width="38px"
+                    borderRadius="12%"
+                    src={logo}
+                    alt="Logo"
+                    objectFit="cover"
+                  />
+                </Box>
               </Link>
             </Box>
             <Box zIndex={101}>
