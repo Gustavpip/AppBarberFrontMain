@@ -223,6 +223,7 @@ export const ServiceEdit = () => {
                   <option value="02:00:00">02:00:00</option>
                   <option value="01:00:00">01:00:00</option>
                   <option value="00:30:00">00:30:00</option>
+                  <option value="00:15:00">00:15:00</option>
                 </Select>
               </InputGroup>
               <InputGroup width="100%">
