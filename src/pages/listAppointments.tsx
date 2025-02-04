@@ -419,7 +419,6 @@ export const AppointmentsList = () => {
                     cursor="pointer"
                     onClick={() => {
                       setSelectedBarber(barber.nome_completo);
-
                       const filtered = appointments.filter(
                         (app) =>
                           app.barbeiro.nome_completo === barber.nome_completo
@@ -488,9 +487,11 @@ export const AppointmentsList = () => {
             : '300px'
         }`}
       >
-        {(filteredAppointments.length > 0 ? filteredAppointments : appointments)
-          .length > 0 ? (
-          (filteredAppointments.length > 0
+        {(filteredAppointments.length > 0 || selectedBarber
+          ? filteredAppointments
+          : appointments
+        ).length > 0 ? (
+          (filteredAppointments.length > 0 || selectedBarber
             ? filteredAppointments
             : appointments
           ).map((appointment, index) => (
