@@ -447,7 +447,7 @@ export const ScheduleClient = () => {
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          top="3%"
+          top="-2%"
           maxWidth="540px"
           transform="translateY(-50%)" // Centraliza verticalmente
           overflowY="hidden"
