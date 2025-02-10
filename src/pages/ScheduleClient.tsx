@@ -33,10 +33,60 @@ import 'react-calendar/dist/Calendar.css';
 import moment from 'moment';
 
 import Calendar from 'react-calendar';
-import { useState } from 'react';
+
 import useBarberList from '../hooks/useBarberList';
 import useHoursList from '../hooks/useHoursList';
 import useGetUser from '../hooks/useGetUser';
+
+import { useState } from 'react';
+import { Progress } from '@chakra-ui/react';
+
+const CountdownProgressBar = () => {
+  const [timeLeft, setTimeLeft] = useState(300); // 5 minutos em segundos
+  const [progress, setProgress] = useState(100); // Valor inicial da barra
+
+  useEffect(() => {
+    // Decrementa a cada segundo
+    const interval = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 0) {
+          clearInterval(interval); // Para o contador quando chega a 0
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval); // Limpeza do intervalo quando o componente for desmontado
+  }, []);
+
+  // Atualiza o progresso com base no tempo restante
+  useEffect(() => {
+    setProgress((timeLeft / 300) * 100); // 300 segundos = 100% da barra
+  }, [timeLeft]);
+
+  return (
+    <Box width="100%" padding="16px">
+      <Text color="white" fontSize="lg" marginBottom="8px">
+        Tempo restante: {Math.floor(timeLeft / 60)}:
+        {(timeLeft % 60).toString().padStart(2, '0')}
+      </Text>
+      <Progress
+        value={progress}
+        size="lg"
+        color={barberTheme.colors.primary.orange}
+        bg={barberTheme.colors.primary.gray}
+        sx={{
+          '& div[role=progressbar]': {
+            backgroundColor: barberTheme.colors.primary.orange, // Cor da barra preenchida
+          },
+        }}
+      />
+    </Box>
+  );
+};
+
+export default CountdownProgressBar;
 
 export const ScheduleClient = () => {
   const {
@@ -372,26 +422,22 @@ export const ScheduleClient = () => {
               : '80vh'
       }
     >
-      <Modal
-        
-        closeOnOverlayClick={false}
-        styleConfig={{}}
-        isOpen={isOpen}
-        onClose={onClose}
-      >
+      <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
+          justifyContent="center"
           alignItems="center"
           bg={barberTheme.colors.primary.black}
           color="white"
           maxW="500px"
-          maxHeight="600px"
+          maxHeight="650px"
           padding="32px 16px"
           border={`1px solid ${barberTheme.colors.primary.gray}`}
-          mx="auto"
-          marginY="150px"
-          marginX="16px"
+          mx="16px"
+          marginY="150px" // Mantém uma distância vertical
           borderRadius="md"
+          display="flex" // Adiciona display flex para melhorar a centralização
+          flexDirection="column" // Organiza o conteúdo do modal verticalmente
         >
           <Image
             margin="0 auto"
@@ -417,6 +463,7 @@ export const ScheduleClient = () => {
               50% do valor do serviço. O não pagamento resultará no cancelamento
               do agendamento.
             </Text>
+            <CountdownProgressBar />
             <Box width="100%">
               <Input
                 ref={inputRef}
@@ -468,6 +515,7 @@ export const ScheduleClient = () => {
           <ModalFooter></ModalFooter>
         </ModalContent>
       </Modal>
+
       <Box width="100%">
         <Text color={barberTheme.colors.primary.orange}>
           Etapa {currentStep} de 4
