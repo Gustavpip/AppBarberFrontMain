@@ -41,9 +41,14 @@ import useGetUser from '../hooks/useGetUser';
 import { useState } from 'react';
 import { Progress } from '@chakra-ui/react';
 
-const CountdownProgressBar = () => {
+const CountdownProgressBar = ({
+  linkAppointments,
+}: {
+  linkAppointments: string;
+}) => {
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutos em segundos
   const [progress, setProgress] = useState(100); // Valor inicial da barra
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Decrementa a cada segundo
@@ -63,7 +68,11 @@ const CountdownProgressBar = () => {
   // Atualiza o progresso com base no tempo restante
   useEffect(() => {
     setProgress((timeLeft / 300) * 100); // 300 segundos = 100% da barra
-  }, [timeLeft]);
+
+    if (timeLeft === 0) {
+      navigate(linkAppointments); // Redirecionamento quando o tempo acaba
+    }
+  }, [timeLeft, navigate, linkAppointments]);
 
   return (
     <Box width="100%" padding="16px">
@@ -72,6 +81,7 @@ const CountdownProgressBar = () => {
         {(timeLeft % 60).toString().padStart(2, '0')}
       </Text>
       <Progress
+        borderRadius="8px"
         value={progress}
         size="lg"
         color={barberTheme.colors.primary.orange}
@@ -108,6 +118,7 @@ export const ScheduleClient = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<string[]>([]);
   const [linkAppointments, setLinkAppointments] = useState('');
+  const [hashPix, setHashPix] = useState('');
   const [hours, setHours] = useState<string[]>([]);
   const [absent, setAbsent] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string>(
@@ -308,7 +319,7 @@ export const ScheduleClient = () => {
         // navigate(
         //   `/agendamentos/${token}/${result.data.data.cliente.hashIdClient}`
         // );
-
+        setHashPix(result.data.data.hash_pix);
         setLinkAppointments(
           `/agendamentos/${token}/${result.data.data.cliente.hashIdClient}`
         );
@@ -439,80 +450,89 @@ export const ScheduleClient = () => {
           display="flex" // Adiciona display flex para melhorar a centralização
           flexDirection="column" // Organiza o conteúdo do modal verticalmente
         >
-          <Image
-            margin="0 auto"
-            maxHeight="150px"
-            maxWidth="150px"
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Link_pra_pagina_principal_da_Wikipedia-PT_em_codigo_QR_b.svg/1200px-Link_pra_pagina_principal_da_Wikipedia-PT_em_codigo_QR_b.svg.png"
-          />
-          <ModalHeader
-            fontWeight="bold"
-            py="16px"
-            fontSize="19px"
-            textAlign="center"
-          >
-            Reserva pendente
-          </ModalHeader>
-
-          <ModalBody
-            textAlign="center"
-            color={barberTheme.colors.primary.orange}
-          >
-            <Text marginBottom="16px">
-              Para garantir sua reserva, é necessário o pagamento antecipado de
-              50% do valor do serviço. O não pagamento resultará no cancelamento
-              do agendamento.
-            </Text>
-            <CountdownProgressBar />
-            <Box width="100%">
-              <Input
-                ref={inputRef}
-                _focus={{
-                  borderColor: barberTheme.colors.primary.gray,
-                }}
-                borderColor={barberTheme.colors.primary.gray}
-                color={barberTheme.colors.primary.gray03}
-                outline="none"
-                maxWidth="100%"
-                height="44px"
-                defaultValue="00020126480014br.gov.bcb.pix0114342549880001370208MDG Site5204000053039865802BR5925GEMEAS PELO MUNDO COMERCI6008CASCAVEL622905250wzKEr6JjzXBxtUKIYRhqI6dc6304F8EB"
-                isReadOnly
+          {loading ? (
+            <Center height="100vh">
+              <Spinner size="xl" color={barberTheme.colors.primary.orange} />
+            </Center>
+          ) : (
+            <>
+              <Image
+                margin="0 auto"
+                maxHeight="150px"
+                maxWidth="150px"
+                src="/logo-pix-520x520.png"
               />
-              <Button
-                width="100%"
-                marginTop="16px"
-                backgroundColor={barberTheme.colors.primary.orange}
-                color="white"
-                onClick={handleCopy}
-                _hover={{ opacity: 0.4 }}
-                _active={{
-                  opacity: 0.4,
-                  background: barberTheme.colors.primary.orange + '!important',
-                }}
+              <ModalHeader
+                fontWeight="bold"
+                py="16px"
+                fontSize="19px"
+                textAlign="center"
               >
-                Copiar
-              </Button>
+                Pagamento
+              </ModalHeader>
 
-              <Link to={linkAppointments}>
-                <Button
-                  width="100%"
-                  marginTop="16px"
-                  backgroundColor={barberTheme.colors.primary.black}
-                  border={`1px solid ${barberTheme.colors.primary.gray}`}
-                  color="white"
-                  _hover={{ opacity: 0.4 }}
-                  _active={{
-                    opacity: 0.4,
-                    background:
-                      barberTheme.colors.primary.orange + '!important',
-                  }}
-                >
-                  Meus agendamentos
-                </Button>
-              </Link>
-            </Box>
-          </ModalBody>
-          <ModalFooter></ModalFooter>
+              <ModalBody
+                textAlign="center"
+                color={barberTheme.colors.primary.orange}
+              >
+                <Text marginBottom="16px">
+                  É necessário o pagamento antecipado de 50% do valor do
+                  serviço. O não pagamento resultará no cancelamento do
+                  agendamento.
+                </Text>
+                <CountdownProgressBar linkAppointments={linkAppointments} />
+                <Box width="100%">
+                  <Input
+                    ref={inputRef}
+                    _focus={{
+                      borderColor: barberTheme.colors.primary.gray,
+                    }}
+                    borderColor={barberTheme.colors.primary.gray}
+                    color={barberTheme.colors.primary.gray03}
+                    outline="none"
+                    maxWidth="100%"
+                    height="44px"
+                    defaultValue={hashPix}
+                    isReadOnly
+                  />
+                  <Button
+                    width="100%"
+                    marginTop="16px"
+                    backgroundColor={barberTheme.colors.primary.orange}
+                    color="white"
+                    onClick={handleCopy}
+                    _hover={{ opacity: 0.4 }}
+                    _active={{
+                      opacity: 0.4,
+                      background:
+                        barberTheme.colors.primary.orange + '!important',
+                    }}
+                  >
+                    Copiar
+                  </Button>
+
+                  <Link to={linkAppointments}>
+                    <Button
+                      width="100%"
+                      marginTop="16px"
+                      backgroundColor={barberTheme.colors.primary.black}
+                      border={`1px solid ${barberTheme.colors.primary.gray}`}
+                      color="white"
+                      _hover={{ opacity: 0.4 }}
+                      _active={{
+                        opacity: 0.4,
+                        background:
+                          barberTheme.colors.primary.orange + '!important',
+                      }}
+                    >
+                      Meus agendamentos
+                    </Button>
+                  </Link>
+                </Box>
+              </ModalBody>
+              <ModalFooter></ModalFooter>
+            </>
+          )}
         </ModalContent>
       </Modal>
 
@@ -558,7 +578,7 @@ export const ScheduleClient = () => {
                           },
                         })}
                         id="nome"
-                        placeholder="Nome e último nome"
+                        placeholder="Nome completo"
                         type="text"
                         isRequired
                         isDisabled={absent ? true : false}
