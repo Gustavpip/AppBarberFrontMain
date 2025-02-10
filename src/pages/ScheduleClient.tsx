@@ -447,10 +447,8 @@ export const ScheduleClient = () => {
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          position="fixed"
-          left="16px"
-          right="16px"
-          top="5%"
+          top="3%"
+          maxWidth="540px"
           transform="translateY(-50%)" // Centraliza verticalmente
           overflowY="hidden"
           justifyContent="center"
@@ -458,8 +456,8 @@ export const ScheduleClient = () => {
           bg={barberTheme.colors.primary.black}
           color="white"
           minW="320px"
-          maxW="calc(100% - 32px)" // Garante que respeite a margem lateral de 16px
-          maxHeight="650px"
+          mx="16px"
+          maxHeight="640px"
           padding="32px 16px"
           border={`1px solid ${barberTheme.colors.primary.gray}`}
           borderRadius="8px"
