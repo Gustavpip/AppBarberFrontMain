@@ -49,15 +49,15 @@ const CountdownProgressBar = ({
 }) => {
   const [timeLeft, setTimeLeft] = useState(() => {
     const savedTime = localStorage.getItem('timeLeft');
-    return savedTime ? parseInt(savedTime) : 300;
+    return savedTime ? parseInt(savedTime) : 30;
   });
-  const [progress, setProgress] = useState(100);
+  const [progress, setProgress] = useState(30);
   const navigate = useNavigate();
 
   // Função para reiniciar o contador
   const resetCountdown = () => {
-    setTimeLeft(300);
-    localStorage.setItem('timeLeft', '300');
+    setTimeLeft(30);
+    localStorage.setItem('timeLeft', '30');
   };
 
   // Reseta o contador quando resetTrigger muda (novo agendamento)
@@ -82,13 +82,13 @@ const CountdownProgressBar = ({
   }, [timeLeft, navigate, linkAppointments]);
 
   useEffect(() => {
-    setProgress((timeLeft / 300) * 100);
+    setProgress((timeLeft / 30) * 100);
   }, [timeLeft]);
 
   return (
     <Box textAlign="center" w="100%">
       <Text color="white" fontSize="lg" mb="4">
-        Tempo Restante: {Math.floor(timeLeft / 60)}:
+        Redirecionando para seus agendamentos em: {Math.floor(timeLeft / 60)}:
         {String(timeLeft % 60).padStart(2, '0')}
       </Text>
       <Progress
