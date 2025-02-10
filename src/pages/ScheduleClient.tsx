@@ -491,7 +491,8 @@ export const ScheduleClient = () => {
               >
                 <Text marginBottom="18px">
                   Copie o código abaixo e utilize o Pix Copia e Cola no app de
-                  pagamento para confirmar sua vaga.
+                  pagamento para confirmar sua vaga. A falta do pagamento pode
+                  não garantir a sua vaga.
                 </Text>
                 <CountdownProgressBar
                   resetTrigger={resetTrigger}
