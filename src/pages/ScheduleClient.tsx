@@ -16,6 +16,7 @@ import {
   useDisclosure,
   Image,
   Input,
+  Progress,
 } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { CustomInput } from '../components/forms/CustomInput';
@@ -38,58 +39,68 @@ import useHoursList from '../hooks/useHoursList';
 import useGetUser from '../hooks/useGetUser';
 
 import { useState } from 'react';
-import { Progress } from '@chakra-ui/react';
 
 const CountdownProgressBar = ({
   linkAppointments,
+  resetTrigger, // Dependência que muda quando um agendamento é feito
 }: {
   linkAppointments: string;
+  resetTrigger: number; // Um número que muda sempre que um novo agendamento é feito
 }) => {
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutos em segundos
-  const [progress, setProgress] = useState(100); // Valor inicial da barra
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const savedTime = localStorage.getItem('timeLeft');
+    return savedTime ? parseInt(savedTime) : 300;
+  });
+  const [progress, setProgress] = useState(100);
   const navigate = useNavigate();
 
+  // Função para reiniciar o contador
+  const resetCountdown = () => {
+    setTimeLeft(300);
+    localStorage.setItem('timeLeft', '300');
+  };
+
+  // Reseta o contador quando resetTrigger muda (novo agendamento)
   useEffect(() => {
-    // Decrementa a cada segundo
+    resetCountdown();
+  }, [resetTrigger]);
+
+  useEffect(() => {
+    localStorage.setItem('timeLeft', timeLeft.toString());
+
+    if (timeLeft <= 0) {
+      localStorage.removeItem('timeLeft');
+      navigate(linkAppointments);
+      return;
+    }
+
     const interval = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime <= 0) {
-          clearInterval(interval); // Para o contador quando chega a 0
-          return 0;
-        }
-        return prevTime - 1;
-      });
+      setTimeLeft((prevTime) => Math.max(prevTime - 1, 0));
     }, 1000);
 
-    return () => clearInterval(interval); // Limpeza do intervalo quando o componente for desmontado
-  }, []);
-
-  // Atualiza o progresso com base no tempo restante
-  useEffect(() => {
-    setProgress((timeLeft / 300) * 100); // 300 segundos = 100% da barra
-
-    if (timeLeft === 0) {
-      navigate(linkAppointments); // Redirecionamento quando o tempo acaba
-    }
+    return () => clearInterval(interval);
   }, [timeLeft, navigate, linkAppointments]);
 
+  useEffect(() => {
+    setProgress((timeLeft / 300) * 100);
+  }, [timeLeft]);
+
   return (
-    <Box width="100%" padding="16px">
-      <Text color="white" fontSize="lg" marginBottom="8px">
-        Tempo restante: {Math.floor(timeLeft / 60)}:
-        {(timeLeft % 60).toString().padStart(2, '0')}
+    <Box textAlign="center" w="100%">
+      <Text color="white" fontSize="lg" mb="4">
+        Tempo Restante: {Math.floor(timeLeft / 60)}:
+        {String(timeLeft % 60).padStart(2, '0')}
       </Text>
       <Progress
-        borderRadius="8px"
         value={progress}
         size="lg"
-        color={barberTheme.colors.primary.orange}
         bg={barberTheme.colors.primary.gray}
         sx={{
           '& div[role=progressbar]': {
-            backgroundColor: barberTheme.colors.primary.orange, // Cor da barra preenchida
+            backgroundColor: barberTheme.colors.primary.orange,
           },
         }}
+        borderRadius="8px"
       />
     </Box>
   );
@@ -117,6 +128,7 @@ export const ScheduleClient = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<string[]>([]);
   const [linkAppointments, setLinkAppointments] = useState('');
+  const [resetTrigger] = useState(0);
   const [hashPix, setHashPix] = useState('');
   const [hours, setHours] = useState<string[]>([]);
   const [absent, setAbsent] = useState(false);
@@ -415,6 +427,7 @@ export const ScheduleClient = () => {
 
   return (
     <Box
+      position="relative"
       backgroundColor={barberTheme.colors.primary.black}
       display="flex"
       justifyContent="center"
@@ -434,19 +447,24 @@ export const ScheduleClient = () => {
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
+          position="fixed"
+          left="16px"
+          right="16px"
+          top="5%"
+          transform="translateY(-50%)" // Centraliza verticalmente
+          overflowY="hidden"
           justifyContent="center"
           alignItems="center"
           bg={barberTheme.colors.primary.black}
           color="white"
-          maxW="500px"
+          minW="320px"
+          maxW="calc(100% - 32px)" // Garante que respeite a margem lateral de 16px
           maxHeight="650px"
           padding="32px 16px"
           border={`1px solid ${barberTheme.colors.primary.gray}`}
-          mx="16px"
-          marginY="150px" // Mantém uma distância vertical
-          borderRadius="md"
-          display="flex" // Adiciona display flex para melhorar a centralização
-          flexDirection="column" // Organiza o conteúdo do modal verticalmente
+          borderRadius="8px"
+          display="flex"
+          flexDirection="column"
         >
           {loading ? (
             <Center height="100vh">
@@ -478,8 +496,11 @@ export const ScheduleClient = () => {
                   serviço. O não pagamento resultará no cancelamento do
                   agendamento.
                 </Text>
-                <CountdownProgressBar linkAppointments={linkAppointments} />
-                <Box width="100%">
+                <CountdownProgressBar
+                  resetTrigger={resetTrigger}
+                  linkAppointments={linkAppointments}
+                />
+                <Box width="100%" marginTop="16px">
                   <Input
                     ref={inputRef}
                     _focus={{
