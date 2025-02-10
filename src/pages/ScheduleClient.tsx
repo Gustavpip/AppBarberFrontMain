@@ -13,7 +13,6 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton,
   useDisclosure,
   Image,
   Input,
@@ -138,7 +137,6 @@ export const ScheduleClient = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const navigate = useNavigate();
   const { token } = useParams();
 
   const handleCopy = () => {
