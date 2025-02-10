@@ -447,7 +447,7 @@ export const ScheduleClient = () => {
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          top="-3%"
+          top="-4%"
           maxWidth="540px"
           transform="translateY(-50%)" // Centraliza verticalmente
           overflowY="hidden"
@@ -457,7 +457,7 @@ export const ScheduleClient = () => {
           color="white"
           minW="320px"
           mx="16px"
-          maxHeight="620px"
+          maxHeight="644px"
           padding="32px 16px 0px 16px"
           border={`1px solid ${barberTheme.colors.primary.gray}`}
           borderRadius="8px"
@@ -490,9 +490,9 @@ export const ScheduleClient = () => {
                 color={barberTheme.colors.primary.orange}
               >
                 <Text marginBottom="18px">
-                  Copie o código abaixo e utilize o Pix Copia e Cola no app de
-                  pagamento para confirmar sua presença. A falta do pagamento pode
-                  não garantir a sua vaga.
+                  Copie o código abaixo e pague via Pix Copia e Cola para
+                  garantir sua vaga, efetuando 50% do valor do serviço. A falta
+                  do pagamento pode não garantir a sua vaga.
                 </Text>
                 <CountdownProgressBar
                   resetTrigger={resetTrigger}
