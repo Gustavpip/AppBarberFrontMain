@@ -7,14 +7,24 @@ import {
   InputGroup,
   Center,
   Spinner,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Image,
+  Input,
 } from '@chakra-ui/react';
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { CustomInput } from '../components/forms/CustomInput';
 import { BarberDTO, Scheduling, ServiceDTO } from '../types/allTypes';
 import { useForm } from 'react-hook-form';
 import barberTheme from '../theme';
-import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import useScheduling from '../hooks/useScheduling';
 import useServiceList from '../hooks/useServiceList';
 import 'react-calendar/dist/Calendar.css';
@@ -47,11 +57,15 @@ export const ScheduleClient = () => {
   const [hourSchedule, sethourSchedule] = useState<string[]>([]);
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [selectedBarber, setSelectedBarber] = useState<string[]>([]);
+  const [linkAppointments, setLinkAppointments] = useState('');
   const [hours, setHours] = useState<string[]>([]);
   const [absent, setAbsent] = useState(false);
   const [selectedDate, setSelectedDate] = useState<string>(
     moment(new Date()).format('YYYY-MM-DD')
   );
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const [services, setServices] = useState<ServiceDTO[]>([]);
   const [barbers, setBarbers] = useState<BarberDTO[]>([]);
 
@@ -61,8 +75,25 @@ export const ScheduleClient = () => {
   const { getHours, loading: loadingHours } = useHoursList();
   const { getUser, loading: loadingUser } = useGetUser();
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const navigate = useNavigate();
   const { token } = useParams();
+
+  const handleCopy = () => {
+    if (inputRef.current) {
+      navigator.clipboard.writeText(inputRef.current.value).then(() => {
+        toast({
+          title: 'Link copiado!',
+          description: 'O link foi copiado para a área de transferência.',
+          status: 'success',
+          duration: 2000,
+          isClosable: true,
+          position: 'top-right',
+        });
+      });
+    }
+  };
 
   const handleDateChange = async (date: any) => {
     const formattedDate = moment(date).format('YYYY-MM-DD');
@@ -215,16 +246,20 @@ export const ScheduleClient = () => {
           position: 'top-right',
         });
       } else if (result.success) {
-        toast({
-          title: 'Sucesso',
-          description: 'Agendamento realizado com sucesso.',
-          status: 'success',
-          duration: 5000,
-          isClosable: true,
-          position: 'top-right',
-        });
+        // toast({
+        //   title: 'Sucesso',
+        //   description: 'Agendamento realizado com sucesso.',
+        //   status: 'success',
+        //   duration: 5000,
+        //   isClosable: true,
+        //   position: 'top-right',
+        // });
         reset();
-        navigate(
+        // navigate(
+        //   `/agendamentos/${token}/${result.data.data.cliente.hashIdClient}`
+        // );
+
+        setLinkAppointments(
           `/agendamentos/${token}/${result.data.data.cliente.hashIdClient}`
         );
       }
@@ -337,6 +372,102 @@ export const ScheduleClient = () => {
               : '80vh'
       }
     >
+      <Modal
+        
+        closeOnOverlayClick={false}
+        styleConfig={{}}
+        isOpen={isOpen}
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent
+          alignItems="center"
+          bg={barberTheme.colors.primary.black}
+          color="white"
+          maxW="500px"
+          maxHeight="600px"
+          padding="32px 16px"
+          border={`1px solid ${barberTheme.colors.primary.gray}`}
+          mx="auto"
+          marginY="150px"
+          marginX="16px"
+          borderRadius="md"
+        >
+          <Image
+            margin="0 auto"
+            maxHeight="150px"
+            maxWidth="150px"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Link_pra_pagina_principal_da_Wikipedia-PT_em_codigo_QR_b.svg/1200px-Link_pra_pagina_principal_da_Wikipedia-PT_em_codigo_QR_b.svg.png"
+          />
+          <ModalHeader
+            fontWeight="bold"
+            py="16px"
+            fontSize="19px"
+            textAlign="center"
+          >
+            Reserva pendente
+          </ModalHeader>
+
+          <ModalBody
+            textAlign="center"
+            color={barberTheme.colors.primary.orange}
+          >
+            <Text marginBottom="16px">
+              Para garantir sua reserva, é necessário o pagamento antecipado de
+              50% do valor do serviço. O não pagamento resultará no cancelamento
+              do agendamento.
+            </Text>
+            <Box width="100%">
+              <Input
+                ref={inputRef}
+                _focus={{
+                  borderColor: barberTheme.colors.primary.gray,
+                }}
+                borderColor={barberTheme.colors.primary.gray}
+                color={barberTheme.colors.primary.gray03}
+                outline="none"
+                maxWidth="100%"
+                height="44px"
+                defaultValue="00020126480014br.gov.bcb.pix0114342549880001370208MDG Site5204000053039865802BR5925GEMEAS PELO MUNDO COMERCI6008CASCAVEL622905250wzKEr6JjzXBxtUKIYRhqI6dc6304F8EB"
+                isReadOnly
+              />
+              <Button
+                width="100%"
+                marginTop="16px"
+                backgroundColor={barberTheme.colors.primary.orange}
+                color="white"
+                onClick={handleCopy}
+                _hover={{ opacity: 0.4 }}
+                _active={{
+                  opacity: 0.4,
+                  background: barberTheme.colors.primary.orange + '!important',
+                }}
+              >
+                Copiar
+              </Button>
+
+              <Link to={linkAppointments}>
+                <Button
+                  width="100%"
+                  marginTop="16px"
+                  backgroundColor={barberTheme.colors.primary.black}
+                  border={`1px solid ${barberTheme.colors.primary.gray}`}
+                  color="white"
+                  _hover={{ opacity: 0.4 }}
+                  _active={{
+                    opacity: 0.4,
+                    background:
+                      barberTheme.colors.primary.orange + '!important',
+                  }}
+                >
+                  Meus agendamentos
+                </Button>
+              </Link>
+            </Box>
+          </ModalBody>
+          <ModalFooter></ModalFooter>
+        </ModalContent>
+      </Modal>
       <Box width="100%">
         <Text color={barberTheme.colors.primary.orange}>
           Etapa {currentStep} de 4
@@ -647,13 +778,14 @@ export const ScheduleClient = () => {
 
             {currentStep === 4 && (
               <Button
-                onClick={handleSubmit(onSubmit)}
+                onClick={() => {
+                  handleSubmit(onSubmit), onOpen();
+                }}
                 backgroundColor={barberTheme.colors.primary.orange}
                 color="white"
+                isLoading={loading}
                 _hover={{ opacity: 0.8 }}
                 type="submit"
-                loadingText="Finalizando..."
-                isLoading={loading}
                 _active={{ opacity: 0.4 }}
               >
                 Finalizar
