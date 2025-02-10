@@ -87,7 +87,7 @@ const CountdownProgressBar = ({
 
   return (
     <Box textAlign="center" w="100%">
-      <Text color="white" fontSize="lg" mb="4">
+      <Text color="white" fontSize="16" mb="4">
         Redirecionando para seus agendamentos em: {Math.floor(timeLeft / 60)}:
         {String(timeLeft % 60).padStart(2, '0')}
       </Text>
@@ -479,7 +479,7 @@ export const ScheduleClient = () => {
               <ModalHeader
                 fontWeight="bold"
                 py="16px"
-                fontSize="19px"
+                fontSize="20px"
                 textAlign="center"
               >
                 Pagamento
@@ -489,10 +489,9 @@ export const ScheduleClient = () => {
                 textAlign="center"
                 color={barberTheme.colors.primary.orange}
               >
-                <Text marginBottom="16px">
-                  É necessário o pagamento antecipado de 50% do valor do
-                  serviço. O não pagamento resultará no cancelamento do
-                  agendamento.
+                <Text marginBottom="18px">
+                  Copie o código abaixo e utilize o Pix Copia e Cola no app de
+                  pagamento para confirmar sua vaga.
                 </Text>
                 <CountdownProgressBar
                   resetTrigger={resetTrigger}
