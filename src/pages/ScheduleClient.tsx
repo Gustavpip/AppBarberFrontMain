@@ -333,6 +333,7 @@ export const ScheduleClient = () => {
         setLinkAppointments(
           `/agendamentos/${token}/${result.data.data.cliente.hashIdClient}`
         );
+        onOpen();
       }
     } else {
       toast({
@@ -864,7 +865,7 @@ export const ScheduleClient = () => {
             {currentStep === 4 && (
               <Button
                 onClick={() => {
-                  handleSubmit(onSubmit), onOpen();
+                  handleSubmit(onSubmit);
                 }}
                 backgroundColor={barberTheme.colors.primary.orange}
                 color="white"
